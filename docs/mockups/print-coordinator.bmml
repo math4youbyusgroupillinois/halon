@@ -1,0 +1,85 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1290" measuredH="612" mockupW="1275" mockupH="597">
+  <controls>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::Label" x="198" y="127" w="129" h="-1" measuredW="122" measuredH="26" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>18</size>
+        <text>Login%20to%20Halon</text>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::TextInput" x="198" y="173" w="-1" h="-1" measuredW="79" measuredH="26" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::Label" x="127" y="176" w="-1" h="-1" measuredW="56" measuredH="21" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Password</text>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::Button" x="198" y="214" w="-1" h="-1" measuredW="54" measuredH="27" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <menuIcon>false</menuIcon>
+        <state>up</state>
+        <text>Login</text>
+      </controlProperties>
+    </control>
+    <control controlID="17" controlTypeID="com.balsamiq.mockups::Arrow" x="380" y="251" w="191" h="10" measuredW="150" measuredH="100" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="30" controlTypeID="com.balsamiq.mockups::DataGrid" x="601" y="199" w="525" h="143" measuredW="487" measuredH="141" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <alternateRowColor>15134199</alternateRowColor>
+        <bold>false</bold>
+        <borderStyle>square</borderStyle>
+        <hLines>true</hLines>
+        <italic>false</italic>
+        <rowHeight>30</rowHeight>
+        <selectedIndex>-1</selectedIndex>
+        <text>%5BSelect%20All%5D%2C%20Printer%20Location%2C%20Contact%20Number%2C%20Printer%20Name%2C%20Printing%20Status%0A%5Bx%5D%2C%209th%20Floor%20West%2C%20312-867-9305%2C%20LaserJet%20XL%2C%20Successful%0A%5Bx%5D%2C10th%20Floor%20East%2C312-246-8102%2C%20Desket%20500%2C%20Failed%0A%5B%5D%2C%2011th%20Floor%20Central%2C%20312-135-7913%2C%20InkJet%205l%0A%5Bx%5D%2C%20EastWing%2C%20Dan%20Mars%2C%20PDX101%2C%20In%20Progress%20</text>
+        <vLines>true</vLines>
+      </controlProperties>
+    </control>
+    <control controlID="41" controlTypeID="__group__" x="601" y="168" w="174" h="21" measuredW="174" measuredH="21" zOrder="7" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="__group__" x="0" y="0" w="174" h="21" measuredW="174" measuredH="21" zOrder="0" locked="false" isInGroup="41">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Label" x="0" y="0" w="-1" h="-1" measuredW="174" measuredH="21" zOrder="0" locked="false" isInGroup="0">
+              <controlProperties>
+                <text>File%3A%20filexyz.txt%208/2/13%201%3A00pm</text>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="42" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="15" y="15" w="-1" h="-1" measuredW="450" measuredH="400" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Halon%0Ahttp%3A//halon/login</text>
+      </controlProperties>
+    </control>
+    <control controlID="47" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="489" y="15" w="801" h="597" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Halon%0Ahttp%3A//halon/printers</text>
+      </controlProperties>
+    </control>
+    <control controlID="48" controlTypeID="com.balsamiq.mockups::Title" x="601" y="119" w="-1" h="-1" measuredW="311" measuredH="43" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Printer%20Locations</text>
+      </controlProperties>
+    </control>
+    <control controlID="49" controlTypeID="com.balsamiq.mockups::Link" x="1085" y="100" w="-1" h="-1" measuredW="41" measuredH="19" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Logout</text>
+      </controlProperties>
+    </control>
+    <control controlID="50" controlTypeID="com.balsamiq.mockups::Button" x="601" y="357" w="-1" h="-1" measuredW="56" measuredH="27" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>16</size>
+        <text>Print</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

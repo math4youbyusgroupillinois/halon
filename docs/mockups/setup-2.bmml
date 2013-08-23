@@ -24,8 +24,8 @@
     </control>
     <control controlID="25" controlTypeID="com.balsamiq.mockups::Link" x="786" y="438" w="-1" h="-1" measuredW="142" measuredH="19" zOrder="4" locked="false" isInGroup="-1">
       <controlProperties>
-        <href>setup-2%26bm%3Bsetup-2.bmml%26bm%3Bsetup-2.bmml%26bm%3Bsetup-2.bmml</href>
-        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22173%2C289%2C315%2C308%22%20href%3D%22setup-2.bmml%22%20alt%3D%22setup-2%22%20id%3D%2225%22/%3E</map>
+        <href>passwords%26bm%3Bpasswords.bmml%26bm%3Bpasswords.bmml%26bm%3Bpasswords.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22173%2C289%2C315%2C308%22%20href%3D%22passwords.bmml%22%20alt%3D%22passwords%22%20id%3D%2225%22/%3E</map>
         <text>Update%20User%20Passwords</text>
       </controlProperties>
     </control>
@@ -36,8 +36,8 @@
     </control>
     <control controlID="27" controlTypeID="com.balsamiq.mockups::LinkBar" x="647" y="239" w="-1" h="-1" measuredW="317" measuredH="19" zOrder="6" locked="false" isInGroup="-1">
       <controlProperties>
-        <hrefs>setup-1%26bm%3Bsetup-1.bmml%26bm%3Bsetup-1.bmml%26bm%3Bsetup-1.bmml%2Csetup-2%26bm%3Bsetup-2.bmml%26bm%3Bsetup-2.bmml%26bm%3Bsetup-2.bmml%2C</hrefs>
-        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2234%2C92%2C135%2C105%22%20href%3D%22setup-1.bmml%22%20alt%3D%22setup-1%22%20id%3D%2227%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22153%2C92%2C249%2C105%22%20href%3D%22setup-2.bmml%22%20alt%3D%22setup-2%22%20id%3D%2227%22/%3E%0A</map>
+        <hrefs>setup-1%26bm%3Bsetup-1.bmml%26bm%3Bsetup-1.bmml%26bm%3Bsetup-1.bmml%2Cpasswords%26bm%3Bpasswords.bmml%26bm%3Bpasswords.bmml%26bm%3Bpasswords.bmml%2C</hrefs>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2234%2C92%2C135%2C105%22%20href%3D%22setup-1.bmml%22%20alt%3D%22setup-1%22%20id%3D%2227%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22153%2C92%2C249%2C105%22%20href%3D%22passwords.bmml%22%20alt%3D%22passwords%22%20id%3D%2227%22/%3E%0A</map>
         <selectedIndex>-1</selectedIndex>
         <text>Printer%20Locations%2C%20User%20Passwords%2C%20Printer%20Queue</text>
       </controlProperties>
