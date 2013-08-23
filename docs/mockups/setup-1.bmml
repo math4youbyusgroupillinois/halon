@@ -12,6 +12,8 @@
     </control>
     <control controlID="4" controlTypeID="com.balsamiq.mockups::PointyButton" x="1081" y="594" w="-1" h="-1" measuredW="79" measuredH="27" zOrder="2" locked="false" isInGroup="-1">
       <controlProperties>
+        <href>setup-2%26bm%3Bsetup-2.bmml%26bm%3Bsetup-2.bmml%26bm%3Bsetup-2.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22468%2C445%2C547%2C472%22%20href%3D%22setup-2.bmml%22%20alt%3D%22setup-2%22%20id%3D%224%22/%3E</map>
         <text>Next%20Step</text>
       </controlProperties>
     </control>
