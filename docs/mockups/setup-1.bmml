@@ -1,0 +1,71 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1578" measuredH="789" mockupW="965" mockupH="640">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="613" y="149" w="800" h="640" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>A%20Web%20Page%0Ahttp%3A//halon/setup/step-1</text>
+      </controlProperties>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::Title" x="774" y="283" w="-1" h="-1" measuredW="391" measuredH="43" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Add%20Printer%20Locations</text>
+      </controlProperties>
+    </control>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::PointyButton" x="1081" y="594" w="-1" h="-1" measuredW="79" measuredH="27" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Next%20Step</text>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::DataGrid" x="774" y="449" w="386" h="111" measuredW="371" measuredH="111" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Printer%20Location%20%5Ev%2C%20Contact%20Number%20%2C%20Printer%2C%20Delete%0A9th%20Floor%20West%2C%20312-867-9305%2C%20LaserJet%20XL%0A10th%20Floor%20East%29%2C312-246-8102%2C%20Desket%20500%0A11th%20Floor%20Central%2C%20312-135-7913%2C%20InkJet%205%0A%7B65L%2C%200R%2C%2060%7D</text>
+      </controlProperties>
+    </control>
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::Link" x="1112" y="411" w="-1" h="-1" measuredW="115" measuredH="19" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Add%20printer%20location</text>
+      </controlProperties>
+    </control>
+    <control controlID="13" controlTypeID="com.balsamiq.mockups::TextInput" x="774" y="407" w="111" h="-1" measuredW="64" measuredH="27" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Location</text>
+      </controlProperties>
+    </control>
+    <control controlID="14" controlTypeID="com.balsamiq.mockups::TextInput" x="885" y="407" w="113" h="-1" measuredW="113" measuredH="27" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Contact%20Number</text>
+      </controlProperties>
+    </control>
+    <control controlID="15" controlTypeID="com.balsamiq.mockups::TextInput" x="998" y="407" w="112" h="-1" measuredW="93" measuredH="27" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Printer%20Name</text>
+      </controlProperties>
+    </control>
+    <control controlID="17" controlTypeID="com.balsamiq.mockups::HRule" x="1559" y="500" w="19" h="-1" measuredW="100" measuredH="10" zOrder="8" locked="false" isInGroup="-1"/>
+    <control controlID="18" controlTypeID="com.balsamiq.mockups::Label" x="1125" y="470" w="-1" h="-1" measuredW="11" measuredH="24" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>16</size>
+        <text>X</text>
+      </controlProperties>
+    </control>
+    <control controlID="19" controlTypeID="com.balsamiq.mockups::Label" x="1125" y="504" w="-1" h="-1" measuredW="11" measuredH="24" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>16</size>
+        <text>X</text>
+      </controlProperties>
+    </control>
+    <control controlID="20" controlTypeID="com.balsamiq.mockups::Label" x="1125" y="536" w="-1" h="-1" measuredW="11" measuredH="24" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>16</size>
+        <text>X</text>
+      </controlProperties>
+    </control>
+    <control controlID="22" controlTypeID="com.balsamiq.mockups::Paragraph" x="774" y="341" w="386" h="38" measuredW="200" measuredH="80" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Now%20we%20create%20a%20list%20of%20printers%20locations.%20These%20printers%20will%20appear%20in%20the%20Print%20Queue%20Coordinator%27s%20list%20of%20printers.</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
