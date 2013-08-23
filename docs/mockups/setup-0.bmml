@@ -1,4 +1,4 @@
-<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1413" measuredH="789" mockupW="800" mockupH="640">
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1700" measuredH="789" mockupW="1087" mockupH="640">
   <controls>
     <control controlID="0" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="613" y="149" w="800" h="640" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
       <controlProperties>
@@ -12,7 +12,7 @@
     </control>
     <control controlID="3" controlTypeID="com.balsamiq.mockups::Paragraph" x="774" y="352" w="419" h="87" measuredW="200" measuredH="80" zOrder="2" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>You%20have%20started%20Halon%20for%20the%20first%20time.%20You%20will%20be%20walked%20through%20a%20series%20of%20setup%20screens%20to%20configure%20the%20application.%0A%20%0AFirst%20though%2C%20you%20must%20generate%20the%20passwords%20for%20the%20Administrator%20and%20the%20Print%20Queue%20Manager.</text>
+        <text>You%20have%20started%20Halon%20for%20the%20first%20time.%20You%20will%20be%20walked%20through%20a%20series%20of%20configuration%20screens.%0A%20%0AFirst%20though%2C%20you%20must%20generate%20the%20passwords%20for%20the%20Administrator%20and%20the%20Print%20Queue%20Manager.</text>
       </controlProperties>
     </control>
     <control controlID="4" controlTypeID="com.balsamiq.mockups::Button" x="774" y="463" w="419" h="120" measuredW="319" measuredH="40" zOrder="3" locked="false" isInGroup="-1">
@@ -23,8 +23,26 @@
     </control>
     <control controlID="5" controlTypeID="com.balsamiq.mockups::PointyButton" x="1114" y="624" w="-1" h="-1" measuredW="79" measuredH="27" zOrder="4" locked="false" isInGroup="-1">
       <controlProperties>
+        <href>setup-1%26bm%3Bsetup-1.bmml%26bm%3Bsetup-1.bmml%26bm%3Bsetup-1.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22501%2C475%2C580%2C502%22%20href%3D%22setup-1.bmml%22%20alt%3D%22setup-1%22%20id%3D%225%22/%3E</map>
         <text>Next%20Step</text>
       </controlProperties>
     </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::CallOut" x="1148" y="470" w="33" h="29" measuredW="39" measuredH="39" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>1</text>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::CallOut" x="1446" y="186" w="33" h="29" measuredW="39" measuredH="39" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>1</text>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::Paragraph" x="1485" y="186" w="200" h="74" measuredW="200" measuredH="80" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>When%20the%20Generate%20Passwords%20button%20is%20clicked%20the%20Administrator%20and%20Print%20Queue%20Coordinator%20passwords%20will%20be%20displayed.</text>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::Canvas" x="1439" y="171" w="261" h="104" measuredW="100" measuredH="70" zOrder="6" locked="false" isInGroup="-1"/>
   </controls>
 </mockup>
