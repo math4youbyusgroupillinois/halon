@@ -1,1 +1,6 @@
 .DS_Store
+/bootstrap/compiled.php
+/vendor
+composer.phar
+composer.lock
+.DS_Store
