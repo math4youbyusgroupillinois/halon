@@ -12,7 +12,7 @@
 </head>
 
   <body ng-app="halon">
-    @section('sidebar')
+    @section('navbar')
     <nav class="navbar navbar-inverse" role="navigation">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
