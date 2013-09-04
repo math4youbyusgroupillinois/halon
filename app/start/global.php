@@ -1,5 +1,8 @@
 <?php
 
+Blade::setContentTags('[[', ']]');
+Blade::setEscapedContentTags('[[[', ']]]');
+
 /*
 |--------------------------------------------------------------------------
 | Register The Laravel Class Loader
