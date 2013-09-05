@@ -78,3 +78,11 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+Route::filter('serviceAuth', function(){
+    if(!Auth::check()){
+        return Response::json(array(
+            'flash' => 'you should be connect to access this URL'
+        ), 401);
+    }
+});
