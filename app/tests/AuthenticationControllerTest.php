@@ -8,4 +8,9 @@ class AuthenticationControllerTest extends TestCase {
     $this->assertResponseStatus(200);
   }
 
+  public function testAuthenticateRoute() {
+    $response = $this->call('GET', 'service/authenticate');
+    $this->assertResponseStatus(200);
+  }
+
 }
