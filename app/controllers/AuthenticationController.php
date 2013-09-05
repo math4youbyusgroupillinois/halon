@@ -10,11 +10,8 @@ class AuthenticationController extends BaseController {
 	public function index()
 	{
 	  Auth::logout();
-        return Response::json(array(
-                'flash' => 'you have been disconnected'),
-            200
-        );	
-      }
+    return Response::json(array('flash' => 'you have been disconnected'), 200);	
+  }
 
 	/**
 	 * Store a newly created resource in storage.
