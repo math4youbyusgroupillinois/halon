@@ -15,3 +15,8 @@ Route::get('/', function()
 {
 	return View::make('index');
 });
+
+  
+Route::group(array('prefix' => 'service'), function() {
+  Route::resource('authenticate', 'AuthenticationController');
+});
