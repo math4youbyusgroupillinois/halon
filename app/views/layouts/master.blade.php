@@ -13,7 +13,7 @@
 
   <body ng-app="halon">
     @section('navbar')
-    <nav class="navbar navbar-inverse" role="navigation">
+    <nav class="navbar navbar-inverse" role="navigation" ng-controller="navController">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -28,15 +28,11 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
-          <li ng-class="{active: location.path() == '/'}"><a href="#">Home</a></li>
-          <li ng-class="{active: location.path() == '/printers'}"><a href="#/printers">Printers</a></li>
+          <li ng-class="{active: location.path() == '/locations'}"><a href="#/locations">Locations</a></li>
         </ul>
-        <form class="navbar-form navbar-right" role="search">
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search">
-          </div>
-          <button type="submit" class="btn btn-default">Submit</button>
-        </form>
+        <div class="navbar-form navbar-right" role="search">
+          <button class="btn btn-primary" ng-click="logout()">Sign Out</button>
+        </div>
       </div>
     </nav>
     @show
