@@ -34,13 +34,20 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
   }
 })
 
-app.controller('locationController',function($scope, $rootScope, $location, Authenticate){
+app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location){
   $rootScope.location = $location; // used for ActiveTab
+  Location.get({},function(data) {
+    $scope.locations = data;
+  })
 })
 
 //factories.js
 app.factory('Authenticate', function($resource){
     return $resource("/service/authenticate");
+});
+
+app.factory('Location', function($resource){
+    return $resource("/locations");
 })
 
 //services.js
