@@ -38,7 +38,7 @@
     @show
 
     <div class="container">
-      <div class="alert" ng-show="flash" ng-bind="flash"></div>
+      <alert ng-repeat="alert in alerts" type="alert.type" close="alert.close()">{{ alert.msg }}</alert>
       <div ng-view></div>
       @yield('content')
     </div>
@@ -46,6 +46,8 @@
     <script src="angular/angular.min.js"></script>
     <script src="angular/angular-resource.min.js"></script>
     <script src="angular/angular-sanitize.min.js"></script>
+    <script src="angular/angular-ui-bootstrap-0.5.0.min.js"></script>
+    <script src="angular/angular-ui-bootstrap-tpls-0.5.0.min.js"></script>
     <script src="js/jquery-1.10.2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/app.js"></script>

@@ -1,5 +1,5 @@
 // app.js
-var app = angular.module("halon",['ngResource','ngSanitize']);
+var app = angular.module("halon",['ui.bootstrap','ngResource','ngSanitize']);
 
 app.config(['$routeProvider',function($routeProvider){
   $routeProvider.when('/',{templateUrl:'app/partials/login.html', controller: 'loginController'});
@@ -17,7 +17,7 @@ app.controller('navController', function($scope, $location, Authenticate, FlashS
     Authenticate.get({}, function() {
       delete sessionStorage.authenticated;
       $location.path('/');
-      FlashService.clear();
+      FlashService.add('success', 'Successfully Signed Out')
     })
   }
 })
@@ -31,9 +31,9 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
       },function(data) {
           $location.path('/locations');
           sessionStorage.authenticated = true;
-          FlashService.show('Succesfully Logged In');
+          FlashService.add('success', 'Succesfully Logged In');
       },function(response){
-          FlashService.show(response.data.flash);
+          FlashService.add('danger', response.data.flash);
       })
   }
 })
@@ -54,13 +54,20 @@ app.factory('Location', function($resource){
     return $resource("/locations");
 })
 
-app.factory("FlashService", function($rootScope) {
-  return {
-    show: function(message) {
-      $rootScope.flash = message;
+app.factory('FlashService', ['$rootScope', function($rootScope) {
+  $rootScope.alerts = [];
+  var alertService = {
+    add: function(type, msg) {
+      $rootScope.alerts = []; // Temp Fix to clear alerts for every new alert
+      $rootScope.alerts.push({ type: type, msg: msg, close: function(){alertService.closeAlert(this)}});
     },
-    clear: function() {
-      $rootScope.flash = "";
+    closeAlert: function(alert) {
+      this.closeAlertIdx($rootScope.alerts.indexOf(alert));
+    },
+    closeAlertIdx: function(index) {
+      $rootScope.alerts.splice(index, 1);
     }
   }
-});
+  return alertService;
+}]);
+
