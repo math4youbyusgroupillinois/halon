@@ -51,7 +51,7 @@ app.factory('Authenticate', function($resource){
 });
 
 app.factory('Location', function($resource){
-    return $resource("/locations", {}, { 'query':  { method:'GET', isArray:true }});
+    return $resource("/locations");
 })
 
 app.factory('FlashService', ['$rootScope', function($rootScope) {
