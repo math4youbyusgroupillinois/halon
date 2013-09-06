@@ -30,7 +30,7 @@
         <ul class="nav navbar-nav">
           <li ng-class="{active: location.path() == '/locations'}"><a href="#/locations">Locations</a></li>
         </ul>
-        <div class="navbar-form navbar-right" role="search">
+        <div class="navbar-form navbar-right" ng-show="authenticated()" role="search">
           <button class="btn btn-primary" ng-click="logout()">Sign Out</button>
         </div>
       </div>
@@ -42,14 +42,12 @@
       @yield('content')
     </div>
 
-
     <script src="angular/angular.min.js"></script>
     <script src="angular/angular-resource.min.js"></script>
     <script src="angular/angular-sanitize.min.js"></script>
     <script src="js/jquery-1.10.2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/app.js"></script>
-
 <!-- Not Yet Implemented but for better seperation later
     <script src="angular/controllers.js"></script>
     <script src="angular/directives.js"></script>
