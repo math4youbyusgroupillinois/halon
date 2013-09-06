@@ -38,6 +38,7 @@
     @show
 
     <div class="container">
+      <div class="alert" ng-show="flash" ng-bind="flash"></div>
       <div ng-view></div>
       @yield('content')
     </div>
