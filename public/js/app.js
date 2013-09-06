@@ -10,6 +10,9 @@ app.config(['$routeProvider',function($routeProvider){
 // controller.js
 
 app.controller('navController', function($scope, $location, Authenticate){
+  $scope.authenticated = function() {
+    return sessionStorage.authenticated;
+  }
   $scope.logout = function(){
     Authenticate.get({}, function() {
       delete sessionStorage.authenticated;
