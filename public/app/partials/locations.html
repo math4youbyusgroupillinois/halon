@@ -1,5 +1,13 @@
 <h1>Locations Page</h1>
-{{locations}}
-<div ng-repeat="location in locations">
-  Location: {{ location.description }}
-</div>
+<table class="table table-striped">
+  <th>Printer Location</th>
+  <th>Contact Number</th>
+  <th>Printer Name</th>
+  <th>MAR File Name</th>
+  <tr ng-repeat="location in locations">
+    <td>{{ location.description }}</td>
+    <td>{{ location.phone_number }}</td>
+    <td>{{ location.printer_name }}</td>
+    <td>{{ location.mar_file_name }}</td>
+  </tr>
+</table>
