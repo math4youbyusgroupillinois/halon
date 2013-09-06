@@ -40,7 +40,7 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
 
 app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location){
   $rootScope.location = $location; // used for ActiveTab
-  Location.get({},function(data) {
+  Location.query({},function(data) {
     $scope.locations = data;
   })
 })
@@ -51,7 +51,7 @@ app.factory('Authenticate', function($resource){
 });
 
 app.factory('Location', function($resource){
-    return $resource("/locations");
+    return $resource("/locations", {}, { 'query':  { method:'GET', isArray:true }});
 })
 
 app.factory('FlashService', ['$rootScope', function($rootScope) {
