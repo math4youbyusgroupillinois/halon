@@ -9,7 +9,7 @@ class LocationsController extends \BaseController {
 	 */
 	public function index()
 	{
-    return Response::json(array(array('name' => 'foo'), array('name' => 'bar', 'name' => 'zoom')), 200);
+    return Response::json(array(array('name' => 'foo'), array('name' => 'bar'), array('name' => 'zoom')), 200);
 	}
 
 	/**
