@@ -9,7 +9,7 @@ app.config(['$routeProvider',function($routeProvider){
 
 // controller.js
 
-app.controller('navController', function($scope, $location, Authenticate){
+app.controller('navController', function($scope, $location, Authenticate, FlashService){
   $scope.authenticated = function() {
     return sessionStorage.authenticated;
   }
@@ -17,22 +17,23 @@ app.controller('navController', function($scope, $location, Authenticate){
     Authenticate.get({}, function() {
       delete sessionStorage.authenticated;
       $location.path('/');
+      FlashService.clear();
     })
   }
 })
 
 
-app.controller('loginController',function($scope, $rootScope, $sanitize, $location, Authenticate){
+app.controller('loginController',function($scope, $rootScope, $sanitize, $location, Authenticate, FlashService){
   $rootScope.location = $location; // used for ActiveTab
   $scope.login = function(){
       Authenticate.save({
           'password': $sanitize($scope.password)
       },function(data) {
-          $scope.flash = '';
           $location.path('/locations');
           sessionStorage.authenticated = true;
+          FlashService.show('Succesfully Logged In');
       },function(response){
-          $scope.flash = response.data.flash;
+          FlashService.show(response.data.flash);
       })
   }
 })
@@ -53,4 +54,13 @@ app.factory('Location', function($resource){
     return $resource("/locations");
 })
 
-//services.js
+app.factory("FlashService", function($rootScope) {
+  return {
+    show: function(message) {
+      $rootScope.flash = message;
+    },
+    clear: function() {
+      $rootScope.flash = "";
+    }
+  }
+});
