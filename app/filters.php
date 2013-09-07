@@ -71,18 +71,16 @@ Route::filter('guest', function()
 |
 */
 
-Route::filter('csrf', function()
-{
-	if (Session::token() != Input::get('_token'))
-	{
-		throw new Illuminate\Session\TokenMismatchException;
-	}
+Route::filter('serviceCSRF',function(){
+  if (Session::token() != Request::header('csrf_token')) {
+      return Response::json(array('message' => 'No Go Buddy!'), 418);
+  }
 });
 
 Route::filter('serviceAuth', function(){
-    if(!Auth::check()){
-        return Response::json(array(
-            'flash' => 'you should be connect to access this URL'
-        ), 401);
-    }
+  if(!Auth::check()){
+      return Response::json(array(
+          'flash' => 'You Must Login to Continue'
+      ), 401);
+  }
 });

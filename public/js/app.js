@@ -8,6 +8,30 @@ app.config(['$routeProvider',function($routeProvider){
   $routeProvider.otherwise({redirectTo:'/'});
 }]);
 
+app.config(function($httpProvider){
+  var interceptor = function($rootScope,$location,$q,FlashService){
+  var success = function(response){
+      return response;
+  }
+  var error = function(response){
+      if (response.status == 401){
+          delete sessionStorage.authenticated;
+          $location.path('/');
+          FlashService.add('danger', response.data.flash);
+      }
+      return $q.reject(response);
+  }
+      return function(promise){
+          return promise.then(success, error);
+      }
+  }
+  $httpProvider.responseInterceptors.push(interceptor);
+})
+
+app.run(function($http,CSRF_TOKEN){
+  $http.defaults.headers.common['csrf_token'] = CSRF_TOKEN;
+});
+
 // controller.js
 
 app.controller('navController', function($scope, $location, Authenticate, FlashService){
@@ -57,13 +81,6 @@ app.controller('userController',function($scope, $rootScope, $sanitize, $locatio
   usr.$update({}, function() {
     alert("Password Reset to: " + random_pass);
   })
-  // var all_users = User.query({userId:id_field}, function() {
-  //   var user1 = $scope.users[0];
-  //   user1.password = $sanitize(random_pass);
-  //   user1.$update({}, function() {
-  //     alert("Password Reset to: " + random_pass);
-  //   })
-  // });
  }
 })
 
