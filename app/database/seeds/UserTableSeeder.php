@@ -7,6 +7,10 @@ class UserTableSeeder extends Seeder {
             'role' => 'admin',
             'password' => Hash::make('admin')
         ));
+        User::create(array(
+            'role' => 'printer',
+            'password' => Hash::make('printer')
+        ));
     }
 }
 

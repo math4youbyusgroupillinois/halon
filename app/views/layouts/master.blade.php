@@ -52,6 +52,9 @@
     <script src="js/jquery-1.10.2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/app.js"></script>
+    <script>
+      app.constant("CSRF_TOKEN", '[[csrf_token()]]');
+    </script>
 <!-- Not Yet Implemented but for better seperation later
     <script src="angular/controllers.js"></script>
     <script src="angular/directives.js"></script>
