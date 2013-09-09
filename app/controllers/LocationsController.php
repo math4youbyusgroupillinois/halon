@@ -81,7 +81,11 @@ class LocationsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+    $location = Location::find($id);
+    if ($location->delete())
+      return Response::json(array('message' => 'Location was deleted'), 200);
+    else
+      return Response::json(array('message' => 'Location failed to be deleted'), 400);
 	}
 
 }

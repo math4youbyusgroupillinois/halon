@@ -10,10 +10,12 @@
   <th>Contact Number</th>
   <th>Printer Name</th>
   <th>MAR File Name</th>
+  <th></th>
   <tr ng-repeat="location in locations">
     <td>{{ location.description }}</td>
     <td>{{ location.phone_number }}</td>
     <td>{{ location.printer_name }}</td>
     <td>{{ location.mar_file_name }}</td>
+    <td><a href="" ng-click="deleteLocation($index)">Remove</a>
   </tr>
 </table>

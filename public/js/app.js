@@ -81,6 +81,17 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
       $scope.newLocation = '';
     });
   };
+  $scope.deleteLocation = function(collectionIndex) {
+    var location = $scope.locations[collectionIndex];
+    location.$delete({id: location.id}, 
+      function(){
+        $scope.locations.splice(collectionIndex,1);
+      },
+      function() {
+        $alert("Failed to delete location");
+      }
+    )
+  };
 });
 
 app.controller('userController',function($scope, $rootScope, $sanitize, $location, $resource, Authenticate, FlashService, User, PasswordService){
@@ -104,7 +115,7 @@ app.factory('Authenticate', function($resource){
 });
 
 app.factory('Location', function($resource){
-    return $resource("/locations");
+    return $resource("/locations/:id", {id: '@id'});
 });
 
 app.factory('User', function($resource){
