@@ -77,10 +77,6 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
       'printer_name': $scope.newLocation.printerName,
       'mar_file_name': $scope.newLocation.marFileName
     },function(data) {
-      $scope.newLocation.description = '';
-      $scope.newLocation.phoneNumber = '';
-      $scope.newLocation.printerName = '';
-      $scope.newLocation.marFileName = '';;
       $scope.locations.push(data);
       $scope.newLocation = '';
     });
