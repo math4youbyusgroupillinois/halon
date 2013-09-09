@@ -12,4 +12,6 @@ class Location extends Eloquent {
    */
   protected $table = 'locations';
 
+  protected $fillable = array('description', 'phone_number', 'printer_name', 'mar_file_name');
+
 }

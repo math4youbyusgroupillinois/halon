@@ -29,7 +29,9 @@ class LocationsController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+    $attrs = Input::all();
+		$location = Location::create($attrs);
+    Response::json($location->toArray(), 201);
 	}
 
 	/**

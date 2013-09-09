@@ -1,9 +1,10 @@
 <h1>Locations Page</h1>
-<input type="text" placeholder="Printer Location" ng-model="new_location.description"/>
-<input type="text" placeholder="Contact Number" ng-model="new_location.phone_number"/>
-<input type="text" placeholder="Printer Name" ng-model="new_location.printer_name"/>
-<input type="text" placeholder="MAR File Name" ng-model="new_location.mar_file_name"/>
-<a href="add_location()">Add printer location</a>
+<input type="text" placeholder="Printer Location" ng-model="newLocation.description"/>
+<input type="text" placeholder="Contact Number" ng-model="newLocation.phoneNumber"/>
+<input type="text" placeholder="Printer Name" ng-model="newLocation.printerName"/>
+<input type="text" placeholder="MAR File Name" ng-model="newLocation.marFileName"/>
+<button ng-click="addLocation()">Add printer location</button>
+<br/>
 <table class="table table-striped">
   <th>Printer Location</th>
   <th>Contact Number</th>
