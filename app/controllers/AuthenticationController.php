@@ -10,7 +10,7 @@ class AuthenticationController extends BaseController {
 	public function index()
 	{
 	  Auth::logout();
-    return Response::json(array('flash' => 'You have been successfully logged out'), 200);	
+    return Response::json(array('flash' => 'You have been successfully logged out'), 200);
   }
 
 	/**
@@ -21,6 +21,7 @@ class AuthenticationController extends BaseController {
 	public function store()
 	{
 	  $credentials = array(
+	  	'role' => Input::get('role'),
 	    'password' =>  Input::get('password'));
 
 		if (Auth::attempt($credentials)) {

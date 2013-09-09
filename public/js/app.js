@@ -26,7 +26,7 @@ app.config(function($httpProvider){
       }
   }
   $httpProvider.responseInterceptors.push(interceptor);
-})
+});
 
 app.run(function($http,CSRF_TOKEN){
   $http.defaults.headers.common['csrf_token'] = CSRF_TOKEN;
@@ -45,30 +45,32 @@ app.controller('navController', function($scope, $location, Authenticate, FlashS
       FlashService.add('success', 'Successfully Signed Out')
     })
   }
-})
+});
 
 
 app.controller('loginController',function($scope, $rootScope, $sanitize, $location, Authenticate, FlashService){
   $rootScope.location = $location; // used for ActiveTab
   $scope.login = function(){
-      Authenticate.save({
-          'password': $sanitize($scope.password)
+    Authenticate.save({
+      'role': $sanitize($scope.role),
+      'password': $sanitize($scope.password)
       },function(data) {
-          $location.path('/locations');
-          sessionStorage.authenticated = true;
-          FlashService.add('success', 'Succesfully Logged In');
+        $location.path('/locations');
+        sessionStorage.authenticated = true;
+        FlashService.add('success', 'Succesfully Logged In');
       },function(response){
-          FlashService.add('danger', response.data.flash);
-      })
+        FlashService.add('danger', response.data.flash);
+      }
+    )
   }
-})
+});
 
 app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location){
   $rootScope.location = $location; // used for ActiveTab
   Location.query({},function(data) {
     $scope.locations = data;
   })
-})
+});
 
 app.controller('userController',function($scope, $rootScope, $sanitize, $location, $resource, Authenticate, User, PasswordService){
   $rootScope.location = $location; // used for ActiveTab
@@ -82,7 +84,7 @@ app.controller('userController',function($scope, $rootScope, $sanitize, $locatio
     alert("Password Reset to: " + random_pass);
   })
  }
-})
+});
 
 //factories.js
 app.factory('Authenticate', function($resource){
@@ -91,11 +93,11 @@ app.factory('Authenticate', function($resource){
 
 app.factory('Location', function($resource){
     return $resource("/locations");
-})
+});
 
 app.factory('User', function($resource){
     return $resource('/users/:userId', {userId:'@id'}, {update: { method: 'PUT' }});
-})
+});
 
 app.factory('FlashService', ['$rootScope', function($rootScope) {
   $rootScope.alerts = [];
@@ -142,5 +144,5 @@ app.factory('PasswordService', function () {
     }
   }
   return features;
-})
+});
 
