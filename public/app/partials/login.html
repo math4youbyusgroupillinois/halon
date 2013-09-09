@@ -1,15 +1,23 @@
 <h1>Login Form</h1>
 <form class="form-horizontal" ng-submit="login()">
-    <div class="control-group">
-        <label class="control-label" for="inputPassword">Password</label>
-        <div class="controls">
-            <input type="password" id="inputPassword" placeholder="Password" ng-model="password" required>
-        </div>
+  <div class="control-group">
+    <div class="controls">
+      <label for="inputRole">Select Role</label>
+      <select id="inputRole" class="form-control input-medium" ng-model="role">
+        <option value='admin'>Admin</option>
+        <option value='printer'>Printer</option>
+      </select>
     </div>
-    <div class="control-group">
-        <div class="controls">
-            <button type="submit" class="btn">Sign in</button>
-        </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputPassword">Password</label>
+    <div class="controls">
+      <input type="password" id="inputPassword" placeholder="Password" ng-model="password" required>
     </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn">Sign in</button>
     </div>
+  </div>
 </form>
