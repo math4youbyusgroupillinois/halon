@@ -61,15 +61,25 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
       },function(response){
         FlashService.add('danger', response.data.flash);
       }
-    )
-  }
+    );
+  };
 });
 
 app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location){
   $rootScope.location = $location; // used for ActiveTab
   Location.query({},function(data) {
     $scope.locations = data;
-  })
+  });
+  $scope.addLocation = function() {
+    Location.save({
+      'description': $scope.newLocation.description,
+      'phone_number': $scope.newLocation.phoneNumber,
+      'printer_name': $scope.newLocation.printerName,
+      'mar_file_name': $scope.newLocation.marFileName
+    },function(data) {
+      $scope.locations.push(data);
+    });
+  };
 });
 
 app.controller('userController',function($scope, $rootScope, $sanitize, $location, $resource, Authenticate, User, PasswordService){
