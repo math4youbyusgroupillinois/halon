@@ -1,0 +1,11 @@
+<h1>Welcome!!</h1>
+
+<p>You have started Halon for the first time. You will be walked through a series of configuration screens.</p>
+<p>First though, you must generate the passwords for the Administrator and the Print Queue Manager.</p>
+
+<button class="btn btn-success" ng-click="generate_passwords()">Generate Passwords</button>
+
+<div ng-show="adminPass">Admin Password: {{adminPass}}</div>
+<div ng-show="printerPass">Printer Password: {{printerPass}}</div>
+
+<button class="btn btn-primary">Next Step</button>

@@ -23,4 +23,5 @@ Route::group(array('prefix' => 'service'), function() {
 
 Route::resource('locations', 'LocationsController');
 
+Route::get('users/generate_passwords', array('uses' => 'UsersController@generate_passwords'));
 Route::resource('users', 'UsersController');

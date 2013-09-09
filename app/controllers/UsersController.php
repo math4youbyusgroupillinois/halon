@@ -97,4 +97,13 @@ class UsersController extends \BaseController {
 		//
 	}
 
+	public function generate_passwords()
+	{
+		// Todo: Only execute if users created but no passwords are set!
+		return Response::json(array('adminRolePass' => 'adminTestPass', 'printerRolePass' => 'printerTestPass'), 200);
+
+		// if not set:
+			// return Response::json(array('error_msg' =>'Sorry, Your Passwords are already set'), 404);
+	}
+
 }

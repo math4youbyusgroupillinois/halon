@@ -5,6 +5,7 @@ app.config(['$routeProvider',function($routeProvider){
   $routeProvider.when('/',{templateUrl:'app/partials/login.html', controller: 'loginController'});
   $routeProvider.when('/locations',{templateUrl:'app/partials/locations.html', controller: 'locationController'});
   $routeProvider.when('/admin/manage',{templateUrl:'app/partials/users.html', controller: 'userController'});
+  $routeProvider.when('/setup/setup-0',{templateUrl:'app/partials/setup-0.html', controller: 'setupController'});
   $routeProvider.otherwise({redirectTo:'/'});
 }]);
 
@@ -96,6 +97,19 @@ app.controller('userController',function($scope, $rootScope, $sanitize, $locatio
     FlashService.add('info', pass_msg);
   })
  }
+});
+
+app.controller('setupController', function($scope, $http, FlashService) {
+  $scope.generate_passwords = function(){
+    $http({method: 'GET', url: '/users/generate_passwords'}).
+      success(function(data, status, headers, config) {
+        $scope.adminPass = data.adminRolePass;
+        $scope.printerPass = data.printerRolePass;
+      }).
+      error(function(data, status, headers, config){
+        FlashService.add('danger', data.error_msg);
+      })
+  }
 });
 
 //factories.js
