@@ -37,7 +37,8 @@ class LocationsController extends \BaseController {
 	{
     $attrs = Input::all();
 		$location = Location::create($attrs);
-    Response::json($location->toArray(), 201);
+    Log::info("The newly created location is: ", $location->toArray());
+    Response::json($location->toJson(), 201);
 	}
 
 	/**

@@ -65,7 +65,7 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
   };
 });
 
-app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location){
+app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location, $log){
   $rootScope.location = $location; // used for ActiveTab
   Location.query({},function(data) {
     $scope.locations = data;
@@ -76,19 +76,20 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
       'phone_number': $scope.newLocation.phoneNumber,
       'printer_name': $scope.newLocation.printerName,
       'mar_file_name': $scope.newLocation.marFileName
-    },function(data) {
-      $scope.locations.push(data);
+    },function() {
+      $scope.locations = Location.query();
       $scope.newLocation = '';
     });
   };
   $scope.deleteLocation = function(collectionIndex) {
     var location = $scope.locations[collectionIndex];
+    $log.info(location);
     location.$delete({id: location.id}, 
       function(){
         $scope.locations.splice(collectionIndex,1);
       },
       function() {
-        $alert("Failed to delete location");
+        alert("Failed to delete location");
       }
     )
   };
