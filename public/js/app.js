@@ -78,11 +78,12 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
       'mar_file_name': $scope.newLocation.marFileName
     },function(data) {
       $scope.locations.push(data);
+      $scope.newLocation = '';
     });
   };
 });
 
-app.controller('userController',function($scope, $rootScope, $sanitize, $location, $resource, Authenticate, User, PasswordService){
+app.controller('userController',function($scope, $rootScope, $sanitize, $location, $resource, Authenticate, FlashService, User, PasswordService){
   $rootScope.location = $location; // used for ActiveTab
   $scope.users = User.query();
 
@@ -91,7 +92,8 @@ app.controller('userController',function($scope, $rootScope, $sanitize, $locatio
   var usr = $scope.users[this.$index];
   usr.password = $sanitize(random_pass);
   usr.$update({}, function() {
-    alert("Password Reset to: " + random_pass);
+    var pass_msg = "Password Reset to: " + random_pass;
+    FlashService.add('info', pass_msg);
   })
  }
 });
