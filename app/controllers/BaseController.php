@@ -2,6 +2,13 @@
 
 class BaseController extends Controller {
 
+	public function __construct()
+	{
+		$this->beforeFilter('setupAuth');
+		$this->beforeFilter('serviceAuth');
+		$this->beforeFilter('serviceCSRF');
+	}
+
 	/**
 	 * Setup the layout used by the controller.
 	 *

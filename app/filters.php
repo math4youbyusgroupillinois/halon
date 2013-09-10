@@ -82,3 +82,9 @@ Route::filter('serviceAuth', function(){
       return Response::json(array('flash' => 'You Must Login to Continue'), 401);
   }
 });
+
+Route::filter('setupAuth', function(){
+  if(User::where('password', '=', '')->count() > 0){
+      return Response::json(array('flash' => 'Initiate Setup'), 307);
+  }
+});

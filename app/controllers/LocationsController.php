@@ -2,11 +2,11 @@
 
 class LocationsController extends \BaseController {
 
-	public function __construct()
-  {
-      $this->beforeFilter('serviceAuth');
-      $this->beforeFilter('serviceCSRF');
-  }
+ // public function __construct()
+ //  {
+ //     $this->beforeFilter('serviceAuth');
+ //     $this->beforeFilter('serviceCSRF');
+ //  }
 
 	/**
 	 * Display a listing of the resource.

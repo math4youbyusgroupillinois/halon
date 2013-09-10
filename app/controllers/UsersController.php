@@ -3,10 +3,11 @@
 class UsersController extends \BaseController {
 
 	public function __construct()
-    {
-        $this->beforeFilter('serviceAuth');
-        $this->beforeFilter('serviceCSRF');
-    }
+  {
+		$this->beforeFilter('setupAuth');
+		$this->beforeFilter('serviceAuth');
+		$this->beforeFilter('serviceCSRF');
+  }
 
 	/**
 	 * Display a listing of the resource.
@@ -15,7 +16,7 @@ class UsersController extends \BaseController {
 	 */
 	public function index()
 	{
-    $users = User::all();
+  	$users = User::all();
 
     return Response::json($users->toArray(), 200);
 	}
