@@ -99,9 +99,11 @@ app.controller('userController',function($scope, $rootScope, $sanitize, $locatio
  }
 });
 
-app.controller('setupController', function($scope, $http, FlashService) {
+app.controller('setupController', function($scope, $http, FlashService, PasswordService) {
   $scope.generate_passwords = function(){
-    $http({method: 'GET', url: '/users/generate_passwords'}).
+    var admin_pass = PasswordService.generate(12);
+    var printer_pass = PasswordService.generate(12);
+    $http({method: 'GET', url: '/setup/generate_passwords', params:{admin_password:admin_pass, printer_password:printer_pass}}).
       success(function(data, status, headers, config) {
         $scope.adminPass = data.adminRolePass;
         $scope.printerPass = data.printerRolePass;
@@ -146,9 +148,8 @@ app.factory('PasswordService', function () {
   // ref: http://stackoverflow.com/questions/1497481/javascript-password-generator
   var features = {
     generate: function(plength){
-      var keylistalpha_low ="abcdefghijklmnopqrstuvwxyz";
-      var keylistalpha = keylistalpha_low + keylistalpha_low.toUpperCase();
-      var keylistint="123456789";
+      var keylistalpha ="abcdefghijkmnpqrstuvwxyz";
+      var keylistint="23456789";
       var keylistspec="!@#_";
       var temp='';
       var len = plength/2;

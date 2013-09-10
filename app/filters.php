@@ -79,8 +79,6 @@ Route::filter('serviceCSRF',function(){
 
 Route::filter('serviceAuth', function(){
   if(!Auth::check()){
-      return Response::json(array(
-          'flash' => 'You Must Login to Continue'
-      ), 401);
+      return Response::json(array('flash' => 'You Must Login to Continue'), 401);
   }
 });

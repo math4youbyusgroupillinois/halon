@@ -1,12 +1,8 @@
 <?php
 
-class UsersController extends \BaseController {
+class SetupController extends \BaseController {
 
-	public function __construct()
-    {
-        $this->beforeFilter('serviceAuth');
-        $this->beforeFilter('serviceCSRF');
-    }
+	// Todo: BeforeFilter to Check Authorized 401 to Angular
 
 	/**
 	 * Display a listing of the resource.
@@ -15,9 +11,7 @@ class UsersController extends \BaseController {
 	 */
 	public function index()
 	{
-    $users = User::all();
-
-    return Response::json($users->toArray(), 200);
+		//
 	}
 
 	/**
@@ -48,11 +42,7 @@ class UsersController extends \BaseController {
 	 */
 	public function show($id)
 	{
-    $user = User::where('id', $id)
-    				->take(1)
-            ->get();
-
-    return Response::json($user->toArray(), 200);
+		//
 	}
 
 	/**
@@ -74,16 +64,7 @@ class UsersController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		$user = User::find($id);
-
-    if ( Input::get('password') )
-    {
-        $user->password = Hash::make(Input::get('password'));
-    }
-
-    $user->save();
-
-     return Response::json($user->toArray(), 200);
+		//
 	}
 
 	/**
@@ -95,6 +76,33 @@ class UsersController extends \BaseController {
 	public function destroy($id)
 	{
 		//
+	}
+
+	public function generate_passwords()
+	{
+		$admin_pass = Input::get('admin_password');
+		$printer_pass = Input::get('printer_password');
+
+		$users = User::where('password', '=', '');
+
+		if ($users->count() > 0)
+		{
+			$admin_user = User::where('role', '=', 'admin')->first();
+			$printer_user = User::where('role', '=', 'printer')->first();
+
+			// set and return both vals to server
+			$admin_user->password = Hash::make($admin_pass);
+			$admin_user->save();
+
+			$printer_user->password = Hash::make($printer_pass);
+			$printer_user->save();
+
+			return Response::json(array('adminRolePass' => $admin_pass, 'printerRolePass' => $printer_pass), 200);
+		}
+		else {
+			return Response::json(array('error_msg' => 'Sorry, Passwords are already Set'), 401);
+		}
+
 	}
 
 
