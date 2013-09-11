@@ -16,8 +16,8 @@ app.config(function($httpProvider){
   }
   var error = function(response){
     if (response.status == 307) {
-    $location.path('/setup/setup-0');
-    FlashService.add('danger', response.data.flash);
+      $location.path('/setup/setup-0');
+      FlashService.add('danger', response.data.flash);
     }
     if (response.status == 401){
       delete sessionStorage.authenticated;

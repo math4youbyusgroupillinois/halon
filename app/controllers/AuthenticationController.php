@@ -4,7 +4,7 @@ class AuthenticationController extends BaseController {
 
  public function __construct()
   {
-
+  	// filters
   }
 
 
