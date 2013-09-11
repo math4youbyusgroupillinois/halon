@@ -12,19 +12,23 @@ app.config(['$routeProvider',function($routeProvider){
 app.config(function($httpProvider){
   var interceptor = function($rootScope,$location,$q,FlashService){
   var success = function(response){
-      return response;
+    return response;
   }
   var error = function(response){
-      if (response.status == 401){
-          delete sessionStorage.authenticated;
-          $location.path('/');
-          FlashService.add('danger', response.data.flash);
-      }
-      return $q.reject(response);
+    if (response.status == 307) {
+    $location.path('/setup/setup-0');
+    FlashService.add('danger', response.data.flash);
+    }
+    if (response.status == 401){
+      delete sessionStorage.authenticated;
+      $location.path('/');
+      FlashService.add('danger', response.data.flash);
+    }
+    return $q.reject(response);
   }
-      return function(promise){
-          return promise.then(success, error);
-      }
+    return function(promise){
+      return promise.then(success, error);
+    }
   }
   $httpProvider.responseInterceptors.push(interceptor);
 });

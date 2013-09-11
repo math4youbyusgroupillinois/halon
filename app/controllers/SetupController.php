@@ -4,6 +4,12 @@ class SetupController extends \BaseController {
 
 	// Todo: BeforeFilter to Check Authorized 401 to Angular
 
+	public function __construct()
+	{
+		$this->beforeFilter('serviceCSRF');
+
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *

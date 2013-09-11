@@ -7,6 +7,7 @@ class BaseController extends Controller {
 		$this->beforeFilter('setupAuth');
 		$this->beforeFilter('serviceAuth');
 		$this->beforeFilter('serviceCSRF');
+
 	}
 
 	/**

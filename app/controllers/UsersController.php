@@ -2,13 +2,6 @@
 
 class UsersController extends \BaseController {
 
-	public function __construct()
-  {
-		$this->beforeFilter('setupAuth');
-		$this->beforeFilter('serviceAuth');
-		$this->beforeFilter('serviceCSRF');
-  }
-
 	/**
 	 * Display a listing of the resource.
 	 *
