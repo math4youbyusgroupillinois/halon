@@ -135,15 +135,6 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
     location.record.printer_name = $scope.editRecord.printerName;
     location.record.mar_file_name = $scope.editRecord.marFileName;
     location.record.$update();
-    // Location.update({
-    //   'id': location.record.id,
-    //   'description': $scope.editRecord.description,
-    //   'phone_number': $scope.editRecord.phoneNumber,
-    //   'printer_name': $scope.editRecord.printerName,
-    //   'mar_file_name': $scope.editRecord.marFileName
-    // }, function(){
-    //   location.record.$get(); 
-    // });
   }
 });
 
