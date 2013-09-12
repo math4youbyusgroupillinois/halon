@@ -3,3 +3,4 @@
 3. composer install
 4. http://stackoverflow.com/questions/15018538/laravel-htaccess-rewrite-rule-convertion-to-iis
 5. app/database/production.sqlite needs modify permissions
+6. verify the iis user has read permissions to the directory where the postscript files are located
