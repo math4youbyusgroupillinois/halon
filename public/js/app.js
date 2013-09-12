@@ -159,7 +159,7 @@ app.factory('Authenticate', function($resource){
 });
 
 app.factory('Location', function($resource){
-    return $resource("/locations/:id", {id: '@id'}, {update: { method:'PUT' }});
+    return $resource("/locations/:id", {id: '@id'}, {update: { method:'PUT' }, create: { method:'POST' }});
 });
 
 app.factory('User', function($resource){
