@@ -71,7 +71,12 @@ class LocationsController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+    $attrs = Input::all();
+		$location = Location::find($id);
+    if ($location->update($attrs)) 
+      Response::json($location->toJson(), 201);
+    else
+      return Response::json(array('message' => 'Location failed to be updated'), 400);
 	}
 
 	/**

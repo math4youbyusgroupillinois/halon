@@ -11,11 +11,43 @@
   <th>Printer Name</th>
   <th>MAR File Name</th>
   <th></th>
+  <!-- <th></th> -->
   <tr ng-repeat="location in locations">
-    <td>{{ location.description }}</td>
-    <td>{{ location.phone_number }}</td>
-    <td>{{ location.printer_name }}</td>
-    <td>{{ location.mar_file_name }}</td>
-    <td><a href="" ng-click="deleteLocation($index)">Remove</a>
+    <td ng-switch on="location.editMode">
+      <span ng-switch-when="false">{{ location.record.description }}</span>
+      <div ng-switch-when="true">
+        <input ng-model="editRecord.description"/>
+      </div>
+    </td>
+    <td ng-switch on="location.editMode">
+      <span ng-switch-when="false">{{ location.record.phone_number }}</span>
+      <div ng-switch-when="true">
+        <input ng-model="editRecord.phoneNumber"/>
+      </div>
+    </td>
+    <td ng-switch on="location.editMode">
+      <span ng-switch-when="false">{{ location.record.printer_name }}</span>
+      <div ng-switch-when="true">
+        <input ng-model="editRecord.printerName"/>
+      </div>
+    </td>
+    <td ng-switch on="location.editMode">
+      <span ng-switch-when="false">{{ location.record.mar_file_name }}</span>
+      <div ng-switch-when="true">
+        <input ng-model="editRecord.marFileName"/>
+      </div>
+    </td>
+    <td ng-switch on="location.editMode">
+      <div ng-switch-when="false">
+        <a href="" ng-click="editLocation(location)">Edit</a>
+        &nbsp;&nbsp;
+        <a href="" ng-click="deleteLocation($index)">Remove</a>
+      </div>
+      <div ng-switch-when="true">
+        <a href="" ng-click="onSave(location)">Save</a></span>
+        &nbsp;&nbsp;
+        <a href="" ng-click="onCancel(location)">Cancel</a></span>
+      </div>
+    </td>
   </tr>
 </table>

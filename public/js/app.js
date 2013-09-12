@@ -67,24 +67,45 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
 
 app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location, $log){
   $rootScope.location = $location; // used for ActiveTab
+  $scope.editRecord = {};
   Location.query({},function(data) {
-    $scope.locations = data;
+    locations = []
+    $scope.data = data;
+    for (i in data) {
+      container = {
+        editMode: false,
+        record: data[i]
+      }
+      locations.push(container)
+    }
+    $scope.locations = locations;
   });
   $scope.addLocation = function() {
-    Location.save({
+    Location.create({
       'description': $scope.newLocation.description,
       'phone_number': $scope.newLocation.phoneNumber,
       'printer_name': $scope.newLocation.printerName,
       'mar_file_name': $scope.newLocation.marFileName
     },function() {
-      $scope.locations = Location.query();
+      Location.query({},function(data) {
+        locations = []
+        $scope.data = data;
+        for (i in data) {
+          container = {
+            editMode: false,
+            record: data[i]
+          };
+          locations.push(container);
+        }
+        $scope.locations = locations;
+      });
       $scope.newLocation = '';
     });
   };
   $scope.deleteLocation = function(collectionIndex) {
     var location = $scope.locations[collectionIndex];
     $log.info(location);
-    location.$delete({id: location.id}, 
+    location.record.$delete({id: location.record.id}, 
       function(){
         $scope.locations.splice(collectionIndex,1);
       },
@@ -93,6 +114,37 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
       }
     )
   };
+  $scope.editLocation = function(location) {
+    location.editMode = true;
+
+    $scope.editRecord.description = location.record.description;
+    $scope.editRecord.phoneNumber = location.record.phone_number;
+    $scope.editRecord.printerName = location.record.printer_name;
+    $scope.editRecord.marFileName = location.record.mar_file_name;
+  }
+
+  $scope.onCancel = function(location) {
+    location.editMode = false;
+  }
+
+  $scope.onSave = function(location) {
+    location.editMode = false;
+
+    location.record.description = $scope.editRecord.description;
+    location.record.phone_number = $scope.editRecord.phoneNumber;
+    location.record.printer_name = $scope.editRecord.printerName;
+    location.record.mar_file_name = $scope.editRecord.marFileName;
+    location.record.$update();
+    // Location.update({
+    //   'id': location.record.id,
+    //   'description': $scope.editRecord.description,
+    //   'phone_number': $scope.editRecord.phoneNumber,
+    //   'printer_name': $scope.editRecord.printerName,
+    //   'mar_file_name': $scope.editRecord.marFileName
+    // }, function(){
+    //   location.record.$get(); 
+    // });
+  }
 });
 
 app.controller('userController',function($scope, $rootScope, $sanitize, $location, $resource, Authenticate, FlashService, User, PasswordService){
@@ -116,7 +168,7 @@ app.factory('Authenticate', function($resource){
 });
 
 app.factory('Location', function($resource){
-    return $resource("/locations/:id", {id: '@id'});
+    return $resource("/locations/:id", {id: '@id'}, {update: { method:'PUT' }});
 });
 
 app.factory('User', function($resource){
@@ -170,3 +222,16 @@ app.factory('PasswordService', function () {
   return features;
 });
 
+// app.config(function($httpProvider){
+//   // underscore logic taken from
+//   // https://github.com/FineLinePrototyping/angularjs-rails-resource/blob/master/angularjs-rails-resource.js
+//   $httpProvider.defaults.transformRequest = function(data) {
+//     if (!angular.isString(key)) {
+//       return key;
+//     }
+
+//     return key.replace(/[A-Z]/g, function (match, index) {
+//         return index === 0 ? match : '_' + match.toLowerCase();
+//     });
+//   }
+// });
