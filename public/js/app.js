@@ -37,13 +37,8 @@ app.run(function($http,CSRF_TOKEN){
 // controller.js
 
 app.controller('navController', function($scope, $location, Authenticate, FlashService, $log){
-  $scope.can = function(action, resource) {
-    permissions = {
-      'admin': {'Location': ['update']}
-    }
-    return permissions[sessionStorage.userRole] && 
-           permissions[sessionStorage.userRole][resource] && 
-           permissions[sessionStorage.userRole][resource].indexOf(action) >= 0;
+  $scope.permit = function(role) {
+    return role == sessionStorage.userRole;
   }
   $scope.authenticated = function() {
     return sessionStorage.authenticated;
