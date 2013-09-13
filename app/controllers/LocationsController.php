@@ -1,11 +1,13 @@
 <?php
 
-class LocationsController extends \BaseController {
+class LocationsController extends SecuredController {
+  protected $permitted = 'admin';
 
 	public function __construct()
   {
-      $this->beforeFilter('serviceAuth');
-      $this->beforeFilter('serviceCSRF');
+    parent::__construct();
+    $this->beforeFilter('serviceAuth');
+    $this->beforeFilter('serviceCSRF');
   }
 
 	/**
