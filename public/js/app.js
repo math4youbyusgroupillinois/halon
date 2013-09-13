@@ -3,9 +3,9 @@ var app = angular.module("halon",['ui.bootstrap','ngResource','ngSanitize']);
 
 app.config(['$routeProvider',function($routeProvider){
   $routeProvider.when('/',{templateUrl:'app/partials/login.html', controller: 'loginController'});
-  $routeProvider.when('/locations',{templateUrl:'app/partials/locations.html', controller: 'locationController'});
+  $routeProvider.when('/admin/locations',{templateUrl:'app/partials/admin/locations.html', controller: 'locationController'});
   $routeProvider.when('/printLocations', {templateUrl:'app/partials/printLocations.html', controller: 'printLocationsController'});
-  $routeProvider.when('/admin/manage',{templateUrl:'app/partials/users.html', controller: 'userController'});
+  $routeProvider.when('/admin/manage',{templateUrl:'app/partials/admin/users.html', controller: 'userController'});
   $routeProvider.otherwise({redirectTo:'/'});
 }]);
 
@@ -64,7 +64,7 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
         sessionStorage.authenticated = true;
         sessionStorage.userRole = data['user']['role'];
         if (sessionStorage.userRole == 'admin') {
-          $location.path('/locations');  
+          $location.path('/admin/locations');  
         } else if (sessionStorage.userRole == 'printer') {
           $location.path('/printLocations');  
         }
@@ -174,7 +174,7 @@ app.factory('Authenticate', function($resource){
 });
 
 app.factory('Location', function($resource){
-    return $resource("/locations/:id", {id: '@id'}, {update: { method:'PUT' }, create: { method:'POST' }});
+    return $resource("/admin/locations/:id", {id: '@id'}, {update: { method:'PUT' }, create: { method:'POST' }});
 });
 
 app.factory('User', function($resource){
