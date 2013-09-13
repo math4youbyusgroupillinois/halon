@@ -33,16 +33,14 @@ App::after(function($request, $response)
 |
 */
 
-Route::filter('auth', function()
-{
-	if (Auth::guest()) return Redirect::guest('login');
+// Route::filter('auth', function() {
+// 	if (Auth::guest()) return Redirect::guest('login');
+// });
+
+Route::filter('authentication', function(){
+  if(Auth::guest()) return Response::json(array('flash' => 'You Must Login to Continue'), 401);
 });
 
-
-Route::filter('auth.basic', function()
-{
-	return Auth::basic();
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -74,13 +72,5 @@ Route::filter('guest', function()
 Route::filter('serviceCSRF',function(){
   if (Session::token() != Request::header('csrf_token')) {
       return Response::json(array('message' => 'No Go Buddy!'), 418);
-  }
-});
-
-Route::filter('serviceAuth', function(){
-  if(!Auth::check()){
-      return Response::json(array(
-          'flash' => 'You Must Login to Continue'
-      ), 401);
   }
 });

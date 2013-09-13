@@ -1,12 +1,7 @@
 <?php
 
-class LocationsController extends \BaseController {
-
-	public function __construct()
-  {
-      $this->beforeFilter('serviceAuth');
-      $this->beforeFilter('serviceCSRF');
-  }
+class LocationsController extends SecuredController {
+  protected $permitted = 'admin';
 
 	/**
 	 * Display a listing of the resource.

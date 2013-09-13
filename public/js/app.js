@@ -3,8 +3,9 @@ var app = angular.module("halon",['ui.bootstrap','ngResource','ngSanitize']);
 
 app.config(['$routeProvider',function($routeProvider){
   $routeProvider.when('/',{templateUrl:'app/partials/login.html', controller: 'loginController'});
-  $routeProvider.when('/locations',{templateUrl:'app/partials/locations.html', controller: 'locationController'});
-  $routeProvider.when('/admin/manage',{templateUrl:'app/partials/users.html', controller: 'userController'});
+  $routeProvider.when('/admin/locations',{templateUrl:'app/partials/admin/locations.html', controller: 'locationController'});
+  $routeProvider.when('/printLocations', {templateUrl:'app/partials/printLocations.html', controller: 'printLocationsController'});
+  $routeProvider.when('/admin/manage',{templateUrl:'app/partials/admin/users.html', controller: 'userController'});
   $routeProvider.otherwise({redirectTo:'/'});
 }]);
 
@@ -16,6 +17,7 @@ app.config(function($httpProvider){
   var error = function(response){
       if (response.status == 401){
           delete sessionStorage.authenticated;
+          delete sessionStorage.userRole;
           $location.path('/');
           FlashService.add('danger', response.data.flash);
       }
@@ -34,13 +36,17 @@ app.run(function($http,CSRF_TOKEN){
 
 // controller.js
 
-app.controller('navController', function($scope, $location, Authenticate, FlashService){
+app.controller('navController', function($scope, $location, Authenticate, FlashService, $log){
+  $scope.permit = function(role) {
+    return role == sessionStorage.userRole;
+  }
   $scope.authenticated = function() {
     return sessionStorage.authenticated;
   }
   $scope.logout = function(){
     Authenticate.get({}, function() {
       delete sessionStorage.authenticated;
+      delete sessionStorage.userRole;
       $location.path('/');
       FlashService.add('success', 'Successfully Signed Out')
     })
@@ -48,21 +54,30 @@ app.controller('navController', function($scope, $location, Authenticate, FlashS
 });
 
 
-app.controller('loginController',function($scope, $rootScope, $sanitize, $location, Authenticate, FlashService){
+app.controller('loginController',function($scope, $rootScope, $sanitize, $location, Authenticate, FlashService, $log){
   $rootScope.location = $location; // used for ActiveTab
   $scope.login = function(){
     Authenticate.save({
       'role': $sanitize($scope.role),
       'password': $sanitize($scope.password)
       },function(data) {
-        $location.path('/locations');
         sessionStorage.authenticated = true;
+        sessionStorage.userRole = data['user']['role'];
+        if (sessionStorage.userRole == 'admin') {
+          $location.path('/admin/locations');  
+        } else if (sessionStorage.userRole == 'printer') {
+          $location.path('/printLocations');  
+        }
         FlashService.add('success', 'Succesfully Logged In');
       },function(response){
         FlashService.add('danger', response.data.flash);
       }
     );
   };
+});
+
+app.controller('printLocationsController',function($scope, $rootScope, $location, Authenticate, Location, $log){
+
 });
 
 app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location, $log){
@@ -159,7 +174,7 @@ app.factory('Authenticate', function($resource){
 });
 
 app.factory('Location', function($resource){
-    return $resource("/locations/:id", {id: '@id'}, {update: { method:'PUT' }, create: { method:'POST' }});
+    return $resource("/admin/locations/:id", {id: '@id'}, {update: { method:'PUT' }, create: { method:'POST' }});
 });
 
 app.factory('User', function($resource){
