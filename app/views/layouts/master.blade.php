@@ -28,8 +28,8 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
-          <li ng-class="{active: location.path() == '/locations'}"><a href="#/locations">Locations</a></li>
-          <li ng-class="{active: location.path() == '/admin/manage'}"><a href="#/admin/manage">User Passwords</a></li>
+          <li ng-show="can('update', 'Location')" ng-class="{active: location.path() == '/locations'}"><a href="#/locations">Locations</a></li>
+          <li ng-show="can('update', 'Location')" ng-class="{active: location.path() == '/admin/manage'}"><a href="#/admin/manage">User Passwords</a></li>
         </ul>
         <div class="navbar-form navbar-right" ng-show="authenticated()" role="search">
           <button class="btn btn-primary" ng-click="logout()">Sign Out</button>

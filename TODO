@@ -1,0 +1,6 @@
+TODO
+
+1. response interceptor for authentication/setup
+2. use directive for manage locations page
+3. facade around session storage for accessing user information (similar to laravel)
+4. better authoriation framework
