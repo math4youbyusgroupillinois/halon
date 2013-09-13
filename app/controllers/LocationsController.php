@@ -3,13 +3,6 @@
 class LocationsController extends SecuredController {
   protected $permitted = 'admin';
 
-	public function __construct()
-  {
-    parent::__construct();
-    $this->beforeFilter('serviceAuth');
-    $this->beforeFilter('serviceCSRF');
-  }
-
 	/**
 	 * Display a listing of the resource.
 	 *
