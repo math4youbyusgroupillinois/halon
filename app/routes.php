@@ -23,4 +23,4 @@ Route::group(array('prefix' => 'service'), function() {
 
 Route::resource('admin/locations', 'Admin\LocationsController');
 
-Route::resource('users', 'UsersController');
+Route::resource('users', 'Admin\UsersController');

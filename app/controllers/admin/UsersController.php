@@ -1,6 +1,14 @@
 <?php
 
-class UsersController extends SecuredController {
+namespace Admin;
+
+use \User;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Response;
+
+class UsersController extends \SecuredController {
   protected $permitted = 'admin';
 	/**
 	 * Display a listing of the resource.
