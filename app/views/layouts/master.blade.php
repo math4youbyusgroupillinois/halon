@@ -53,8 +53,6 @@
     <script src="js/jquery-1.10.2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/app.js"></script>
-    <script src="js/service.js"></script>
-    <script src="js/controller.js"></script>
     <script>
       app.constant("CSRF_TOKEN", '[[csrf_token()]]');
     </script>
