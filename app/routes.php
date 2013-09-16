@@ -21,6 +21,6 @@ Route::group(array('prefix' => 'service'), function() {
   Route::resource('authenticate', 'AuthenticationController');
 });
 
-Route::resource('admin/locations', 'LocationsController');
+Route::resource('admin/locations', 'Admin\LocationsController');
 
 Route::resource('users', 'UsersController');

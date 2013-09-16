@@ -1,6 +1,13 @@
 <?php
 
-class LocationsController extends SecuredController {
+namespace Admin;
+
+use \Location;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Response;
+
+class LocationsController extends \SecuredController {
   protected $permitted = 'admin';
 
 	/**
