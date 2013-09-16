@@ -28,7 +28,7 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
-          <li ng-show="permit('admin')" ng-class="{active: location.path() == '/locations'}"><a href="#/locations">Locations</a></li>
+          <li ng-show="permit('admin')" ng-class="{active: location.path() == '/admin/locations'}"><a href="#/admin/locations">Locations</a></li>
           <li ng-show="permit('admin')" ng-class="{active: location.path() == '/admin/manage'}"><a href="#/admin/manage">User Passwords</a></li>
           <li ng-show="permit('printer')" ng-class="{active: location.path() == '/printLocations'}"><a href="#/printLocations">Print MARs</a></li>
         </ul>
