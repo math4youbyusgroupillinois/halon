@@ -1,21 +1,15 @@
-## Laravel PHP Framework
+## Halon
 
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/version.png)](https://packagist.org/packages/laravel/framework) [![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.png)](https://packagist.org/packages/laravel/framework) [![Build Status](https://travis-ci.org/laravel/framework.png)](https://travis-ci.org/laravel/framework)
+Halon is a tool to print out Medicine Administration Records for NMH Clinical IT
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, and caching.
+### Installation
 
-Laravel aims to make the development process a pleasing one for the developer without sacrificing application functionality. Happy developers make the best code. To this end, we've attempted to combine the very best of what we have seen in other web frameworks, including frameworks implemented in other languages, such as Ruby on Rails, ASP.NET MVC, and Sinatra.
+1. Add new site in IIS and point it to halon's public folder (no mapped drives unfortunately)
+2. Grant the IIS user (usualy Users) read/write permissions to the halon folder
+3. Grant the IIS user (usualy Users) modify permissions to the app/database folder
+4. Grant the IIS user (usually Users) read permissions to to the directory where the postscript files are located
+5. Run `composer install`
+6. Import the rewrite rules
+  1. Install the URL Rewrite moudle for IIS using the Web Platform Installer
+  2. Import the public/.htacess rule (http://stackoverflow.com/questions/15018538/laravel-htaccess-rewrite-rule-convertion-to-iis)
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
-
-## Official Documentation
-
-Documentation for the entire framework can be found on the [Laravel website](http://laravel.com/docs).
-
-### Contributing To Laravel
-
-**All issues and pull requests should be filed on the [laravel/framework](http://github.com/laravel/framework) repository.**
-
-### License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
