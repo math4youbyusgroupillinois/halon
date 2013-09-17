@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 
 class LocationsController extends \SecuredController {
-  protected $permitted = 'admin';
-
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -17,7 +15,11 @@ class LocationsController extends \SecuredController {
 	 */
 	public function index()
 	{
-    return Location::all()->toJson();
+    if ($this->permit('admin') || $this->permit('printer')) {
+      return Location::all()->toJson();
+    } else {
+      return $this->unauthorizedResponse();
+    }
 	}
 
 	/**
@@ -27,10 +29,14 @@ class LocationsController extends \SecuredController {
 	 */
 	public function store()
 	{
-    $attrs = Input::all();
-		$location = Location::create($attrs);
-    Log::info("The newly created location is: ", $location->toArray());
-    Response::json($location->toJson(), 201);
+    if ($this->permit('admin')) {
+      $attrs = Input::all();
+  		$location = Location::create($attrs);
+      Log::info("The newly created location is: ", $location->toArray());
+      Response::json($location->toJson(), 201);
+    } else {
+      return $this->unauthorizedResponse();
+    }
 	}
 
 	/**
@@ -41,12 +47,16 @@ class LocationsController extends \SecuredController {
 	 */
 	public function update($id)
 	{
-    $attrs = Input::all();
-		$location = Location::find($id);
-    if ($location->update($attrs)) 
-      Response::json($location->toJson(), 201);
-    else
-      return Response::json(array('message' => 'Location failed to be updated'), 400);
+    if ($this->permit('admin')) {
+      $attrs = Input::all();
+  		$location = Location::find($id);
+      if ($location->update($attrs)) 
+        Response::json($location->toJson(), 201);
+      else
+        return Response::json(array('message' => 'Location failed to be updated'), 400);
+    } else {
+      return $this->unauthorizedResponse();
+    }
 	}
 
 	/**
@@ -57,11 +67,14 @@ class LocationsController extends \SecuredController {
 	 */
 	public function destroy($id)
 	{
-    $location = Location::find($id);
-    if ($location->delete())
-      return Response::json(array('message' => 'Location was deleted'), 200);
-    else
-      return Response::json(array('message' => 'Location failed to be deleted'), 400);
+    if ($this->permit('admin')) {
+      $location = Location::find($id);
+      if ($location->delete())
+        return Response::json(array('message' => 'Location was deleted'), 200);
+      else
+        return Response::json(array('message' => 'Location failed to be deleted'), 400);
+    } else {
+      return $this->unauthorizedResponse();
+    }
 	}
-
 }

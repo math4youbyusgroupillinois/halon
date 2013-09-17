@@ -28,7 +28,7 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
         if (sessionStorage.userRole == 'admin') {
           $location.path('/admin/locations');  
         } else if (sessionStorage.userRole == 'printer') {
-          $location.path('/printLocations');  
+          $location.path('/locations');  
         }
         FlashService.add('success', 'Succesfully Logged In');
       },function(response){
@@ -38,11 +38,16 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
   };
 });
 
-app.controller('printLocationsController',function($scope, $rootScope, $location, Authenticate, Location, $log){
-
+app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJob, $log){
+  $rootScope.location = $location; // used for ActiveTab
+  $scope.locations = Location.query();
+  $scope.onPrint = function() {
+    PrintJob.create({ file_name: 'bar'})
+    $log.info("Print button clicked");
+  };
 });
 
-app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location, $log){
+app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, Location, $log){
   $rootScope.location = $location; // used for ActiveTab
   $scope.editRecord = {};
   Location.query({},function(data) {
