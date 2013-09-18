@@ -33,8 +33,14 @@ class PrintJobsController extends \SecuredController {
 		$attrs = Input::all();
     $jobs = PrintJob::bulkCreate($attrs['items']);
     if ($jobs) {
-      Log::info("The newly created print job is: ", $attrs);
-      return Response::json("{}", 201);
+      $transform = function($job) {
+        return $job->toArray();
+      };
+
+      $jobsToArray = array_map($transform, $jobs);
+
+      Log::info("The newly created print job are: ", $jobsToArray);
+      return Response::json(array('items' => $jobsToArray), 201);
     } else {
       return Response::json("{}", 400);
     }
