@@ -1,5 +1,11 @@
 <?php
 
+class TestPrinterDriver {
+  public function enque($a, $b) {
+    return true;
+  }
+}
+
 class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
 	/**
@@ -15,5 +21,13 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
 		return require __DIR__.'/../../bootstrap/start.php';
 	}
+
+  public function setUp() {
+    parent::setUp();
+
+    $this->app['printer.driver'] = $this->app->share(function($app) {
+      return new TestPrinterDriver();
+    });
+  }
 
 }

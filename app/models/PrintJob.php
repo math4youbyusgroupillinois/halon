@@ -16,7 +16,9 @@ class PrintJob extends Eloquent {
       $created = array();
 
       foreach ($bulkJobsAttrs as $attrs) {
-        array_push($created, PrintJob::create($attrs));
+        $pj = PrintJob::create($attrs);
+        Printer::enque($pj->printer_name, $pj->file_path);
+        array_push($created, $pj);
       }
       return $created;
     });

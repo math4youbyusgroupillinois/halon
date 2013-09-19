@@ -18,23 +18,14 @@ class PrintJobsControllerTest extends TestCase {
     $this->assertResponseStatus(201);
   }
 
-  public function testPostCreatesMultiplePrintJobs() {
-    PrintJob::truncate();
-
-    $this->sendSuccessfullRequest();
-
-    $actual = PrintJob::all();
-    $this->assertEquals(2, $actual->count());
-    $this->assertEquals('foo/bar.ps', $actual[0]->file_path);
-    $this->assertEquals('baz/qux.ps', $actual[1]->file_path);
-  }
-
-  public function testPostResponseWithJSON() {
+  public function testPostRespondsWithJSON() {
     PrintJob::truncate();
 
     $this->sendSuccessfullRequest();
     
     $jsonResponse = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertNotNull($jsonResponse['items'][0]['id']);
+    $this->assertNotNull($jsonResponse['items'][1]['id']);
     $this->assertEquals('foo/bar.ps', $jsonResponse['items'][0]['file_path']);
     $this->assertEquals('baz/qux.ps', $jsonResponse['items'][1]['file_path']);
   }
