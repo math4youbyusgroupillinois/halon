@@ -3,17 +3,8 @@
 class PrintJobTest extends TestCase {
 
   public function testBulkCreate() {
-    $mock = $this->getMock('TestPrinterDriver');
-
-    $mock->expects($this->at(0))
-        ->method('enque')
-        ->with($this->equalTo('uno'), $this->equalTo('foo/bar.ps'));
-
-    $mock->expects($this->at(1))
-        ->method('enque')
-        ->with($this->equalTo('dos'), $this->equalTo('baz/qux.ps'));
-
-    $this->app['printer.driver'] = $mock;
+    Printer::shouldReceive('enque')->once()->with('uno', 'foo/bar.ps');
+    Printer::shouldReceive('enque')->once()->with('dos', 'baz/qux.ps');
 
     PrintJob::truncate();
 
