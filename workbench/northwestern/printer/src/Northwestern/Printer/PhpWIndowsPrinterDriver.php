@@ -1,7 +1,7 @@
 <?php namespace Northwestern\Printer;
 
 class PhpWindowsPrinterDriver {
-  public function enque(printerName, filePath) {
+  public function enque($printerName, $filePath) {
     $handle = printer_open($printerName);
     printer_set_option($handle, PRINTER_MODE, "raw");
 

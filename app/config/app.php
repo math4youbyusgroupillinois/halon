@@ -185,10 +185,10 @@ return array(
   /*
   | Specify an absolute path to where the MAR files are stored.
   |
-  | (ex. 'mar_path' => 'C:\\inetpub\\\wwroot')
+  | (ex. 'mar_path' => 'C:\\inetpub\\wwwroot')
   |
   */
 
-  'mar_path' => '/Users/johndzak/Downloads',
+  'mar_path' => 'C:\\inetpub\\wwwroot',
 
 );
