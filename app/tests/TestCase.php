@@ -28,6 +28,12 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     $this->app['printer.driver'] = $this->app->share(function($app) {
       return new TestPrinterDriver();
     });
+
+    Config::set('app.mar_path', '/tmp/halon');
   }
 
+  public function tearDown() {
+    parent::tearDown();
+    \Mockery::close();
+  }
 }

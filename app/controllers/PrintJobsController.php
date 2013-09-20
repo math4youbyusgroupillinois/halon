@@ -33,6 +33,8 @@ class PrintJobsController extends \SecuredController {
 		$attrs = Input::all();
     $jobs = PrintJob::bulkCreate($attrs['items']);
     if ($jobs) {
+      PrintJob::bulkEnque($jobs);
+
       $transform = function($job) {
         return $job->toArray();
       };

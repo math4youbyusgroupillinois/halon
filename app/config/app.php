@@ -39,7 +39,7 @@ return array(
 	|
 	*/
 
-	'timezone' => 'UTC',
+	'timezone' => 'America/Chicago',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -181,5 +181,14 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 
 	),
+
+  /*
+  | Specify an absolute path to where the MAR files are stored.
+  |
+  | (ex. 'mar_path' => 'C:\\inetpub\\\wwroot')
+  |
+  */
+
+  'mar_path' => '/Users/johndzak/Downloads',
 
 );
