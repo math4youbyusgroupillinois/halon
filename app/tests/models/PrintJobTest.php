@@ -39,4 +39,16 @@ class PrintJobTest extends TestCase {
 
     PrintJob::bulkEnque($jobs);
   }
+
+  public function testSanity() {
+    $loc = Location::create(array());
+    $this->assertNotNull($loc->id);
+
+    $loc->printJob()->create(array('file_name' => 'foo', 'printer_name' => 'bar'));
+    $pj = $loc->printJob()->getResults();
+    $this->assertNotNull($loc->printJob()->getResults()->id);
+    $this->assertEquals('foo', $pj->file_name);
+    $this->assertEquals('bar', $pj->printer_name);
+    $this->assertEquals($loc->id, $pj->location_id);
+  }
 }

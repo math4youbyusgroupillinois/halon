@@ -11,4 +11,8 @@ class Location extends Eloquent {
 
   protected $fillable = array('description', 'phone_number', 'printer_name', 'mar_file_name');
 
+  public function printJob() {
+    return $this->hasOne('printJob');
+  }
+
 }
