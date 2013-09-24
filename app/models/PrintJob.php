@@ -9,7 +9,7 @@ class PrintJob extends Eloquent {
    */
   protected $table = 'print_jobs';
 
-  protected $fillable = array('file_name', 'printer_name');
+  protected $fillable = array('file_name', 'printer_name', 'location_id');
 
   protected $appends = array('is_enque_successful');
 

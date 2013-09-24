@@ -12,8 +12,8 @@ class PrintJobsControllerTest extends TestCase {
   public function sendSuccessfullRequest() {
     $this->action('POST', 'PrintJobsController@store', 
       array('items' => array(
-        array('file_name' => 'foo/bar.ps'), 
-        array('file_name' => 'baz/qux.ps'))));
+        array('file_name' => 'foo/bar.ps', 'location_id' => 2), 
+        array('file_name' => 'baz/qux.ps', 'location_id' => 4))));
 
     $this->assertResponseStatus(201);
   }
@@ -28,6 +28,8 @@ class PrintJobsControllerTest extends TestCase {
     $item1 = $jsonResponse['items'][1];
     $this->assertNotNull($item0['id']);
     $this->assertNotNull($item1['id']);
+    $this->assertEquals(2, $item0['location_id']);
+    $this->assertEquals(4, $item1['location_id']);
     $this->assertNotNull($item0['is_enque_successful']);
     $this->assertNotNull($item1['is_enque_successful']);
     $this->assertNotNull($item0['enque_timestamp']);

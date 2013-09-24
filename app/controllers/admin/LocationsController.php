@@ -16,7 +16,7 @@ class LocationsController extends \SecuredController {
 	public function index()
 	{
     if ($this->permit('admin') || $this->permit('printer')) {
-      return Location::all()->toJson();
+      return Location::with('printJob')->get()->toJson();
     } else {
       return $this->unauthorizedResponse();
     }
