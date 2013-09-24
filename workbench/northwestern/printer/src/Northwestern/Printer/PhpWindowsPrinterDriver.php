@@ -20,7 +20,7 @@ class File {
   }
 }
 
-class PhpWindowsPrinterDriver {
+class PhpWindowsPrinterDriver implements PrinterDriverInterface{
   /**
    * Enque a print job in the print queue.
    *

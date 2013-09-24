@@ -10,7 +10,7 @@ app.factory('User', function($resource){
     return $resource('/users/:userId', {userId:'@id'}, {update: { method: 'PUT' }});
 });
 
-app.factory('PrintJob', function($resource){
+app.factory('PrintJobCollection', function($resource){
   return $resource("/print_jobs", {}, {create: { method:'POST' }});
 });
 

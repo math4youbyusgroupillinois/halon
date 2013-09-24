@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class AddStatusAndStateTimeToPrintJob extends Migration {
+class AddLocationIdToPrintJob extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,8 +12,7 @@ class AddStatusAndStateTimeToPrintJob extends Migration {
 	public function up()
 	{
 		Schema::table('print_jobs', function($table) {
-      $table->string('enque_failure_message');
-      $table->date('enque_timestamp');
+      $table->integer('location_id');
     });
 	}
 
@@ -24,9 +23,8 @@ class AddStatusAndStateTimeToPrintJob extends Migration {
 	 */
 	public function down()
 	{
-    Schema::table('print_jobs', function($table) {
-      $table->dropColumn('enque_failure_message');
-      $table->dropColumn('enque_timestamp');
+		Schema::table('print_jobs', function($table) {
+      $table->dropColumn('location_id');
     });
 	}
 

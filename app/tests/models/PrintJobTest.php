@@ -28,8 +28,8 @@ class PrintJobTest extends TestCase {
   }
 
   public function testBulkEnque() {
-    Printer::shouldReceive('enque')->once()->with('uno', '/tmp/halon/bar.ps');
-    Printer::shouldReceive('enque')->once()->with('dos', '/tmp/halon/qux.ps');
+    Printer::shouldReceive('enque')->once()->with('uno', '/tmp/halon/bar.ps')->andReturn(true);
+    Printer::shouldReceive('enque')->once()->with('dos', '/tmp/halon/qux.ps')->andReturn(true);
 
     PrintJob::truncate();
 
@@ -38,6 +38,36 @@ class PrintJobTest extends TestCase {
       new PrintJob(array('printer_name' => 'dos', 'file_name' => 'qux.ps')));
 
     PrintJob::bulkEnque($jobs);
+  }
+
+  public function testBulkEnqueHasFailureMessageWhenPrinterExceptionThrown() {
+    Printer::shouldReceive('enque')->once()->with('bad-printer', '/tmp/halon/bar.ps')->andThrow('Northwestern\Printer\PrinterException', 'Massive Failure');
+
+    PrintJob::truncate();
+
+    $jobs = array(
+      new PrintJob(array('printer_name' => 'bad-printer', 'file_name' => 'bar.ps')));
+
+    $actual = PrintJob::bulkEnque($jobs);
+    $this->assertEquals('bad-printer', $actual[0]->printer_name);
+    $this->assertEquals('bar.ps',      $actual[0]->file_name);
+    $this->assertEquals('Massive Failure', $actual[0]->enque_failure_message);
+    $this->assertNotNull($actual[0]->enque_timestamp);
+  }
+
+  public function testBulkEnqueHasFailureMessageWhenPrinterReturnsFalse() {
+    Printer::shouldReceive('enque')->once()->with('uno', '/tmp/halon/bad-file')->andReturn(false);
+
+    PrintJob::truncate();
+
+    $jobs = array(
+      new PrintJob(array('printer_name' => 'uno', 'file_name' => 'bad-file')));
+
+    $actual = PrintJob::bulkEnque($jobs);
+    $this->assertEquals('uno', $actual[0]->printer_name);
+    $this->assertEquals('bad-file',      $actual[0]->file_name);
+    $this->assertEquals("Failed to print 'bad-file' to the printer 'uno'", $actual[0]->enque_failure_message);
+    $this->assertNotNull($actual[0]->enque_timestamp);
   }
 
   public function testSanity() {

@@ -16,10 +16,10 @@
   <th>Printer Name</th>
   <th>MAR File Name</th>
   <tr ng-repeat="location in locations">
-    <td><input type="checkbox"/></td>
-    <td>{{ location.description }}</td>
-    <td>{{ location.phone_number }}</td>
-    <td>{{ location.printer_name }}</td>
-    <td>{{ location.mar_file_name }}</td>
+    <td><input type="checkbox" ng-model="location.print"/></td>
+    <td>{{ location.record.description }}</td>
+    <td>{{ location.record.phone_number }}</td>
+    <td>{{ location.record.printer_name }}</td>
+    <td>{{ location.record.mar_file_name }}</td>
   </tr>
 </table>

@@ -28,8 +28,8 @@ class PrintJobsControllerTest extends TestCase {
     $item1 = $jsonResponse['items'][1];
     $this->assertNotNull($item0['id']);
     $this->assertNotNull($item1['id']);
-    $this->assertNotNull($item0['enque_status']);
-    $this->assertNotNull($item1['enque_status']);
+    $this->assertNotNull($item0['is_enque_successful']);
+    $this->assertNotNull($item1['is_enque_successful']);
     $this->assertNotNull($item0['enque_timestamp']);
     $this->assertNotNull($item1['enque_timestamp']);
     $this->assertEquals('foo/bar.ps', $item0['file_name']);

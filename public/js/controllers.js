@@ -38,12 +38,44 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
   };
 });
 
-app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJob, $log){
+app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJobCollection, FlashService, $log){
   $rootScope.location = $location; // used for ActiveTab
-  $scope.locations = Location.query();
+  Location.query({},function(data) {
+    locations = []
+    $scope.data = data;
+    for (i in data) {
+      container = {
+        print: false,
+        record: data[i]
+      }
+      locations.push(container)
+    }
+    $scope.locations = locations;
+  });
   $scope.onPrint = function() {
-    PrintJob.create({'items': [{ printer_name: 'NPI6C6DB9 (HP LaserJet 500 colorMFP M570dn)', file_name: 'bell_206.ps'}]});
-    $log.info("Print button clicked");
+    // PrintJobCollection.create({'items': [{ printer_name: 'NPI6C6DB9 (HP LaserJet 500 colorMFP M570dn)', file_name: 'bell_206.ps'}]});
+
+    toPrint = [];
+    for (i in $scope.locations) {
+      loc = $scope.locations[i];
+      if (loc.print) {
+        toPrint.push({
+          'printer_name': loc.record.printer_name,
+          'file_name': loc.record.mar_file_name,
+          'location_id': loc.record.id
+        });
+      }
+    }
+    if (toPrint.length > 0) {
+      PrintJobCollection.create({'items': toPrint}, function() {
+        jQuery.each($scope.location, function(i, location) {
+          location.print = false;
+        });
+        FlashService.add('info', 'Successfully sent MAR files to printers');
+      }, function() {
+        FlashService.add('info', 'Failed to send MAR files to printers');
+      });
+    }
   };
 });
 
