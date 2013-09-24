@@ -1,6 +1,6 @@
 <?php
 
-class TestPrinterDriver {
+class TestPrinterDriver implements Northwestern\Printer\PrinterDriverInterface {
   public function enque($a, $b) {
     return true;
   }
