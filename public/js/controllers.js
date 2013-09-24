@@ -53,8 +53,6 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
     $scope.locations = locations;
   });
   $scope.onPrint = function() {
-    // PrintJobCollection.create({'items': [{ printer_name: 'NPI6C6DB9 (HP LaserJet 500 colorMFP M570dn)', file_name: 'bell_206.ps'}]});
-
     toPrint = [];
     for (i in $scope.locations) {
       loc = $scope.locations[i];
@@ -76,6 +74,18 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
         FlashService.add('info', 'Failed to send MAR files to printers');
       });
     }
+  };
+
+  $scope.onSelectAll = function() {
+    jQuery.each($scope.locations, function(i, location) {
+      location.print = true;
+    });
+  };
+
+  $scope.onSelectNone = function() {
+    jQuery.each($scope.locations, function(i, location) {
+      location.print = false;
+    });
   };
 });
 
