@@ -74,9 +74,9 @@ class PrintJobTest extends TestCase {
     $loc = Location::create(array());
     $this->assertNotNull($loc->id);
 
-    $loc->printJob()->create(array('file_name' => 'foo', 'printer_name' => 'bar'));
-    $pj = $loc->printJob()->getResults();
-    $this->assertNotNull($loc->printJob()->getResults()->id);
+    $result = $loc->printJobs()->create(array('file_name' => 'foo', 'printer_name' => 'bar'));
+    $pj = $loc->lastPrintJob();
+    $this->assertNotNull($loc->id);
     $this->assertEquals('foo', $pj->file_name);
     $this->assertEquals('bar', $pj->printer_name);
     $this->assertEquals($loc->id, $pj->location_id);

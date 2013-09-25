@@ -24,9 +24,9 @@
     <td>{{ location.record.printer_name }}</td>
     <td>{{ location.record.mar_file_name }}</td>
     <td>
-      <span ng-show="location.record.print_job.is_enque_successful">Sucessful</span>
-      <span ng-show="location.record.print_job && !location.record.print_job.is_enque_successful">Failed</span>
+      <span ng-show="location.record.last_print_job.is_enque_successful">Sucessful</span>
+      <span ng-show="location.record.last_print_job && !location.record.last_print_job.is_enque_successful">Failed</span>
     </td>
-    <td>{{ location.record.print_job.enque_timestamp }}</td>
+    <td>{{ location.record.last_print_job.enque_timestamp }}</td>
   </tr>
 </table>

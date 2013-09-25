@@ -66,21 +66,18 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
     }
     if (toPrint.length > 0) {
       PrintJobCollection.create({'items': toPrint}, function(data) {
-        jQuery.each($scope.location, function(i, location) {
-          Location.query({},function(data) {
-            locations = []
-            $scope.data = data;
-            for (i in data) {
-              container = {
-                print: false,
-                record: data[i]
-              }
-              locations.push(container)
+        Location.query({},function(data) {
+          locations = []
+          $scope.data = data;
+          for (i in data) {
+            container = {
+              print: false,
+              record: data[i]
             }
-            $scope.locations = locations;
-          });
+            locations.push(container)
+          }
+          $scope.locations = locations;
         });
-        $log.info(data);
         FlashService.add('info', 'Successfully sent MAR files to printers');
       }, function() {
         FlashService.add('info', 'Failed to send MAR files to printers');
