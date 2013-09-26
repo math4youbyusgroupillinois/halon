@@ -28,7 +28,7 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
         if (sessionStorage.userRole == 'admin') {
           $location.path('/admin/locations');  
         } else if (sessionStorage.userRole == 'printer') {
-          $location.path('/printLocations');  
+          $location.path('/locations');  
         }
         FlashService.add('success', 'Succesfully Logged In');
       },function(response){
@@ -38,11 +38,67 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
   };
 });
 
-app.controller('printLocationsController',function($scope, $rootScope, $location, Authenticate, Location, $log){
+app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJobCollection, FlashService, $log){
+  $rootScope.location = $location; // used for ActiveTab
+  Location.query({},function(data) {
+    locations = []
+    $scope.data = data;
+    for (i in data) {
+      container = {
+        print: false,
+        record: data[i]
+      }
+      locations.push(container)
+    }
+    $scope.locations = locations;
+  });
+  $scope.onPrint = function() {
+    toPrint = [];
+    for (i in $scope.locations) {
+      loc = $scope.locations[i];
+      if (loc.print) {
+        toPrint.push({
+          'printer_name': loc.record.printer_name,
+          'file_name': loc.record.mar_file_name,
+          'location_id': loc.record.id
+        });
+      }
+    }
+    if (toPrint.length > 0) {
+      PrintJobCollection.create({'items': toPrint}, function(data) {
+        Location.query({},function(data) {
+          locations = []
+          $scope.data = data;
+          for (i in data) {
+            container = {
+              print: false,
+              record: data[i]
+            }
+            locations.push(container)
+          }
+          $scope.locations = locations;
+        });
+        FlashService.add('info', 'Successfully sent MAR files to printers');
+      }, function() {
+        FlashService.add('info', 'Failed to send MAR files to printers');
+      });
+    }
+  };
 
+  $scope.onSelectAll = function() {
+    jQuery.each($scope.locations, function(i, location) {
+      location.print = true;
+    });
+  };
+
+  $scope.onSelectNone = function() {
+    jQuery.each($scope.locations, function(i, location) {
+      location.print = false;
+    });
+  };
 });
 
-app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location, $log){
+app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, Location, $log){
   $rootScope.location = $location; // used for ActiveTab
   $scope.editRecord = {};
   Location.query({},function(data) {

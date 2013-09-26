@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'name' => '',
+	'name' => 'John Dzak',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -26,6 +26,6 @@ return array(
 	|
 	*/
 
-	'email' => '',
+	'email' => 'j-dzak@northwestern.edu',
 
 );

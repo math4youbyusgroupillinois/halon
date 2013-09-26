@@ -39,7 +39,7 @@ return array(
 	|
 	*/
 
-	'timezone' => 'UTC',
+	'timezone' => 'America/Chicago',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -113,6 +113,7 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
+    'Northwestern\Printer\PrinterServiceProvider',
 
 	),
 
@@ -180,5 +181,14 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 
 	),
+
+  /*
+  | Specify an absolute path to where the MAR files are stored.
+  |
+  | (ex. 'mar_path' => 'C:\\inetpub\\wwwroot')
+  |
+  */
+
+  'mar_path' => 'C:\\inetpub\\wwwroot',
 
 );

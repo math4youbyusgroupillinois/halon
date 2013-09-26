@@ -1,0 +1,23 @@
+{
+    "name": "northwestern/printer",
+    "description": "",
+    "authors": [
+        {
+            "name": "John Dzak",
+            "email": "j-dzak@northwestern.edu"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.0.x"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Northwestern\\Printer": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}

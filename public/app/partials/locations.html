@@ -1,53 +1,32 @@
 <h1>Locations Page</h1>
-<input type="text" placeholder="Printer Location" ng-model="newLocation.description"/>
-<input type="text" placeholder="Contact Number" ng-model="newLocation.phoneNumber"/>
-<input type="text" placeholder="Printer Name" ng-model="newLocation.printerName"/>
-<input type="text" placeholder="MAR File Name" ng-model="newLocation.marFileName"/>
-<button ng-click="addLocation()">Add printer location</button>
-<br/>
-<table class="table table-striped">
+<span class="dropdown">
+  <button id="dLabel" class="btn-lg" data-toggle="dropdown" data-target="#">
+    <span class="glyphicon glyphicon-check"></span> <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+    <li role="presentation"><a role="menuitem" tabindex="-1" data-target="#" ng-click="onSelectAll()">All</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1"  data-target="#" ng-click="onSelectNone()">None</a></li>
+  </ul>
+</span>
+<button class="btn-lg" ng-click="onPrint()"><span class="glyphicon glyphicon-print"></span> Print</button>
+<table class="table table-striped" style="margin-top:5px">
+  <th></th>
   <th>Printer Location</th>
   <th>Contact Number</th>
   <th>Printer Name</th>
   <th>MAR File Name</th>
-  <th></th>
-  <!-- <th></th> -->
+  <th>Last Print Status</th>
+  <th>Last Print Time</th>
   <tr ng-repeat="location in locations">
-    <td ng-switch on="location.editMode">
-      <span ng-switch-when="false">{{ location.record.description }}</span>
-      <div ng-switch-when="true">
-        <input ng-model="editRecord.description"/>
-      </div>
+    <td><input type="checkbox" ng-model="location.print"/></td>
+    <td>{{ location.record.description }}</td>
+    <td>{{ location.record.phone_number }}</td>
+    <td>{{ location.record.printer_name }}</td>
+    <td>{{ location.record.mar_file_name }}</td>
+    <td>
+      <span ng-show="location.record.last_print_job.is_enque_successful">Sucessful</span>
+      <span ng-show="location.record.last_print_job && !location.record.last_print_job.is_enque_successful">Failed</span>
     </td>
-    <td ng-switch on="location.editMode">
-      <span ng-switch-when="false">{{ location.record.phone_number }}</span>
-      <div ng-switch-when="true">
-        <input ng-model="editRecord.phoneNumber"/>
-      </div>
-    </td>
-    <td ng-switch on="location.editMode">
-      <span ng-switch-when="false">{{ location.record.printer_name }}</span>
-      <div ng-switch-when="true">
-        <input ng-model="editRecord.printerName"/>
-      </div>
-    </td>
-    <td ng-switch on="location.editMode">
-      <span ng-switch-when="false">{{ location.record.mar_file_name }}</span>
-      <div ng-switch-when="true">
-        <input ng-model="editRecord.marFileName"/>
-      </div>
-    </td>
-    <td ng-switch on="location.editMode">
-      <div ng-switch-when="false">
-        <a href="" ng-click="editLocation(location)">Edit</a>
-        &nbsp;&nbsp;
-        <a href="" ng-click="deleteLocation($index)">Remove</a>
-      </div>
-      <div ng-switch-when="true">
-        <a href="" ng-click="onSave(location)">Save</a></span>
-        &nbsp;&nbsp;
-        <a href="" ng-click="onCancel(location)">Cancel</a></span>
-      </div>
-    </td>
+    <td>{{ location.record.last_print_job.enque_timestamp }}</td>
   </tr>
 </table>

@@ -10,6 +10,10 @@ app.factory('User', function($resource){
     return $resource('/users/:userId', {userId:'@id'}, {update: { method: 'PUT' }});
 });
 
+app.factory('PrintJobCollection', function($resource){
+  return $resource("/print_jobs", {}, {create: { method:'POST' }});
+});
+
 app.factory('FlashService', ['$rootScope', function($rootScope) {
   $rootScope.alerts = [];
   var alertService = {

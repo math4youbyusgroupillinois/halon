@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableInterface;
-
 class Location extends Eloquent {
 
   /**
@@ -13,5 +10,13 @@ class Location extends Eloquent {
   protected $table = 'locations';
 
   protected $fillable = array('description', 'phone_number', 'printer_name', 'mar_file_name');
+
+  public function printJobs() {
+    return $this->hasMany('printJob');
+  }
+
+  public function lastPrintJob() {
+    return $this->printJobs()->orderBy('enque_timestamp')->first();
+  }
 
 }
