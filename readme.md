@@ -12,8 +12,8 @@ Halon is a tool to print out Medicine Administration Records for NMH Clinical IT
 6. Import the rewrite rules
   1. Install the URL Rewrite moudle for IIS using the Web Platform Installer
   2. Import the public/.htacess rule (http://stackoverflow.com/questions/15018538/laravel-htaccess-rewrite-rule-convertion-to-iis)
-7. Download the PHP window printer extension
+7. Install the PHP window printer extension
   1. The printer extension you download depends on php version (ex. 5.3), thread safety (ts/nts), and architecture (x86)
   2. Download the printer extension from http://windows.php.net/downloads/pecl/snaps/printer/0.1.0-dev/
   3. Extract php_printer.dll into <PHP_ROOT>/ext 
-
+8. 
