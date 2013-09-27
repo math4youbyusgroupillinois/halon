@@ -1,17 +1,17 @@
 app.factory('Authenticate', function($resource){
-    return $resource("/service/authenticate");
+    return $resource("index.php/service/authenticate");
 });
 
 app.factory('Location', function($resource){
-    return $resource("/admin/locations/:id", {id: '@id'}, {update: { method:'PUT' }, create: { method:'POST' }});
+    return $resource("index.php/admin/locations/:id", {id: '@id'}, {update: { method:'PUT' }, create: { method:'POST' }});
 });
 
 app.factory('User', function($resource){
-    return $resource('/users/:userId', {userId:'@id'}, {update: { method: 'PUT' }});
+    return $resource('index.php/users/:userId', {userId:'@id'}, {update: { method: 'PUT' }});
 });
 
 app.factory('PrintJobCollection', function($resource){
-  return $resource("/print_jobs", {}, {create: { method:'POST' }});
+  return $resource("index.php/print_jobs", {}, {create: { method:'POST' }});
 });
 
 app.factory('FlashService', ['$rootScope', function($rootScope) {
