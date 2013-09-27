@@ -25,7 +25,7 @@ Route::resource('admin/locations', 'Admin\LocationsController');
 
 Route::resource('users', 'Admin\UsersController');
 
-Route::resource('locations', 'LocationsController',
+Route::resource('locations', 'Admin\LocationsController',
     array('only' => array('index')));
 
 Route::resource('print_jobs', 'PrintJobsController');
