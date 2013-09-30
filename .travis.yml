@@ -9,3 +9,8 @@ before_script:
   - rm -f app/database/production.sqlite
   - touch app/database/production.sqlite
   - php artisan migrate
+
+notifications:
+  email:
+    - j-dzak@northwestern.edu
+    - jalpa-patel@northwestern.edu
