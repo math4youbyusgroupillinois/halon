@@ -6,3 +6,4 @@ php:
 before_script:
   - composer install -d workbench/northwestern/printer
   - composer --prefer-source --dev install
+  - touch app/database/production.sqlite
