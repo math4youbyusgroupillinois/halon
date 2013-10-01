@@ -185,3 +185,29 @@ app.controller('userController',function($scope, $rootScope, $sanitize, $locatio
   })
  }
 });
+
+app.controller('dashboardController', function($scope, $location, $log, $window, $sanitize, Authenticate){
+  $scope.onPrintAll = function() {
+    var ans = $window.confirm("Are you sure you want to print all the MARs?");
+    $log.info(ans);
+
+    if (ans) {
+      var isAuthenticated = sessionStorage.authenticated;
+      if (!isAuthenticated) {
+        var pass = $window.prompt("What is your password?");
+        Authenticate.save({
+          'role': 'printer',
+          'password': $sanitize(pass)
+          },function(data) {
+            sessionStorage.authenticated = true;
+            sessionStorage.userRole = data['user']['role'];
+            $log.info("Successfully logged in as printer");
+          },function(response){
+            FlashService.add('danger', response.data.flash);
+          }
+        );
+      }
+    }
+
+  }
+});

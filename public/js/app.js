@@ -6,6 +6,7 @@ app.config(['$routeProvider',function($routeProvider){
   $routeProvider.when('/locations',{templateUrl:'app/partials/locations.html', controller: 'locationController'});
   $routeProvider.when('/admin/locations',{templateUrl:'app/partials/admin/locations.html', controller: 'locationAdminController'});
   $routeProvider.when('/admin/manage',{templateUrl:'app/partials/admin/users.html', controller: 'userController'});
+  $routeProvider.when('/dashboard',{templateUrl:'app/partials/dashboard.html', controller: 'dashboardController'});
   $routeProvider.otherwise({redirectTo:'/'});
 }]);
 

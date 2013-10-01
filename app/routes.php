@@ -29,3 +29,7 @@ Route::resource('locations', 'Admin\LocationsController',
     array('only' => array('index')));
 
 Route::resource('print_jobs', 'PrintJobsController');
+
+Route::get('/dashboard', function() {
+  return View::make('dashboard');
+});
