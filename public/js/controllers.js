@@ -196,7 +196,6 @@ app.controller('userController',function($scope, $rootScope, $sanitize, $locatio
 
 app.controller('dashboardController', function($scope, $location, $log, $window, $sanitize, Authenticate, FlashService, Location, PrintJobCollection){
   $scope.onPrintAll = function() {
-
     var ans = $window.confirm("Are you sure you want to print all the MARs?");
     if (ans) {
       var isAuthenticated = sessionStorage.authenticated;
@@ -234,19 +233,19 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
 
       if (!isAuthenticated) {
         var pass = $window.prompt("What is your password?");
-
-        Authenticate.login({
-          'role': 'printer',
-          'password': pass
-          }, 
-          printAll,
-          function(response){
-            var msg = response.data.flash;
-            if (!msg) {
-              msg = "Failed to login"
-            }
-            FlashService.add('danger', msg);
+        var failure =function(response) {
+          var msg = response.data.flash;
+          if (!msg) {
+            msg = "Failed to login"
           }
+          FlashService.add('danger', msg);
+        }
+
+        Authenticate.login(
+          {'role': 'printer', 'password': pass}, 
+          printAll, failure
+        );
+          
         );
       } else {
         printAll();
