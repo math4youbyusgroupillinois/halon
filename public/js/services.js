@@ -1,5 +1,5 @@
 app.factory('Authenticate', function($resource){
-    return $resource("index.php/service/authenticate");
+  return $resource("index.php/service/authenticate");
 });
 
 app.factory('Location', function($resource){

@@ -186,11 +186,9 @@ app.controller('userController',function($scope, $rootScope, $sanitize, $locatio
  }
 });
 
-app.controller('dashboardController', function($scope, $location, $log, $window, $sanitize, Authenticate){
+app.controller('dashboardController', function($scope, $location, $log, $window, $sanitize, Authenticate, FlashService, Location, PrintJobCollection){
   $scope.onPrintAll = function() {
     var ans = $window.confirm("Are you sure you want to print all the MARs?");
-    $log.info(ans);
-
     if (ans) {
       var isAuthenticated = sessionStorage.authenticated;
       if (!isAuthenticated) {
@@ -202,12 +200,42 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
             sessionStorage.authenticated = true;
             sessionStorage.userRole = data['user']['role'];
             $log.info("Successfully logged in as printer");
+
+            Location.query({},function(locations) {
+              $log.info(locations);
+
+              toPrint = [];
+              for (i in locations) {
+                $log.info(i);
+                loc = locations[i];
+                toPrint.push({
+                  'printer_name': loc.printer_name,
+                  'file_name': loc.mar_file_name,
+                  'location_id': loc.id
+                });
+              }
+
+              $log.info(toPrint);
+              if (toPrint.length > 0) {
+                PrintJobCollection.create({'items': toPrint}, function(data) {
+                  FlashService.add('info', 'Successfully sent MAR files to printers');
+                }, function() {
+                  FlashService.add('info', 'Failed to send MAR files to printers');
+                });
+              }
+              
+            }, function() {
+              FlashService.add('danger', "Failed to print all MARs");
+            });
           },function(response){
-            FlashService.add('danger', response.data.flash);
+            var msg = response.data.flash;
+            if (!msg) {
+              msg = "Failed to login"
+            }
+            FlashService.add('danger', msg);
           }
         );
       }
     }
-
   }
 });
