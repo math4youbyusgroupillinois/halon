@@ -244,12 +244,14 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
         Authenticate.login(
           {'role': 'printer', 'password': pass}, 
           printAll, failure
-        );
-          
-        );
+        );          
       } else {
         printAll();
       }
     }
   }
+
+  $scope.onPrintByLocation = function() {
+    $location.path('/locations');
+  };
 });
