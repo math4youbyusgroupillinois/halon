@@ -16,7 +16,7 @@ class Location extends Eloquent {
   }
 
   public function lastPrintJob() {
-    return $this->printJobs()->orderBy('enque_timestamp')->first();
+    return $this->printJobs()->orderBy('enque_timestamp','desc')->first();
   }
 
 }
