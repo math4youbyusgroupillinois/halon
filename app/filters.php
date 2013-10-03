@@ -37,9 +37,9 @@ App::after(function($request, $response)
 // 	if (Auth::guest()) return Redirect::guest('login');
 // });
 
-Route::filter('authentication', function(){
-  if(Auth::guest()) return Response::json(array('flash' => 'You Must Login to Continue'), 401);
-});
+// Route::filter('authentication', function(){
+  // if(Auth::guest()) return Response::json(array('flash' => 'You Must Login to Continue'), 401);
+// });
 
 
 /*
@@ -53,10 +53,10 @@ Route::filter('authentication', function(){
 |
 */
 
-Route::filter('guest', function()
-{
-	if (Auth::check()) return Redirect::to('/');
-});
+// Route::filter('guest', function()
+// {
+// 	if (Auth::check()) return Redirect::to('/');
+// });
 
 /*
 |--------------------------------------------------------------------------

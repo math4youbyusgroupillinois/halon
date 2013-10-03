@@ -1,44 +1,56 @@
 app.controller('navController', function($scope, $location, Authenticate, FlashService, $log){
   $scope.permit = function(role) {
-    return role == sessionStorage.userRole;
+    return Authenticate.permit(role);
   }
   $scope.authenticated = function() {
-    return sessionStorage.authenticated;
+    return Authenticate.isAuthenticated();
   }
-  $scope.logout = function(){
-    Authenticate.get({}, function() {
-      delete sessionStorage.authenticated;
-      delete sessionStorage.userRole;
+  $scope.logout = function() {
+    var success = function() {
       $location.path('/');
-      FlashService.add('success', 'Successfully Signed Out')
-    })
+      FlashService.add('success', 'Successfully Signed Out');
+    }
+    var failure = function () {
+      FlashService.add('danger', 'Failed to Sign Out');
+    }
+    Authenticate.logout(success, failure);
   }
 });
 
 
 app.controller('loginController',function($scope, $rootScope, $sanitize, $location, Authenticate, FlashService, $log){
   $rootScope.location = $location; // used for ActiveTab
-  $scope.login = function(){
-    Authenticate.save({
-      'role': $sanitize($scope.role),
-      'password': $sanitize($scope.password)
-      },function(data) {
-        sessionStorage.authenticated = true;
-        sessionStorage.userRole = data['user']['role'];
-        if (sessionStorage.userRole == 'admin') {
-          $location.path('/admin/locations');  
-        } else if (sessionStorage.userRole == 'printer') {
-          $location.path('/locations');  
-        }
-        FlashService.add('success', 'Succesfully Logged In');
-      },function(response){
-        FlashService.add('danger', response.data.flash);
+  $scope.login = function() {
+    var success = function() {
+      if (sessionStorage.userRole == 'admin') {
+        $location.path('/admin/locations');  
+      } else if (sessionStorage.userRole == 'printer') {
+        $location.path('/locations');  
       }
+      FlashService.add('success', 'Succesfully Logged In');
+    };
+
+    var failure = function(response) {
+     var msg = response.data.flash;
+      if (!msg) {
+        msg = "Failed to login"
+      }
+      FlashService.add('danger', msg);
+    };
+
+    Authenticate.login({
+      'role': $sanitize($scope.role),
+      'password': $sanitize($scope.password)},
+      success, failure
     );
   };
 });
 
 app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJobCollection, FlashService, $log){
+  if (!Authenticate.isAuthenticated()) {
+    $location.path('/login');
+    return;
+  }
   $rootScope.location = $location; // used for ActiveTab
   Location.query({},function(data) {
     locations = []
@@ -99,6 +111,11 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
 });
 
 app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, Location, $log){
+  if (!Authenticate.isAuthenticated()) {
+    $location.path('/login');
+    return;
+  }
+
   $rootScope.location = $location; // used for ActiveTab
   $scope.editRecord = {};
   Location.query({},function(data) {
@@ -176,6 +193,11 @@ app.controller('userController',function($scope, $rootScope, $sanitize, $locatio
   $scope.users = User.query();
 
  $scope.regenerate = function() {
+  if (!Authenticate.isAuthenticated()) {
+    $location.path('/login');
+    return;
+  }
+
   var random_pass = PasswordService.generate(12);
   var usr = $scope.users[this.$index];
   usr.password = $sanitize(random_pass);
@@ -184,4 +206,96 @@ app.controller('userController',function($scope, $rootScope, $sanitize, $locatio
     FlashService.add('info', pass_msg);
   })
  }
+});
+
+app.controller('dashboardController', function($scope, $location, $log, $window, $sanitize, Authenticate, FlashService, Location, PrintJobCollection){
+  $scope.onPrintAll = function() {
+    var ans = $window.confirm("Are you sure you want to print all the MARs?");
+    if (ans) {
+      var printAll = function(data) {
+        $log.info("Successfully logged in as printer");
+
+        Location.query({},function(locations) {
+          $log.info(locations);
+
+          toPrint = [];
+          for (i in locations) {
+            $log.info(i);
+            loc = locations[i];
+            toPrint.push({
+              'printer_name': loc.printer_name,
+              'file_name': loc.mar_file_name,
+              'location_id': loc.id
+            });
+          }
+
+          $log.info(toPrint);
+          if (toPrint.length > 0) {
+            PrintJobCollection.create({'items': toPrint}, function(data) {
+              FlashService.add('info', 'Successfully sent MAR files to printers');
+              $location.path('/public/locations');
+            }, function() {
+              FlashService.add('info', 'Failed to send MAR files to printers');
+            });
+          }
+          
+        }, function() {
+          FlashService.add('danger', "Failed to print all MARs");
+        });
+      };
+
+      if (!Authenticate.isAuthenticated()) {
+        var pass = $window.prompt("What is your password?");
+        if (pass) {
+          var failure =function(response) {
+            var msg = response.data.flash;
+            if (!msg) {
+              msg = "Failed to login"
+            }
+            FlashService.add('danger', msg);
+          }
+
+          Authenticate.login(
+            {'role': 'printer', 'password': pass}, 
+            printAll, failure
+          );
+        }
+      } else {
+        printAll();
+      }
+    }
+  }
+
+  $scope.onPrintByLocation = function() {
+    var success = function() {
+      $location.path('/locations');
+    };
+
+    if (!Authenticate.isAuthenticated()) {
+      var pass = $window.prompt("What is your password?");
+      var failure =function(response) {
+        var msg = response.data.flash;
+        if (!msg) {
+          msg = "Failed to login"
+        }
+        FlashService.add('danger', msg);
+      }
+
+      if (pass) {
+        Authenticate.login(
+          {'role': 'printer', 'password': pass}, 
+          success, failure
+        );
+      }
+    }
+  };
+
+  $scope.onCheckStatus = function() {
+    $location.path('/public/locations')
+  };
+});
+
+app.controller('publicLocationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJobCollection, FlashService, $log){
+  $rootScope.location = $location; // used for ActiveTab
+  $scope.locations = Location.query();
 });

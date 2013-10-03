@@ -1,0 +1,20 @@
+<h1>Location Print Statuses</h1>
+<table class="table table-striped" style="margin-top:5px">
+  <th>Printer Location</th>
+  <th>Contact Number</th>
+  <th>Printer Name</th>
+  <th>MAR File Name</th>
+  <th>Last Print Status</th>
+  <th>Last Print Time</th>
+  <tr ng-repeat="location in locations">
+    <td>{{ location.description }}</td>
+    <td>{{ location.phone_number }}</td>
+    <td>{{ location.printer_name }}</td>
+    <td>{{ location.mar_file_name }}</td>
+    <td>
+      <span ng-show="location.last_print_job.is_enque_successful">Sucessful</span>
+      <span ng-show="location.last_print_job && !location.last_print_job.is_enque_successful">Failed</span>
+    </td>
+    <td>{{ location.last_print_job.enque_timestamp }}</td>
+  </tr>
+</table>

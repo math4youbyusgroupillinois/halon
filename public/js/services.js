@@ -1,5 +1,47 @@
-app.factory('Authenticate', function($resource){
-    return $resource("index.php/service/authenticate");
+app.factory('Authenticate', function($resource, $sanitize, $location, FlashService){
+  var r = $resource("index.php/service/authenticate");
+
+  r.login = function(credentials, callerSuccess, callerFailure) {
+    var success = function(data) {
+      sessionStorage.authenticated = true;
+      sessionStorage.userRole = data['user']['role'];
+      
+      callerSuccess(data);
+    };
+
+    var failure = function(response) {
+      callerFailure(response);
+    }
+
+    this.save({
+      'role': $sanitize(credentials.role),
+      'password': $sanitize(credentials.password)
+    }, success, failure);
+  }
+
+  r.permit = function(role) {
+    return role == sessionStorage.userRole;
+  };
+
+  r.isAuthenticated = function() {
+    return sessionStorage.authenticated;
+  };
+
+  r.logout = function(callerSuccess, callerFailure) {
+    var success = function() {
+      delete sessionStorage.authenticated;
+      delete sessionStorage.userRole;
+      callerSuccess();
+    };
+
+    var failure = function() {
+      callerFailure();
+    };
+
+    this.get({}, success, failure);
+  }
+
+  return r;
 });
 
 app.factory('Location', function($resource){
