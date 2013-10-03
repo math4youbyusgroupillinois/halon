@@ -24,16 +24,32 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
   public function setUp() {
     parent::setUp();
-
-    $this->app['printer.driver'] = $this->app->share(function($app) {
-      return new TestPrinterDriver();
-    });
-
-    Config::set('app.mar_path', '/tmp/halon');
+    $this->prepareDatabase();
+    $this->prepareConfig();
   }
 
   public function tearDown() {
     parent::tearDown();
     \Mockery::close();
+  }
+
+  /**
+   * Migrate the database
+   */
+  private function prepareDatabase()
+  {
+    Artisan::call('migrate');
+  }
+
+  /**
+   * Set printer driver and mar file path
+   */
+  private function prepareConfig()
+  {
+    $this->app['printer.driver'] = $this->app->share(function($app) {
+      return new TestPrinterDriver();
+    });
+
+    Config::set('app.mar_path', '/tmp/halon');
   }
 }
