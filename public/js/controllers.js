@@ -233,6 +233,7 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
           if (toPrint.length > 0) {
             PrintJobCollection.create({'items': toPrint}, function(data) {
               FlashService.add('info', 'Successfully sent MAR files to printers');
+              $location.path('/public/locations');
             }, function() {
               FlashService.add('info', 'Failed to send MAR files to printers');
             });
