@@ -58,11 +58,24 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
     for (i in data) {
       container = {
         print: false,
-        record: data[i]
+        record: data[i],
+        print_status: Location.print_status,
       }
       locations.push(container)
     }
     $scope.locations = locations;
+    $scope.orderProp = 'record.last_print_job.enque_timestamp';
+    $scope.direction = false;
+
+    $scope.sort = function(column) {
+      if ($scope.orderProp === column) {
+        $scope.direction = !$scope.direction;
+      } else {
+        $scope.orderProp = column;
+        $scope.direction = false;
+      }
+    }
+
   });
   $scope.onPrint = function() {
     toPrint = [];

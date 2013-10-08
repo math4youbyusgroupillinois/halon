@@ -11,13 +11,13 @@
 <button class="btn-lg" ng-click="onPrint()"><span class="glyphicon glyphicon-print"></span> Print</button>
 <table class="table table-striped" style="margin-top:5px">
   <th></th>
-  <th>Printer Location</th>
-  <th>Contact Number</th>
-  <th>Printer Name</th>
-  <th>MAR File Name</th>
+  <th><button class="btn-mini btn-link" ng-click="sort('record.description')">Printer Location</button></th>
+  <th><button class="btn-mini btn-link" ng-click="sort('record.phone_number')">Contact Number</button></th>
+  <th><button class="btn-mini btn-link" ng-click="sort('record.printer_name')">Printer Name</button></th>
+  <th><button class="btn-mini btn-link" ng-click="sort('record.mar_file_name')">MAR File Name</button></th>
   <th>Last Print Status</th>
-  <th>Last Print Time</th>
-  <tr ng-repeat="location in locations">
+  <th><button class="btn-mini btn-link" ng-click="sort('record.last_print_job.enque_timestamp')">Last Print Time</button></th>
+  <tr ng-repeat="location in locations | orderBy:orderProp:direction">
     <td><input type="checkbox" ng-model="location.print"/></td>
     <td>{{ location.record.description }}</td>
     <td>{{ location.record.phone_number }}</td>
