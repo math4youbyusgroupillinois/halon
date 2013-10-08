@@ -246,18 +246,21 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
 
       if (!Authenticate.isAuthenticated()) {
         var pass = $window.prompt("What is your password?");
-        if (pass) {
-          var failure =function(response) {
-            var msg = response.data.flash;
-            if (!msg) {
-              msg = "Failed to login"
-            }
-            FlashService.add('danger', msg);
+        var failure =function(response) {
+          var msg = response.data.flash;
+          if (!msg) {
+            msg = "Failed to login"
           }
-
+          FlashService.add('danger', msg);
+        }
+        if (pass) {
           Authenticate.login(
-            {'role': 'printer', 'password': pass}, 
-            printAll, failure
+            {
+              'role': 'printer',
+              'password': pass
+            },
+            printAll,
+            failure
           );
         }
       } else {
@@ -267,7 +270,7 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
   }
 
   $scope.onPrintByLocation = function() {
-    var success = function() {
+    var toPrintByLocation = function() {
       $location.path('/locations');
     };
 
@@ -283,10 +286,16 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
 
       if (pass) {
         Authenticate.login(
-          {'role': 'printer', 'password': pass}, 
-          success, failure
+          {
+            'role': 'printer',
+            'password': pass
+          },
+          toPrintByLocation,
+          failure
         );
       }
+    } else {
+      toPrintByLocation();
     }
   };
 
