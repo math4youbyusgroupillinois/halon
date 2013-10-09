@@ -77,19 +77,19 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
       locations.push(container)
     }
     $scope.locations = locations;
-    $scope.defaultColumn = 'record.last_print_job.enque_timestamp';
-    $scope.reverse = true;
-
-    $scope.sort = function(column) {
-      if ($scope.defaultColumn === column) {
-        $scope.reverse = !$scope.reverse;
-      } else {
-        $scope.defaultColumn = column;
-        $scope.reverse = true;
-      }
-    }
-
   });
+  $scope.defaultColumn = 'record.last_print_job.enque_timestamp';
+  $scope.reverse = true;
+
+  $scope.sort = function(column) {
+    if ($scope.defaultColumn === column) {
+      $scope.reverse = !$scope.reverse;
+    } else {
+      $scope.defaultColumn = column;
+      $scope.reverse = true;
+    }
+  }
+
   $scope.onPrint = function() {
     toPrint = [];
     for (i in $scope.locations) {
