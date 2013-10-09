@@ -46,22 +46,10 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
   };
 });
 
-app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJobCollection, FlashService, $log){
+app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJobCollection, FlashService, PrintStatusService, $log){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
-  }
-
-  var displayPrintStatus = function(last_print_job) {
-    printStatus = null;
-    if (last_print_job) {
-      if (last_print_job.is_enque_successful) {
-        printStatus = "Successful";
-      } else {
-        printStatus = "Failed";
-      }
-    }
-    return printStatus;
   }
 
   $rootScope.location = $location; // used for ActiveTab
@@ -72,12 +60,13 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
       container = {
         print: false,
         record: data[i],
-        last_print_status: displayPrintStatus(data[i].last_print_job)
+        last_print_status: PrintStatusService.displayStatus(data[i].last_print_job)
       }
       locations.push(container)
     }
     $scope.locations = locations;
   });
+
   $scope.defaultColumn = 'record.last_print_job.enque_timestamp';
   $scope.reverse = true;
 
@@ -111,7 +100,7 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
             container = {
               print: false,
               record: data[i],
-              last_print_status: displayPrintStatus(data[i].last_print_job)
+              last_print_status: PrintStatusService.displayStatus(data[i].last_print_job)
             }
             locations.push(container)
           }
@@ -331,26 +320,15 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
   };
 });
 
-app.controller('publicLocationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJobCollection, FlashService, $log){
-  var displayPrintStatus = function(last_print_job) {
-    printStatus = null;
-    if (last_print_job) {
-      if (last_print_job.is_enque_successful) {
-        printStatus = "Successful";
-      } else {
-        printStatus = "Failed";
-      }
-    }
-    return printStatus;
-  }
-
+app.controller('publicLocationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJobCollection, FlashService, PrintStatusService, $log){
   $rootScope.location = $location; // used for ActiveTab
+
   Location.query({},function(data) {
     locations = []
     for (i in data) {
       container = {
         record: data[i],
-        last_print_status: displayPrintStatus(data[i].last_print_job)
+        last_print_status: PrintStatusService.displayStatus(data[i].last_print_job)
       }
       locations.push(container)
     }

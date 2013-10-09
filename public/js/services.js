@@ -73,6 +73,23 @@ app.factory('FlashService', ['$rootScope', function($rootScope) {
   return alertService;
 }]);
 
+app.factory('PrintStatusService', function() {
+  var displayService = {
+    displayStatus: function(last_print_job) {
+      printStatus = null;
+      if (last_print_job) {
+        if (last_print_job.is_enque_successful) {
+          printStatus = "Successful";
+        } else {
+          printStatus = "Failed";
+        }
+      }
+      return printStatus;
+    }
+  }
+  return displayService;
+});
+
 app.factory('PasswordService', function () {
   // ref: http://stackoverflow.com/questions/1497481/javascript-password-generator
   var features = {
