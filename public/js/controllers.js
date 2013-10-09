@@ -110,7 +110,8 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
           for (i in data) {
             container = {
               print: false,
-              record: data[i]
+              record: data[i],
+              last_print_status: displayPrintStatus(data[i].last_print_job)
             }
             locations.push(container)
           }
