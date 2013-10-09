@@ -32,6 +32,7 @@
           <li ng-show="permit('admin')" ng-class="{active: location.path() == '/admin/locations'}"><a href="#/admin/locations">Locations</a></li>
           <li ng-show="permit('admin')" ng-class="{active: location.path() == '/admin/manage'}"><a href="#/admin/manage">User Passwords</a></li>
           <li ng-show="permit('printer')" ng-class="{active: location.path() == '/locations'}"><a href="#/locations">Print MARs</a></li>
+          <li ng-show="!permit('admin')" ng-class="{active: location.path() == '/admin/locations'}"><a href="#/admin/locations">Admin</a></li>
         </ul>
         <div class="navbar-form navbar-right" ng-show="authenticated()" role="search">
           <button class="btn btn-primary" ng-click="logout()">Sign Out</button>
