@@ -51,6 +51,19 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
     $location.path('/login');
     return;
   }
+
+  var displayPrintStatus = function(last_print_job) {
+    printStatus = null;
+    if (last_print_job) {
+      if (last_print_job.is_enque_successful) {
+        printStatus = "Successful";
+      } else {
+        printStatus = "Failed";
+      }
+    }
+    return printStatus;
+  }
+
   $rootScope.location = $location; // used for ActiveTab
   Location.query({},function(data) {
     locations = []
@@ -59,20 +72,20 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
       container = {
         print: false,
         record: data[i],
-        print_status: Location.print_status,
+        last_print_status: displayPrintStatus(data[i].last_print_job)
       }
       locations.push(container)
     }
     $scope.locations = locations;
-    $scope.orderProp = 'record.last_print_job.enque_timestamp';
-    $scope.direction = false;
+    $scope.defaultColumn = 'record.last_print_job.enque_timestamp';
+    $scope.reverse = false;
 
     $scope.sort = function(column) {
-      if ($scope.orderProp === column) {
-        $scope.direction = !$scope.direction;
+      if ($scope.defaultColumn === column) {
+        $scope.reverse = !$scope.reverse;
       } else {
-        $scope.orderProp = column;
-        $scope.direction = false;
+        $scope.defaultColumn = column;
+        $scope.reverse = false;
       }
     }
 
@@ -80,7 +93,7 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
   $scope.onPrint = function() {
     toPrint = [];
     for (i in $scope.locations) {
-      loc = $scope.locations[i];
+      loc = $scope.locations[i]; 
       if (loc.print) {
         toPrint.push({
           'printer_name': loc.record.printer_name,
