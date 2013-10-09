@@ -332,6 +332,39 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
 });
 
 app.controller('publicLocationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJobCollection, FlashService, $log){
+  var displayPrintStatus = function(last_print_job) {
+    printStatus = null;
+    if (last_print_job) {
+      if (last_print_job.is_enque_successful) {
+        printStatus = "Successful";
+      } else {
+        printStatus = "Failed";
+      }
+    }
+    return printStatus;
+  }
+
   $rootScope.location = $location; // used for ActiveTab
-  $scope.locations = Location.query();
+  Location.query({},function(data) {
+    locations = []
+    for (i in data) {
+      container = {
+        record: data[i],
+        last_print_status: displayPrintStatus(data[i].last_print_job)
+      }
+      locations.push(container)
+    }
+    $scope.locations = locations;
+  });
+  $scope.defaultColumn = 'record.last_print_job.enque_timestamp';
+  $scope.reverse = true;
+
+  $scope.sort = function(column) {
+    if ($scope.defaultColumn === column) {
+      $scope.reverse = !$scope.reverse;
+    } else {
+      $scope.defaultColumn = column;
+      $scope.reverse = true;
+    }
+  }
 });
