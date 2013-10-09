@@ -78,14 +78,14 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
     }
     $scope.locations = locations;
     $scope.defaultColumn = 'record.last_print_job.enque_timestamp';
-    $scope.reverse = false;
+    $scope.reverse = true;
 
     $scope.sort = function(column) {
       if ($scope.defaultColumn === column) {
         $scope.reverse = !$scope.reverse;
       } else {
         $scope.defaultColumn = column;
-        $scope.reverse = false;
+        $scope.reverse = true;
       }
     }
 
