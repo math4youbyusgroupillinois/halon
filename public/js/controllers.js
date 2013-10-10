@@ -15,6 +15,10 @@ app.controller('navController', function($scope, $location, Authenticate, FlashS
     }
     Authenticate.logout(success, failure);
   }
+
+  $scope.linkToAdmin = function() {
+    $location.path('/admin');
+  }
 });
 
 
