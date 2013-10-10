@@ -46,11 +46,12 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
   };
 });
 
-app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJobCollection, FlashService, $log){
+app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJobCollection, FlashService, PrintStatusService, $log){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
   }
+
   $rootScope.location = $location; // used for ActiveTab
   Location.query({},function(data) {
     locations = []
@@ -58,16 +59,30 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
     for (i in data) {
       container = {
         print: false,
-        record: data[i]
+        record: data[i],
+        last_print_status: PrintStatusService.displayStatus(data[i].last_print_job)
       }
       locations.push(container)
     }
     $scope.locations = locations;
   });
+
+  $scope.defaultColumn = 'record.last_print_job.enque_timestamp';
+  $scope.reverse = true;
+
+  $scope.sort = function(column) {
+    if ($scope.defaultColumn === column) {
+      $scope.reverse = !$scope.reverse;
+    } else {
+      $scope.defaultColumn = column;
+      $scope.reverse = true;
+    }
+  }
+
   $scope.onPrint = function() {
     toPrint = [];
     for (i in $scope.locations) {
-      loc = $scope.locations[i];
+      loc = $scope.locations[i]; 
       if (loc.print) {
         toPrint.push({
           'printer_name': loc.record.printer_name,
@@ -84,7 +99,8 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
           for (i in data) {
             container = {
               print: false,
-              record: data[i]
+              record: data[i],
+              last_print_status: PrintStatusService.displayStatus(data[i].last_print_job)
             }
             locations.push(container)
           }
@@ -304,7 +320,29 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
   };
 });
 
-app.controller('publicLocationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJobCollection, FlashService, $log){
+app.controller('publicLocationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJobCollection, FlashService, PrintStatusService, $log){
   $rootScope.location = $location; // used for ActiveTab
-  $scope.locations = Location.query();
+
+  Location.query({},function(data) {
+    locations = []
+    for (i in data) {
+      container = {
+        record: data[i],
+        last_print_status: PrintStatusService.displayStatus(data[i].last_print_job)
+      }
+      locations.push(container)
+    }
+    $scope.locations = locations;
+  });
+  $scope.defaultColumn = 'record.last_print_job.enque_timestamp';
+  $scope.reverse = true;
+
+  $scope.sort = function(column) {
+    if ($scope.defaultColumn === column) {
+      $scope.reverse = !$scope.reverse;
+    } else {
+      $scope.defaultColumn = column;
+      $scope.reverse = true;
+    }
+  }
 });
