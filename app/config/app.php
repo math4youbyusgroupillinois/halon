@@ -185,7 +185,11 @@ return array(
   /*
   | Specify an absolute path to where the MAR files are stored.
   |
+  | For Local Files:
   | (ex. 'mar_path' => 'C:\\inetpub\\wwwroot')
+  |
+  | For Network Files:
+  | (ex. 'mar_path' => '\\\\vboxsrv\\\\Downloads')
   |
   */
 
