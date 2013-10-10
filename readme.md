@@ -19,6 +19,7 @@ Halon is a tool to print out Medicine Administration Records for NMH Clinical IT
   1. The printer extension you download depends on php version (ex. 5.3), thread safety (ts/nts), and architecture (x86)
   2. Download the printer extension from http://windows.php.net/downloads/pecl/snaps/printer/0.1.0-dev/
   3. Extract php_printer.dll into `<PHP_ROOT>/ext`
+  4. Add a line `extension=php_printer.dll` in php.ini
 9. Set `'mar_path' => '<MAR DIRECTORY>'` in app/config/app.php
 
 ### Releases
