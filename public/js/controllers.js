@@ -132,6 +132,11 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
     return;
   }
 
+  if (!Authenticate.isAdmin()) {
+    Authenticate.redirectToLogin();
+    return;
+  }
+
   $rootScope.location = $location; // used for ActiveTab
   $scope.editRecord = {};
   Location.query({},function(data) {
@@ -205,23 +210,28 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
 });
 
 app.controller('userController',function($scope, $rootScope, $sanitize, $location, $resource, Authenticate, FlashService, User, PasswordService){
-  $rootScope.location = $location; // used for ActiveTab
-  $scope.users = User.query();
-
- $scope.regenerate = function() {
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
   }
 
-  var random_pass = PasswordService.generate(12);
-  var usr = $scope.users[this.$index];
-  usr.password = $sanitize(random_pass);
-  usr.$update({}, function() {
-    var pass_msg = "Password Reset to: " + random_pass;
-    FlashService.add('info', pass_msg);
-  })
- }
+  if (!Authenticate.isAdmin()) {
+    Authenticate.redirectToLogin();
+    return;
+  }
+
+  $rootScope.location = $location; // used for ActiveTab
+  $scope.users = User.query();
+
+  $scope.regenerate = function() {
+    var random_pass = PasswordService.generate(12);
+    var usr = $scope.users[this.$index];
+    usr.password = $sanitize(random_pass);
+    usr.$update({}, function() {
+      var pass_msg = "Password Reset to: " + random_pass;
+      FlashService.add('info', pass_msg);
+    })
+  }
 });
 
 app.controller('dashboardController', function($scope, $location, $log, $window, $sanitize, Authenticate, FlashService, Location, PrintJobCollection){

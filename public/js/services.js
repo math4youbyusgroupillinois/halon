@@ -23,6 +23,10 @@ app.factory('Authenticate', function($resource, $sanitize, $location, FlashServi
     return role == sessionStorage.userRole;
   };
 
+  r.isAdmin = function(role) {
+    return sessionStorage.userRole == 'admin';
+  };
+
   r.isAuthenticated = function() {
     return sessionStorage.authenticated;
   };
@@ -36,6 +40,21 @@ app.factory('Authenticate', function($resource, $sanitize, $location, FlashServi
 
     var failure = function() {
       callerFailure();
+    };
+
+    this.get({}, success, failure);
+  }
+
+  r.redirectToLogin = function() {
+    var success = function() {
+      delete sessionStorage.authenticated;
+      delete sessionStorage.userRole;
+      $location.path('/login');
+      FlashService.add('success', 'Successfully redirected to login page');
+    };
+
+    var failure = function () {
+      FlashService.add('danger', 'Failed to Redirect');
     };
 
     this.get({}, success, failure);
