@@ -37,6 +37,7 @@ class PrintJob extends Eloquent {
           $job->enque_failure_message = "Failed to print '$job->file_name' to the printer '$job->printer_name'";
         }
       } catch(Northwestern\Printer\PrinterException $e) {
+        Log::error($e);
         $job->enque_failure_message = $e->getMessage();
       }
 
