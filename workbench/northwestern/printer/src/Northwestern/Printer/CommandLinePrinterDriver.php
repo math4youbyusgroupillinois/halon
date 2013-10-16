@@ -9,15 +9,19 @@ class CommandLinePrinterDriver implements PrinterDriverInterface {
    * @throws PrinterException
    */
   public function enque($printerName, $filePath) {
-    $command = $this->generateCommand($printerName, $filePath);
     $pwd = shell_exec("cd");
     \Log::info("Current directory: $pwd");
+
+    $command = $this->generateCommand($printerName, $filePath);
     \Log::info("Print Command: $command");
+
     $output = shell_exec($command);
     \Log::info("Print Output: $output");
+
     if (!preg_match("/^Success/", $output)) {
       throw new PrinterException($output);
     }
+    
     return true;
   }
 
