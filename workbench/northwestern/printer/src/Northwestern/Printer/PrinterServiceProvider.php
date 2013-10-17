@@ -30,7 +30,7 @@ class PrinterServiceProvider extends ServiceProvider {
 	{
 		$this->app['printer.driver'] = $this->app->share(function($app)
     {
-      return new PhpWindowsPrinterDriver();
+      return new CommandLinePrinterDriver();
     });
 	}
 
