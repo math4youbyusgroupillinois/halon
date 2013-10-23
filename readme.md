@@ -12,10 +12,7 @@ Halon is a tool to print out Medicine Administration Records for NMH Clinical IT
 4. Grant the IIS user (usually Users) read permissions to to the directory where the postscript files are located
 5. Run `composer install -d workbench/northwestern/printer`
 6. Run `composer install`
-7. Import the rewrite rules
-  1. Install the URL Rewrite moudle for IIS using the Web Platform Installer
-  2. Import the public/.htacess rule (http://stackoverflow.com/questions/15018538/laravel-htaccess-rewrite-rule-convertion-to-iis)
-8. Set `'mar_path' => '<MAR DIRECTORY>'` in app/config/app.php
+7. Set `'mar_path' => '<MAR DIRECTORY>'` in app/config/app.php
 
 ### Releases
 
