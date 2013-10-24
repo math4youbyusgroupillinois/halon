@@ -37,7 +37,7 @@ class LocationsController extends \SecuredController {
 	 */
 	public function store()
 	{
-    if ($this->permit('admin')) {
+    if ($this->permit(array('admin'))) {
       $attrs = Input::all();
   		$location = Location::create($attrs);
       Log::info("The newly created location is: ", $location->toArray());
@@ -55,7 +55,7 @@ class LocationsController extends \SecuredController {
 	 */
 	public function update($id)
 	{
-    if ($this->permit('admin')) {
+    if ($this->permit(array('admin'))) {
       $attrs = Input::all();
   		$location = Location::find($id);
       if ($location->update($attrs)) 
@@ -75,7 +75,7 @@ class LocationsController extends \SecuredController {
 	 */
 	public function destroy($id)
 	{
-    if ($this->permit('admin')) {
+    if ($this->permit(array('admin'))) {
       $location = Location::find($id);
       if ($location->delete())
         return Response::json(array('message' => 'Location was deleted'), 200);

@@ -9,6 +9,6 @@ class UserAuthorization {
     if (empty($user))
       return false;
 
-    return $role == Auth::user()->role;
+    return in_array(Auth::user()->role, $role);
   }
 }
