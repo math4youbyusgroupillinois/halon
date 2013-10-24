@@ -29,9 +29,9 @@
       <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
           <li ng-class="{active: location.path() == '/public/locations'}"><a href="#/public/locations">Location Print Status</a></li>
+          <li ng-class="{active: location.path() == '/locations'}"><a href="#/locations">Print MARs</a></li>
           <li ng-show="permit('admin')" ng-class="{active: location.path() == '/admin/locations'}"><a href="#/admin/locations">Locations</a></li>
           <li ng-show="permit('admin')" ng-class="{active: location.path() == '/admin/manage'}"><a href="#/admin/manage">User Passwords</a></li>
-          <li ng-show="permit('printer')" ng-class="{active: location.path() == '/locations'}"><a href="#/locations">Print MARs</a></li>
         </ul>
         <div class="navbar-form navbar-right">
           <button class="btn btn-link" ng-show="!permit('admin')" ng-click="linkToAdmin()">Admin</button>
