@@ -1,8 +1,7 @@
 <?php
 
 class PrintJobsController extends \SecuredController {
-  protected $permitted = 'printer';
-
+	protected $permitted = array('admin', 'printer');
 	/**
 	 * Display a listing of the resource.
 	 *

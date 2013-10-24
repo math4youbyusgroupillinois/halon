@@ -14,7 +14,7 @@ class UserAuthorizationTest extends TestCase {
 
     Auth::attempt($credentials);
 
-    $this->assertTrue(UserAuthorization::permit('admin'));
+    $this->assertTrue(UserAuthorization::permit(array('admin')));
   }
 
   public function testPermitFailure() {
@@ -30,10 +30,10 @@ class UserAuthorizationTest extends TestCase {
 
     Auth::attempt($credentials);
 
-    $this->assertFalse(UserAuthorization::permit('foo'));
+    $this->assertFalse(UserAuthorization::permit(array('foo')));
   }
 
   public function testPermitFailureWithNoUser() {
-    $this->assertFalse(UserAuthorization::permit('foo'));
+    $this->assertFalse(UserAuthorization::permit(array('foo')));
   }
 }

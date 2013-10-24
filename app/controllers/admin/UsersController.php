@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 
 class UsersController extends \SecuredController {
-  protected $permitted = 'admin';
+  protected $permitted = array('admin');
 	/**
 	 * Display a listing of the resource.
 	 *
