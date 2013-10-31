@@ -54,7 +54,7 @@ class CommandLinePrinterDriver implements PrinterDriverInterface {
       $output = stream_get_contents($pipes[1]);
       fclose($pipes[1]);
 
-      $output += stream_get_contents($pipes[2]);
+      // $output += stream_get_contents($pipes[2]);
       fclose($pipes[2]);
 
       // It is important that you close any pipes before calling
