@@ -9,13 +9,11 @@ class CommandLinePrinterDriver implements PrinterDriverInterface {
    * @throws PrinterException
    */
   public function enque($printerName, $filePath) {
-    $pwd = shell_exec("cd");
-    \Log::info("Current directory: $pwd");
-
     $command = $this->generateCommand($printerName, $filePath);
     \Log::info("Print Command: $command");
 
-    $output = shell_exec($command);
+    $output = $this->run($command);
+
     \Log::info("Print Output: $output");
 
     if (!preg_match("/^Success/", $output)) {
@@ -26,8 +24,37 @@ class CommandLinePrinterDriver implements PrinterDriverInterface {
   }
 
   public function generateCommand($printerName, $filePath) {
-    # path is relative to the public directory
+    // path is relative to the public directory
     $path = '..\\workbench\\northwestern\\printer\\src\\Northwestern\Printer';
-    return "$path\\Printer.exe \"$printerName\" \"$filePath\" 2>&1";
+    return "$path\\Printer.exe \"$printerName\" \"$filePath\"";
+  }
+
+  public function run($command) {
+    $descriptorspec = array(
+      0 => array('pipe', 'r'), // stdin
+      1 => array('pipe', 'w'), // stdout
+      2 => array('pipe', 'a') // stderr
+    );
+
+    $env = array();
+    $other_options = array('bypass_shell' => TRUE);
+    
+    $process = proc_open($command, $descriptorspec, $pipes, NULL, NULL, $other_options);
+
+    if (is_resource($process)) {
+      fclose($pipes[0]);
+
+      $output = stream_get_contents($pipes[1]);
+      fclose($pipes[1]);
+
+      $output += stream_get_contents($pipes[2]);
+      fclose($pipes[2]);
+
+      // It is important that you close any pipes before calling
+      // proc_close in order to avoid a deadlock
+      proc_close($process);
+
+      return $output;
+    }
   }
 }
