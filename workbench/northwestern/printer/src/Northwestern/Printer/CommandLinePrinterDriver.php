@@ -25,8 +25,15 @@ class CommandLinePrinterDriver implements PrinterDriverInterface {
 
   public function generateCommand($printerName, $filePath) {
     // path is relative to the public directory
-    $path = '..\\workbench\\northwestern\\printer\\src\\Northwestern\Printer';
-    return "$path\\Printer.exe \"$printerName\" \"$filePath\"";
+    $path = '..\workbench\northwestern\printer\src\Northwestern\Printer';
+    $santizedPrinterName = $this->sanitizeArg($printerName);
+    $santizedFilePath    = $this->sanitizeArg($filePath);
+    return "$path\Printer.exe \"$santizedPrinterName\" \"$santizedFilePath\"";
+  }
+
+  public function sanitizeArg($arg) {
+    $bad = array('"', "'", '^');
+    return str_replace($bad, '', $arg);
   }
 
   public function run($command) {
