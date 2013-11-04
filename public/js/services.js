@@ -76,7 +76,7 @@ app.factory('PrinterLocation', function($resource){
 });
 
 app.factory('User', function($resource){
-    return $resource('index.php/users/:userId', {userId:'@id'}, {update: { method: 'PUT' }});
+    return $resource('index.php/admin/users/:userId', {userId:'@id'}, {update: { method: 'PUT' }});
 });
 
 app.factory('PrintJobCollection', function($resource){

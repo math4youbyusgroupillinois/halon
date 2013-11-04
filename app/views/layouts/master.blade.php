@@ -60,11 +60,5 @@
     <script>
       app.constant("CSRF_TOKEN", '[[csrf_token()]]');
     </script>
-<!-- Not Yet Implemented but for better seperation later
-    <script src="angular/controllers.js"></script>
-    <script src="angular/directives.js"></script>
-    <script src="angular/filters.js"></script>
-    <script src="angular/services.js"></script>
--->
   </body>
 </html>
