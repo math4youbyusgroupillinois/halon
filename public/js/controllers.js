@@ -29,7 +29,7 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
       if (sessionStorage.userRole == 'admin') {
         $location.path('/admin/locations');  
       } else if (sessionStorage.userRole == 'printer') {
-        $location.path('/locations');  
+        $location.path('/printer/locations');  
       }
       FlashService.add('success', 'Succesfully Logged In');
     };
@@ -50,14 +50,14 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
   };
 });
 
-app.controller('locationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJobCollection, FlashService, PrintStatusService, $log){
+app.controller('locationController',function($scope, $rootScope, $location, Authenticate, PrinterLocation, PrintJobCollection, FlashService, PrintStatusService, $log){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
   }
 
   $rootScope.location = $location; // used for ActiveTab
-  Location.query({},function(data) {
+  PrinterLocation.query({},function(data) {
     locations = []
     $scope.data = data;
     for (i in data) {
@@ -97,7 +97,7 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
     }
     if (toPrint.length > 0) {
       PrintJobCollection.create({'items': toPrint}, function(data) {
-        Location.query({},function(data) {
+        PrinterLocation.query({},function(data) {
           locations = []
           $scope.data = data;
           for (i in data) {
@@ -130,7 +130,7 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
   };
 });
 
-app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, Location, $log){
+app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, AdminLocation, $log){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
@@ -143,7 +143,7 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
 
   $rootScope.location = $location; // used for ActiveTab
   $scope.editRecord = {};
-  Location.query({},function(data) {
+  AdminLocation.query({},function(data) {
     locations = []
     $scope.data = data;
     for (i in data) {
@@ -156,13 +156,13 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
     $scope.locations = locations;
   });
   $scope.addLocation = function() {
-    Location.create({
+    AdminLocation.create({
       'description': $scope.newLocation.description,
       'phone_number': $scope.newLocation.phoneNumber,
       'printer_name': $scope.newLocation.printerName,
       'mar_file_name': $scope.newLocation.marFileName
     },function() {
-      Location.query({},function(data) {
+      AdminLocation.query({},function(data) {
         locations = []
         $scope.data = data;
         for (i in data) {
@@ -238,14 +238,14 @@ app.controller('userController',function($scope, $rootScope, $sanitize, $locatio
   }
 });
 
-app.controller('dashboardController', function($scope, $location, $log, $window, $sanitize, Authenticate, FlashService, Location, PrintJobCollection){
+app.controller('dashboardController', function($scope, $location, $log, $window, $sanitize, Authenticate, FlashService, PrinterLocation, PrintJobCollection){
   $scope.onPrintAll = function() {
     var ans = $window.confirm("Are you sure you want to print all the MARs?");
     if (ans) {
       var printAll = function(data) {
         $log.info("Successfully logged in as printer");
 
-        Location.query({},function(locations) {
+        PrinterLocation.query({},function(locations) {
           $log.info(locations);
 
           toPrint = [];
@@ -263,7 +263,7 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
           if (toPrint.length > 0) {
             PrintJobCollection.create({'items': toPrint}, function(data) {
               FlashService.add('info', 'Successfully sent MAR files to printers');
-              $location.path('/locations');
+              $location.path('/printer/locations');
             }, function() {
               FlashService.add('info', 'Failed to send MAR files to printers');
             });
@@ -301,7 +301,7 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
 
   $scope.onPrintByLocation = function() {
     var toPrintByLocation = function() {
-      $location.path('/locations');
+      $location.path('/printer/locations');
     };
 
     if (!Authenticate.isAuthenticated()) {
@@ -330,14 +330,14 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
   };
 
   $scope.onCheckStatus = function() {
-    $location.path('/public/locations')
+    $location.path('/locations')
   };
 });
 
-app.controller('publicLocationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJobCollection, FlashService, PrintStatusService, $log){
+app.controller('publicLocationController',function($scope, $rootScope, $location, Authenticate, PublicLocation, PrintJobCollection, FlashService, PrintStatusService, $log){
   $rootScope.location = $location; // used for ActiveTab
 
-  Location.query({},function(data) {
+  PublicLocation.query({},function(data) {
     locations = []
     for (i in data) {
       container = {

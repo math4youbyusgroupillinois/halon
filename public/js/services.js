@@ -63,8 +63,16 @@ app.factory('Authenticate', function($resource, $sanitize, $location, FlashServi
   return r;
 });
 
-app.factory('Location', function($resource){
+app.factory('AdminLocation', function($resource){
     return $resource("index.php/admin/locations/:id", {id: '@id'}, {update: { method:'PUT' }, create: { method:'POST' }});
+});
+
+app.factory('PublicLocation', function($resource){
+    return $resource("index.php/locations/:id", {id: '@id'});
+});
+
+app.factory('PrinterLocation', function($resource){
+    return $resource("index.php/printer/locations/:id", {id: '@id'});
 });
 
 app.factory('User', function($resource){

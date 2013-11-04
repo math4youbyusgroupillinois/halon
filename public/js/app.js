@@ -3,11 +3,11 @@ var app = angular.module("halon",['ui.bootstrap','ngResource','ngSanitize']);
 
 app.config(['$routeProvider',function($routeProvider){
   $routeProvider.when('/login',{templateUrl:'app/partials/login.html', controller: 'loginController'});
-  $routeProvider.when('/locations',{templateUrl:'app/partials/locations.html', controller: 'locationController'});
+  $routeProvider.when('/printer/locations',{templateUrl:'app/partials/locations.html', controller: 'locationController'});
   $routeProvider.when('/admin/locations',{templateUrl:'app/partials/admin/locations.html', controller: 'locationAdminController'});
   $routeProvider.when('/admin/manage',{templateUrl:'app/partials/admin/users.html', controller: 'userController'});
   $routeProvider.when('/',{templateUrl:'app/partials/dashboard.html', controller: 'dashboardController'});
-  $routeProvider.when('/public/locations',{templateUrl:'app/partials/public/locations.html', controller: 'publicLocationController'});
+  $routeProvider.when('/locations',{templateUrl:'app/partials/public/locations.html', controller: 'publicLocationController'});
   $routeProvider.when('/admin',{redirectTo:'/admin/locations'});
   $routeProvider.otherwise({redirectTo:'/'});
 }]);

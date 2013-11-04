@@ -21,12 +21,15 @@ Route::group(array('prefix' => 'service'), function() {
   Route::resource('authenticate', 'AuthenticationController');
 });
 
+Route::resource('locations', 'LocationsController',
+  array('only' => array('index')));
+
+Route::resource('printer/locations', 'Printer\LocationsController',
+  array('only' => array('index')));
+
 Route::resource('admin/locations', 'Admin\LocationsController');
 
 Route::resource('users', 'Admin\UsersController');
-
-Route::resource('locations', 'Admin\LocationsController',
-    array('only' => array('index')));
 
 Route::resource('print_jobs', 'PrintJobsController');
 

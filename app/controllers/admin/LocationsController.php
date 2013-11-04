@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 
 class LocationsController extends \SecuredController {
+  protected $permitted = array('admin');
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -26,14 +28,10 @@ class LocationsController extends \SecuredController {
 	 */
 	public function store()
 	{
-    if ($this->permit(array('admin'))) {
-      $attrs = Input::all();
-  		$location = Location::create($attrs);
-      Log::info("The newly created location is: ", $location->toArray());
-      Response::json($location->toJson(), 201);
-    } else {
-      return $this->unauthorizedResponse();
-    }
+    $attrs = Input::all();
+		$location = Location::create($attrs);
+    Log::info("The newly created location is: ", $location->toArray());
+    Response::json($location->toJson(), 201);
 	}
 
 	/**
@@ -44,15 +42,12 @@ class LocationsController extends \SecuredController {
 	 */
 	public function update($id)
 	{
-    if ($this->permit(array('admin'))) {
-      $attrs = Input::all();
-  		$location = Location::find($id);
-      if ($location->update($attrs)) 
-        Response::json($location->toJson(), 201);
-      else
-        return Response::json(array('message' => 'Location failed to be updated'), 400);
+    $attrs = Input::all();
+		$location = Location::find($id);
+    if ($location->update($attrs)) {
+      Response::json($location->toJson(), 201);
     } else {
-      return $this->unauthorizedResponse();
+      return Response::json(array('message' => 'Location failed to be updated'), 400);
     }
 	}
 
@@ -64,14 +59,11 @@ class LocationsController extends \SecuredController {
 	 */
 	public function destroy($id)
 	{
-    if ($this->permit(array('admin'))) {
-      $location = Location::find($id);
-      if ($location->delete())
-        return Response::json(array('message' => 'Location was deleted'), 200);
-      else
-        return Response::json(array('message' => 'Location failed to be deleted'), 400);
+    $location = Location::find($id);
+    if ($location->delete()) {
+      return Response::json(array('message' => 'Location was deleted'), 200);
     } else {
-      return $this->unauthorizedResponse();
+      return Response::json(array('message' => 'Location failed to be deleted'), 400);
     }
 	}
 }
