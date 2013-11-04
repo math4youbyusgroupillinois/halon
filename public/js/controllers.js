@@ -110,9 +110,8 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
           }
           $scope.locations = locations;
         });
-        FlashService.add('info', 'Successfully sent MAR files to printers');
       }, function() {
-        FlashService.add('info', 'Failed to send MAR files to printers');
+        FlashService.add('danger', 'Unable to contact server');
       });
     }
   };
@@ -185,7 +184,7 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
         $scope.locations.splice(collectionIndex,1);
       },
       function() {
-        alert("Failed to delete location");
+        FlashService.add('danger', 'Unable to contact server');
       }
     )
   };
@@ -262,15 +261,14 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
           $log.info(toPrint);
           if (toPrint.length > 0) {
             PrintJobCollection.create({'items': toPrint}, function(data) {
-              FlashService.add('info', 'Successfully sent MAR files to printers');
               $location.path('/printer/locations');
             }, function() {
-              FlashService.add('info', 'Failed to send MAR files to printers');
+              FlashService.add('danger', 'Unable to contact server');
             });
           }
           
         }, function() {
-          FlashService.add('danger', "Failed to print all MARs");
+          FlashService.add('danger', 'Unable to contact server');
         });
       };
 
