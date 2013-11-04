@@ -80,7 +80,7 @@ app.factory('User', function($resource){
 });
 
 app.factory('PrintJobCollection', function($resource){
-  return $resource("index.php/print_jobs", {}, {create: { method:'POST' }});
+  return $resource("index.php/printer/print_jobs", {}, {create: { method:'POST' }});
 });
 
 app.factory('FlashService', ['$rootScope', function($rootScope) {

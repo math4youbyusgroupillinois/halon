@@ -31,7 +31,8 @@ Route::resource('admin/locations', 'Admin\LocationsController');
 
 Route::resource('users', 'Admin\UsersController');
 
-Route::resource('print_jobs', 'PrintJobsController');
+Route::resource('printer/print_jobs', 'Printer\PrintJobsController',
+  array('only' => array('store')));
 
 Route::get('/dashboard', function() {
   return View::make('dashboard');

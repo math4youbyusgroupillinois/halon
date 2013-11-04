@@ -10,7 +10,7 @@ class PrintJobsControllerTest extends TestCase {
   }
 
   public function sendSuccessfullRequest() {
-    $this->action('POST', 'PrintJobsController@store', 
+    $this->action('POST', 'Printer\PrintJobsController@store', 
       array('items' => array(
         array('file_name' => 'foo/bar.ps', 'location_id' => 2), 
         array('file_name' => 'baz/qux.ps', 'location_id' => 4))));
