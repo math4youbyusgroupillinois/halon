@@ -15,18 +15,7 @@ class LocationsController extends \SecuredController {
 	 */
 	public function index()
 	{
-    $jobs = Location::with('printJobs')->get();
-    $transformed = array();
-    foreach ($jobs as $job) {
-      $raw = $job->toArray();
-      unset($raw['print_jobs']);
-      if (!is_null($job->lastPrintJob())) {
-        $augment = array_merge((array)$raw, (array)array('last_print_job' => $job->lastPrintJob()->toArray()));
-        $transformed = array_merge((array)$transformed, (array)array($augment));  
-      } else {
-        $transformed = array_merge((array)$transformed, (array)array($raw));
-      }
-    }
+    $transformed = Location::allWithLastPrintJob();
     return Response::json($transformed, 200);
 	}
 
