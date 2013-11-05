@@ -1,8 +1,8 @@
-= Overview
+# Overview
 
 This is a artisan package to print documents to a printer
 
-== Dependency
+## Dependency
 
 This depends on..
 
