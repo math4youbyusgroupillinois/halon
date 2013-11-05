@@ -16,20 +16,32 @@ Route::get('/', function()
 	return View::make('index');
 });
 
+Route::get('/dashboard', function() {
+  return View::make('dashboard');
+});
 
+Route::resource('locations', 'LocationsController',
+  array('only' => array('index')));
+
+/* Service Routes */
 Route::group(array('prefix' => 'service'), function() {
   Route::resource('authenticate', 'AuthenticationController');
 });
 
-Route::resource('admin/locations', 'Admin\LocationsController');
+/* Printer Routes */
+Route::group(array('prefix' => 'printer'), function() {
 
-Route::resource('users', 'Admin\UsersController');
-
-Route::resource('locations', 'Admin\LocationsController',
+  Route::resource('locations', 'Printer\LocationsController',
     array('only' => array('index')));
 
-Route::resource('print_jobs', 'PrintJobsController');
+  Route::resource('print_jobs', 'Printer\PrintJobsController',
+    array('only' => array('store')));
+});
 
-Route::get('/dashboard', function() {
-  return View::make('dashboard');
+/* Admin Routes */
+Route::group(array('prefix' => 'admin'), function() {
+
+  Route::resource('locations', 'Admin\LocationsController');
+
+  Route::resource('users', 'Admin\UsersController');
 });

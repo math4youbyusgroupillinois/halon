@@ -19,7 +19,7 @@ class SecuredController extends BaseController {
     $role = $this->getPermitted();
     $unauthorizedResponse = $this->unauthorizedResponse();
     $this->beforeFilter(function() use ($role, $unauthorizedResponse) {
-      if (!empty($role) && !UserAuthorization::permit($role)) {
+      if (!UserAuthorization::permit($role)) {
         print $role;
         return $unauthorizedResponse;
       }
