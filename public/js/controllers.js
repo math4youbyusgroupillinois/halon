@@ -390,13 +390,13 @@ app.controller('publicLocationController',function($scope, $rootScope, $location
 });
 
 
-app.controller('printerController',function($scope, $rootScope, $location, Authenticate, Location, PrintJobCollection, FlashService, PrintStatusService, $log){
+app.controller('printerController',function($scope, $rootScope, $location, Authenticate, PrinterLocation, PrintJobCollection, FlashService, PrintStatusService, $log){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
   }
   $rootScope.location = $location; // used for ActiveTab
-  Location.query({},function(data) {
+  PrinterLocation.query({},function(data) {
     files = []
     $scope.data = data;
     for (i in data) {
