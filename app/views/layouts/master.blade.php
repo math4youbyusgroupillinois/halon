@@ -30,6 +30,7 @@
         <ul class="nav navbar-nav">
           <li ng-class="{active: location.path() == '/locations'}"><a href="#/locations">Location Print Status</a></li>
           <li ng-class="{active: location.path() == '/printer/locations'}"><a href="#/printer/locations">Print MARs</a></li>
+          <li ng-class="{active: location.path() == '/printer'}"><a href="#/printer">Alternate Printer</a></li>
           <li ng-show="permit('admin')" ng-class="{active: location.path() == '/admin/locations'}"><a href="#/admin/locations">Locations</a></li>
           <li ng-show="permit('admin')" ng-class="{active: location.path() == '/admin/manage'}"><a href="#/admin/manage">User Passwords</a></li>
         </ul>
