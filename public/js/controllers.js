@@ -27,9 +27,9 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
   $scope.login = function() {
     var success = function() {
       if (sessionStorage.userRole == 'admin') {
-        $location.path('/admin/locations');  
+        $location.path('/admin/locations');
       } else if (sessionStorage.userRole == 'printer') {
-        $location.path('/printer/locations');  
+        $location.path('/printer/locations');
       }
       FlashService.add('success', 'Succesfully Logged In');
     };
@@ -86,7 +86,7 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
   $scope.onPrint = function() {
     toPrint = [];
     for (i in $scope.locations) {
-      loc = $scope.locations[i]; 
+      loc = $scope.locations[i];
       if (loc.print) {
         toPrint.push({
           'printer_name': loc.record.printer_name,
@@ -179,7 +179,7 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
   $scope.deleteLocation = function(collectionIndex) {
     var location = $scope.locations[collectionIndex];
     $log.info(location);
-    location.record.$delete({id: location.record.id}, 
+    location.record.$delete({id: location.record.id},
       function(){
         $scope.locations.splice(collectionIndex,1);
       },
@@ -266,7 +266,7 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
               FlashService.add('danger', 'Unable to contact server');
             });
           }
-          
+
         }, function() {
           FlashService.add('danger', 'Unable to contact server');
         });
@@ -327,6 +327,36 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
     }
   };
 
+  $scope.onPrintByPrinter = function() {
+    var toPrintByPrinter = function() {
+      $location.path('/printer/alternate');
+    };
+
+    if (!Authenticate.isAuthenticated()) {
+      var pass = $window.prompt("What is your password?");
+      var failure =function(response) {
+        var msg = response.data.flash;
+        if (!msg) {
+          msg = "Failed to login"
+        }
+        FlashService.add('danger', msg);
+      }
+
+      if (pass) {
+        Authenticate.login(
+          {
+            'role': 'printer',
+            'password': pass
+          },
+          toPrintByPrinter,
+          failure
+        );
+      }
+    } else {
+      toPrintByPrinter();
+    }
+  };
+
   $scope.onCheckStatus = function() {
     $location.path('/locations')
   };
@@ -357,4 +387,46 @@ app.controller('publicLocationController',function($scope, $rootScope, $location
       $scope.reverse = true;
     }
   }
+});
+
+
+app.controller('alternatePrinterController',function($scope, $rootScope, $location, Authenticate, PrinterLocation, PrintJobCollection, FlashService, PrintStatusService, $log){
+  if (!Authenticate.isAuthenticated()) {
+    $location.path('/login');
+    return;
+  }
+  $rootScope.location = $location; // used for ActiveTab
+  PrinterLocation.query({},function(data) {
+    files = []
+    $scope.data = data;
+    for (i in data) {
+      container = {
+        file_name: data[i].mar_file_name,
+      }
+      files.push(container)
+    }
+    $scope.files = files;
+  });
+  $scope.filesToPrint = [];
+  $scope.printToPrinter = function() {
+    toPrint = [];
+    for (i in $scope.filesToPrint) {
+      fileName = $scope.filesToPrint[i]
+      toPrint.push({
+        'printer_name': $scope.newPrinter.printerName,
+        'file_name': fileName
+      });
+    }
+
+    if (toPrint.length > 0) {
+      PrintJobCollection.create({'items': toPrint}, function(data) {
+        msg = data.items[0].enque_failure_message;
+        if (msg != null) {
+          FlashService.add('danger', msg);
+        }
+      }, function() {
+        FlashService.add('danger', 'Unable to contact server');
+      });
+    }
+  };
 });

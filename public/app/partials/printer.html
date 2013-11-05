@@ -1,0 +1,27 @@
+<h1>Alternate Printer Page</h1>
+<br/>
+<div class="row">
+  <div class="col-lg-2">
+    <label class="col-lg-2">File(s)</label>
+  </div>
+  <div class="col-lg-10">
+    <select ng-model="filesToPrint" multiple class="input-xxlarge" size="10">
+      <option ng-repeat="file in files" value="{{file.file_name}}">{{file.file_name}}</option>
+    </select>
+  </div>
+</div>
+<br/>
+<div class="row">
+  <div class="col-lg-2">
+    <label>Printer Name</label>
+  </div>
+  <div class="col-lg-10">
+    <input type="text" ng-model="newPrinter.printerName" class="input-xxlarge"/>
+  </div>
+</div>
+<br/>
+<div class="row">
+  <div class="col-lg-10">
+    <button ng-click="printToPrinter()">Print To This Printer</button>
+  </div>
+</div>

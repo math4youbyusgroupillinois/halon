@@ -4,6 +4,7 @@ var app = angular.module("halon",['ui.bootstrap','ngResource','ngSanitize']);
 app.config(['$routeProvider',function($routeProvider){
   $routeProvider.when('/login',{templateUrl:'app/partials/login.html', controller: 'loginController'});
   $routeProvider.when('/printer/locations',{templateUrl:'app/partials/locations.html', controller: 'locationController'});
+  $routeProvider.when('/printer/alternate',{templateUrl:'app/partials/printer.html', controller: 'alternatePrinterController'});
   $routeProvider.when('/admin/locations',{templateUrl:'app/partials/admin/locations.html', controller: 'locationAdminController'});
   $routeProvider.when('/admin/manage',{templateUrl:'app/partials/admin/users.html', controller: 'userController'});
   $routeProvider.when('/',{templateUrl:'app/partials/dashboard.html', controller: 'dashboardController'});
