@@ -329,7 +329,7 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
 
   $scope.onPrintByPrinter = function() {
     var toPrintByPrinter = function() {
-      $location.path('/printer');
+      $location.path('/printer/alternate');
     };
 
     if (!Authenticate.isAuthenticated()) {
@@ -390,7 +390,7 @@ app.controller('publicLocationController',function($scope, $rootScope, $location
 });
 
 
-app.controller('printerController',function($scope, $rootScope, $location, Authenticate, PrinterLocation, PrintJobCollection, FlashService, PrintStatusService, $log){
+app.controller('alternatePrinterController',function($scope, $rootScope, $location, Authenticate, PrinterLocation, PrintJobCollection, FlashService, PrintStatusService, $log){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
