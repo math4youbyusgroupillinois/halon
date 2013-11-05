@@ -15,6 +15,7 @@
 			"app/commands",
 			"app/controllers",
 			"app/models",
+      "app/printables",
       "app/facades",
 			"app/database/migrations",
 			"app/database/seeds",
