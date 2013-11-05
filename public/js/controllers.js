@@ -421,13 +421,11 @@ app.controller('printerController',function($scope, $rootScope, $location, Authe
     if (toPrint.length > 0) {
       PrintJobCollection.create({'items': toPrint}, function(data) {
         msg = data.items[0].enque_failure_message;
-        if (msg == null) {
-          FlashService.add('success', 'Successfully sent MAR files to printer Queue');
-        } else {
-          FlashService.add('info', msg);
+        if (msg != null) {
+          FlashService.add('danger', msg);
         }
       }, function() {
-        FlashService.add('info', 'Failed to send MAR files to printers');
+        FlashService.add('danger', 'Unable to contact server');
       });
     }
   };
