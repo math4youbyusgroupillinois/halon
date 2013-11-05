@@ -388,3 +388,47 @@ app.controller('publicLocationController',function($scope, $rootScope, $location
     }
   }
 });
+
+
+app.controller('printerController',function($scope, $rootScope, $location, Authenticate, Location, PrintJobCollection, FlashService, PrintStatusService, $log){
+  if (!Authenticate.isAuthenticated()) {
+    $location.path('/login');
+    return;
+  }
+  $rootScope.location = $location; // used for ActiveTab
+  Location.query({},function(data) {
+    files = []
+    $scope.data = data;
+    for (i in data) {
+      container = {
+        file_name: data[i].mar_file_name,
+      }
+      files.push(container)
+    }
+    $scope.files = files;
+  });
+  $scope.filesToPrint = [];
+  $scope.printToPrinter = function() {
+    toPrint = [];
+    for (i in $scope.filesToPrint) {
+      fileName = $scope.filesToPrint[i]
+      toPrint.push({
+        'printer_name': $scope.newPrinter.printerName,
+        'file_name': fileName
+      });
+    }
+
+    if (toPrint.length > 0) {
+      PrintJobCollection.create({'items': toPrint}, function(data) {
+        msg = data.items[0].enque_failure_message;
+        if (msg == null) {
+          FlashService.add('success', 'Successfully sent MAR files to printer Queue');
+        } else {
+          FlashService.add('info', msg);
+        }
+      }, function() {
+        FlashService.add('info', 'Failed to send MAR files to printers');
+      });
+    }
+  };
+});
