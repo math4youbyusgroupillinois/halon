@@ -9,7 +9,7 @@ class PrinterVerificationPage extends Printable {
   }
 
   public function identifier() {
-    return $unit.$printer;
+    return $this->unit.$this->printer;
   }
 
   public function content() {

@@ -17,14 +17,15 @@ class FakePage extends Printable {
 class PrintableTest extends TestCase {
   public static $fakePage;
   public static $baseDir;
+  public static $hasher;
 
   public function setUp() {
     parent::setUp();
 
     self::$baseDir = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'tmp';
-    $hasher  = new FakeHasher();
+    self::$hasher  = new FakeHasher();
 
-    self::$fakePage = new FakePage(self::$baseDir, $hasher);
+    self::$fakePage = new FakePage(self::$baseDir, self::$hasher);
   }
 
   public function tearDown() {
@@ -33,16 +34,26 @@ class PrintableTest extends TestCase {
     File::deleteDirectory(self::$baseDir);
   }
 
-  public function testPrintableHasIdentifier() {
+  public function testIdentifier() {
     $this->assertEquals('foo', self::$fakePage->identifier());
   }
 
-  public function testPrintableHasContent() {
+  public function testContent() {
     $this->assertEquals('hello world', self::$fakePage->content());
   }
 
-  public function testPrintableWasWritten() {
+  public function testWrite() {
     self::$fakePage->write();
     $this->assertTrue(File::exists(self::$baseDir . DIRECTORY_SEPARATOR . 'fake_page.txt'));
+  }
+
+  public function testFileName() {
+    $this->assertEquals('fake_page.txt', self::$fakePage->fileName());
+  }
+
+  public function testFilePathWithDefaultBasePath() {
+    $page = new FakePage(NULL, self::$hasher);
+    $expected = storage_path(). DIRECTORY_SEPARATOR . 'printables' . DIRECTORY_SEPARATOR . 'fake_page.txt';
+    $this->assertEquals($expected, $page->filePath());
   }
 }
