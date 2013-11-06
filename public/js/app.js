@@ -37,6 +37,17 @@ app.run(function($http,CSRF_TOKEN){
   $http.defaults.headers.common['csrf_token'] = CSRF_TOKEN;
 });
 
+app.run(function($rootScope, FlashService){
+  $rootScope.$on("$routeChangeStart",
+    function (event, current, previous, rejection) {
+      if (previous) {
+        if (previous.$$route.controller != "loginController") {
+          FlashService.clear();
+        }
+      }
+    });
+});
+
 // app.config(function($httpProvider){
 //   // underscore logic taken from
 //   // https://github.com/FineLinePrototyping/angularjs-rails-resource/blob/master/angularjs-rails-resource.js

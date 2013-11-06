@@ -95,6 +95,9 @@ app.factory('FlashService', ['$rootScope', function($rootScope) {
     },
     closeAlertIdx: function(index) {
       $rootScope.alerts.splice(index, 1);
+    },
+    clear: function() {
+      $rootScope.alerts = [];
     }
   }
   return alertService;
