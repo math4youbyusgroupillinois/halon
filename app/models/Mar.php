@@ -11,12 +11,17 @@ class Mar {
   }
 
   public function filePath() {
-    $path = Config::get('app.mar_path');
+    $path = NULL;
+    if ($this->mar) {
+      $path = Config::get('app.mar_path');
+    } else {
+      $path = Printable::defaultBasePath();
+    }
 
     if (empty($path)) {
       throw new Exception("The MAR path is not configured (app.mar_path), please set it in app.php");
     }
 
-    return $path.DIRECTORY_SEPARATOR.basename($this->fileName);
+    return $path.DIRECTORY_SEPARATOR.basename($this->file_name);
   }
 }

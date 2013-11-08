@@ -9,7 +9,7 @@ class PrintJob extends Eloquent {
    */
   protected $table = 'print_jobs';
 
-  protected $fillable = array('file_name', 'printer_name', 'location_id');
+  protected $fillable = array('file_name', 'printer_name', 'location_id', 'mar');
 
   protected $appends = array('is_enque_successful');
 
@@ -49,7 +49,7 @@ class PrintJob extends Eloquent {
 
   public function getFilePath() {
     $mar = new Mar($this->file_name);
-    return $mar->filePath();
+    return $mar->filePath($this->mar);
   }
 
   public function getIsEnqueSuccessfulAttribute() {

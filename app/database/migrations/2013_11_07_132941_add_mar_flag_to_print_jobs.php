@@ -12,7 +12,7 @@ class AddMarFlagToPrintJobs extends Migration {
 	public function up()
 	{
     Schema::table('print_jobs', function($table) {
-      $table->boolean('mar');
+      $table->boolean('mar')->default(false);
     });
 	}
 

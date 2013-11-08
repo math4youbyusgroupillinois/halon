@@ -1,16 +1,17 @@
 <?php
   
 abstract class Printable {
-  //storage_path().'/printables'
-  // new Md5Hasher()
-
   public function __construct($baseDir = NULL, $hasher = NULL) {
-    $this->baseDir = ($baseDir == NULL) ? storage_path(). DIRECTORY_SEPARATOR . 'printables' : $baseDir;
+    $this->baseDir = ($baseDir == NULL) ? self::defaultBasePath() : $baseDir;
     $this->hasher  = ($hasher  == NULL) ? Md5::instance() : $hasher;
   }
 
   abstract protected function identifier();
   abstract protected function content();
+
+  public static function defaultBasePath() {
+    return storage_path(). DIRECTORY_SEPARATOR . 'printables';
+  }
 
   public function write() {
     if ($this->baseDir && !is_dir($this->baseDir)) {
