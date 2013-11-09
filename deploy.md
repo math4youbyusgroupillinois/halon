@@ -9,3 +9,4 @@ Deploy
       --exclude '.git'                  \
       . /Volumes/source/PUBLIC/mar
   </pre>
+3. `php artisan migrate`

@@ -14,7 +14,7 @@
   <th><button class="btn-mini btn-link" ng-click="sort('record.description')">Printer Location</button></th>
   <th><button class="btn-mini btn-link" ng-click="sort('record.phone_number')">Contact Number</button></th>
   <th><button class="btn-mini btn-link" ng-click="sort('record.printer_name')">Printer Name</button></th>
-  <th><button class="btn-mini btn-link" ng-click="sort('record.mar_file_name')">MAR File Name</button></th>
+  <th><button class="btn-mini btn-link" ng-click="sort('record.todays_mar_file_name')">MAR File Name</button></th>
   <th><button class="btn-mini btn-link" ng-click="sort('last_print_status')">Last Print Status</button></th>
   <th><button class="btn-mini btn-link" ng-click="sort('location.last_print_job.enque_timestamp')">Last Print Time</button></th>
   <tr ng-repeat="location in locations | orderBy:defaultColumn:reverse">
@@ -22,7 +22,7 @@
     <td>{{ location.record.description }}</td>
     <td>{{ location.record.phone_number }}</td>
     <td>{{ location.record.printer_name }}</td>
-    <td>{{ location.record.mar_file_name }}</td>
+    <td>{{ location.record.todays_mar_file_name }}</td>
     <td>
         <span popover-append-to-body="true" popover="{{location.record.last_print_job.enque_failure_message}}" popover-trigger="mouseenter">{{ location.last_print_status }}</span>
     </td>
