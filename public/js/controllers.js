@@ -159,7 +159,8 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
       'description': $scope.newLocation.description,
       'phone_number': $scope.newLocation.phoneNumber,
       'printer_name': $scope.newLocation.printerName,
-      'todays_mar_file_name': $scope.newLocation.marFileName
+      'todays_mar_file_name': $scope.newLocation.todaysMarFileName,
+      'tomorrows_mar_file_name': $scope.newLocation.tomorrowsMarFileName
     },function() {
       AdminLocation.query({},function(data) {
         locations = []
@@ -194,7 +195,8 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
     $scope.editRecord.description = location.record.description;
     $scope.editRecord.phoneNumber = location.record.phone_number;
     $scope.editRecord.printerName = location.record.printer_name;
-    $scope.editRecord.marFileName = location.record.todays_mar_file_name;
+    $scope.editRecord.todaysMarFileName = location.record.todays_mar_file_name;
+    $scope.editRecord.tomorrowsMarFileName = location.record.tomorrows_mar_file_name;
   }
 
   $scope.onCancel = function(location) {
@@ -207,7 +209,8 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
     location.record.description = $scope.editRecord.description;
     location.record.phone_number = $scope.editRecord.phoneNumber;
     location.record.printer_name = $scope.editRecord.printerName;
-    location.record.todays_mar_file_name = $scope.editRecord.marFileName;
+    location.record.todays_mar_file_name = $scope.editRecord.todaysMarFileName;
+    location.record.tommorows_mar_file_name = $scope.editRecord.tomorrowsMarFileName;
     location.record.$update();
   }
 });

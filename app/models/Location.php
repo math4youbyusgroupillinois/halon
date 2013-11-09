@@ -9,7 +9,7 @@ class Location extends Eloquent {
    */
   protected $table = 'locations';
 
-  protected $fillable = array('description', 'phone_number', 'printer_name', 'todays_mar_file_name');
+  protected $fillable = array('description', 'phone_number', 'printer_name', 'todays_mar_file_name', 'tomorrows_mar_file_name');
 
   public function printJobs() {
     return $this->hasMany('printJob');
