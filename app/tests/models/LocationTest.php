@@ -38,6 +38,16 @@ class LocationTest extends TestCase {
     $this->assertEquals(date_format($date, 'Y-m-d H:i:s'), $pj->enque_timestamp);
   }
 
+  public function testTomorrowsMarFileLastModifiedDate() {
+    $expected = new DateTime('2013-10-02');
+    File::shouldReceive('lastModified')->once()->with('/tmp/halon/bar.ps')->andReturn($expected);
+
+    $location = $this->createLocation('test floor');
+    $location->tomorrows_mar_file_name = 'bar.ps';
+    $actual = $location->getTomorrowsMarFileLastModifiedDate();
+    $this->assertEquals($expected, $actual);
+  }
+
   private function createLocation($description)
   {
     $location = new Location();

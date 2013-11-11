@@ -11,6 +11,8 @@ class Location extends Eloquent {
 
   protected $fillable = array('description', 'phone_number', 'printer_name', 'todays_mar_file_name', 'tomorrows_mar_file_name');
 
+  protected $appends = array('todays_mar_file_last_modified_date', 'tomorrows_mar_file_last_modified_date');
+
   public function printJobs() {
     return $this->hasMany('printJob');
   }
@@ -35,4 +37,22 @@ class Location extends Eloquent {
     return $transformed;
   }
 
+  public function getTodaysMarFileLastModifiedDate() {
+    $date = NULL;
+    if (!empty($this->todays_mar_file_name)) {
+      $mar = new Mar($this->todays_mar_file_name);
+      $date = File::lastModified($mar->filePath());
+    }
+    
+    return $date;
+  }
+
+  public function getTomorrowsMarFileLastModifiedDate() {
+    $date = NULL;
+    if (!empty($this->tomorrows_mar_file_name)) {
+      $mar = new Mar($this->tomorrows_mar_file_name);
+      $date = File::lastModified($mar->filePath());
+    }
+    return $date;
+  }
 }

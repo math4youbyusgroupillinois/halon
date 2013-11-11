@@ -48,12 +48,8 @@ class PrintJob extends Eloquent {
   }
 
   public function getFilePath() {
-    $path = Config::get('app.mar_path');
-    if (empty($path)) {
-      throw new Exception("The MAR path is not configured (app.mar_path), please set it in app.php");
-    }
-
-    return $path.DIRECTORY_SEPARATOR.basename($this->file_name);
+    $mar = new Mar($this->file_name);
+    return $mar->filePath();
   }
 
   public function getIsEnqueSuccessfulAttribute() {
