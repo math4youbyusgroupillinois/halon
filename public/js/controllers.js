@@ -425,6 +425,10 @@ app.controller('alternatePrinterController',function($scope, $rootScope, $locati
         file_name: data[i].todays_mar_file_name,
       }
       files.push(container)
+      container = {
+        file_name: data[i].tomorrows_mar_file_name,
+      }
+      files.push(container)
     }
     $scope.files = files;
   });
