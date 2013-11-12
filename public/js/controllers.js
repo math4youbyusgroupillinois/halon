@@ -83,14 +83,14 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
     }
   }
 
-  $scope.onPrint = function() {
+  $scope.onPrint = function(whichMar) {
     toPrint = [];
     for (i in $scope.locations) {
       loc = $scope.locations[i];
       if (loc.print) {
         toPrint.push({
           'printer_name': loc.record.printer_name,
-          'file_name': loc.record.todays_mar_file_name,
+          'file_name': loc.record[whichMar + '_file_name'],
           'location_id': loc.record.id
         });
       }

@@ -8,7 +8,14 @@
     <li role="presentation"><a role="menuitem" tabindex="-1"  data-target="#" ng-click="onSelectNone()">None</a></li>
   </ul>
 </span>
-<button class="btn-lg" ng-click="onPrint()"><span class="glyphicon glyphicon-print"></span> Print</button>
+<span class="dropdown">
+  <button id="printLabel" class="btn-lg" data-toggle="dropdown" data-target="#"><span class="glyphicon glyphicon-print"></span> Print</button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="printLabel">
+    <li role="presentation"><a role="menuitem" data-target="#" ng-click="onPrint('todays_mar')">Today</a></li>
+    <li role="presentation"><a role="menuitem" data-target="#" ng-click="onPrint('tomorrows_mar')">Tomorrow</a></li>
+
+  </ul>
+</span>
 <table class="table table-striped" style="margin-top:5px">
   <th></th>
   <th><button class="btn-mini btn-link" ng-click="sort('record.description')">Printer Location</button></th>
@@ -16,7 +23,7 @@
   <th><button class="btn-mini btn-link" ng-click="sort('record.printer_name')">Printer Name</button></th>
   <th><button class="btn-mini btn-link" ng-click="sort('record.todays_mar_last_modified_date')">Today's MAR Date</button></th>
   <th><button class="btn-mini btn-link" ng-click="sort('record.tomorrows_mar_last_modified_date')">Tomorrow's MAR Date</button></th>
-  <th>Last MAR Printed</th>
+  <th><button class="btn-mini btn-link" ng-click="sort('record.last_mar_printed')">Last MAR Printed</button></th>
   <th><button class="btn-mini btn-link" ng-click="sort('last_print_status')">Last Print Status</button></th>
   <th><button class="btn-mini btn-link" ng-click="sort('location.last_print_job.enque_timestamp')">Last Print Time</button></th>
   <tr ng-repeat="location in locations | orderBy:defaultColumn:reverse">
