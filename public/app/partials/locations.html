@@ -23,7 +23,7 @@
   <th><button class="btn-mini btn-link" ng-click="sort('record.printer_name')">Printer Name</button></th>
   <th><button class="btn-mini btn-link" ng-click="sort('record.todays_mar_last_modified_date')">Today's MAR Date</button></th>
   <th><button class="btn-mini btn-link" ng-click="sort('record.tomorrows_mar_last_modified_date')">Tomorrow's MAR Date</button></th>
-  <th><button class="btn-mini btn-link" ng-click="sort('record.last_mar_printed')">Last MAR Printed</button></th>
+  <th><button class="btn-mini btn-link" ng-click="sort('record.last_mar_printed')">Which MAR Printed?</button></th>
   <th><button class="btn-mini btn-link" ng-click="sort('last_print_status')">Last Print Status</button></th>
   <th><button class="btn-mini btn-link" ng-click="sort('location.last_print_job.enque_timestamp')">Last Print Time</button></th>
   <tr ng-repeat="location in locations | orderBy:defaultColumn:reverse">

@@ -75,9 +75,9 @@ class Location extends Eloquent {
     }
 
     if ($lastFilePrinted == $this->tomorrows_mar_file_name) {
-      $out = "Tomorrow";
+      $out = "Tomorrow's";
     } elseif ($lastFilePrinted == $this->todays_mar_file_name) {
-      $out = "Today";
+      $out = "Today's";
     }
 
     return $out;

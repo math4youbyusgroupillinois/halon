@@ -259,7 +259,7 @@ app.controller('userController',function($scope, $rootScope, $sanitize, $locatio
 });
 
 app.controller('dashboardController', function($scope, $location, $log, $window, $sanitize, Authenticate, FlashService, PrinterLocation, PrintJobCollection){
-  $scope.onPrintAll = function() {
+  $scope.onPrintAll = function(whichMar) {
     var ans = $window.confirm("Are you sure you want to print all the MARs?");
     if (ans) {
       var printAll = function(data) {
@@ -274,7 +274,7 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
             loc = locations[i];
             toPrint.push({
               'printer_name': loc.printer_name,
-              'file_name': loc.todays_mar_file_name,
+              'file_name': loc[whichMar + '_file_name'],
               'location_id': loc.id
             });
           }
