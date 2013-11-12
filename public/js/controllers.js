@@ -50,7 +50,7 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
   };
 });
 
-app.controller('locationController',function($scope, $rootScope, $location, Authenticate, PrinterLocation, PrintJobCollection, FlashService, PrintStatusService, $log){
+app.controller('locationController',function($scope, $rootScope, $location, $filter, Authenticate, PrinterLocation, PrintJobCollection, FlashService, PrintStatusService, $log){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
@@ -127,6 +127,14 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
       location.print = false;
     });
   };
+
+  $scope.formatMarDateOrErrorMsg = function(date, fileName) {
+    var output = 'Unable to find the MAR ' + fileName;
+    if (date) {
+      output = $filter('date')(date, 'short');
+    }
+    return output;
+  }
 });
 
 app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, AdminLocation, $log){

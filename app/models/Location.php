@@ -11,7 +11,7 @@ class Location extends Eloquent {
 
   protected $fillable = array('description', 'phone_number', 'printer_name', 'todays_mar_file_name', 'tomorrows_mar_file_name');
 
-  protected $appends = array('todays_mar_file_last_modified_date', 'tomorrows_mar_file_last_modified_date');
+  protected $appends = array('todays_mar_last_modified_date', 'tomorrows_mar_last_modified_date', 'last_mar_printed');
 
   public function printJobs() {
     return $this->hasMany('printJob');
@@ -37,22 +37,49 @@ class Location extends Eloquent {
     return $transformed;
   }
 
-  public function getTodaysMarFileLastModifiedDate() {
+  public function getTodaysMarLastModifiedDateAttribute() {
     $date = NULL;
     if (!empty($this->todays_mar_file_name)) {
       $mar = new Mar($this->todays_mar_file_name);
-      $date = File::lastModified($mar->filePath());
+      $path = $mar->filePath();
+      if (File::exists($path)) {
+        $date = new DateTime();
+        $date = $date->setTimestamp(File::lastModified($path));
+        $date = $date->format("Y-m-d\TH:i:sO");
+      }    
     }
     
     return $date;
   }
 
-  public function getTomorrowsMarFileLastModifiedDate() {
+  public function getTomorrowsMarLastModifiedDateAttribute() {
     $date = NULL;
     if (!empty($this->tomorrows_mar_file_name)) {
       $mar = new Mar($this->tomorrows_mar_file_name);
-      $date = File::lastModified($mar->filePath());
+      $path = $mar->filePath();
+      if (File::exists($path)) {
+        $date = new DateTime();
+        $date = $date->setTimestamp(File::lastModified($path));
+        $date = $date->format("Y-m-d\TH:i:sO");
+      }
     }
     return $date;
+  }
+
+  public function getLastMarPrintedAttribute() {
+    $out = NULL;
+    $lastFilePrinted = NULL;
+    
+    if ($this->lastPrintJob()) {
+      $lastFilePrinted = $this->lastPrintJob()->file_name;
+    }
+
+    if ($lastFilePrinted == $this->tomorrows_mar_file_name) {
+      $out = "Tomorrow";
+    } elseif ($lastFilePrinted == $this->todays_mar_file_name) {
+      $out = "Today";
+    }
+
+    return $out;
   }
 }
