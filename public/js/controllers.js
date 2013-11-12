@@ -135,6 +135,16 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
     }
     return output;
   }
+
+  $scope.permit = function(roles) {
+    var allow = false;
+    
+    for (roleIndex in roles) {
+      allow = allow || Authenticate.permit(roles[roleIndex]);
+    }
+    
+    return allow;
+  }
 });
 
 app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, AdminLocation, $log){

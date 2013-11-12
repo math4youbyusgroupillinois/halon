@@ -1,5 +1,5 @@
 <h1>Locations Page</h1>
-<span class="dropdown">
+<span class="dropdown" ng-show="permit(['admin', 'printer'])">
   <button id="dLabel" class="btn-lg" data-toggle="dropdown" data-target="#">
     <span class="glyphicon glyphicon-check"></span> <span class="caret"></span>
   </button>
@@ -8,7 +8,7 @@
     <li role="presentation"><a role="menuitem" tabindex="-1"  data-target="#" ng-click="onSelectNone()">None</a></li>
   </ul>
 </span>
-<span class="dropdown">
+<span class="dropdown" ng-show="permit(['admin', 'printer'])">
   <button id="printLabel" class="btn-lg" data-toggle="dropdown" data-target="#"><span class="glyphicon glyphicon-print"></span> Print</button>
   <ul class="dropdown-menu" role="menu" aria-labelledby="printLabel">
     <li role="presentation"><a role="menuitem" data-target="#" ng-click="onPrint('todays_mar')">Today</a></li>
