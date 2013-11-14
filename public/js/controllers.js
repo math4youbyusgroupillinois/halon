@@ -50,7 +50,7 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
   };
 });
 
-app.controller('locationController',function($scope, $rootScope, $location, Authenticate, PrinterLocation, PrintJobCollection, FlashService, PrintStatusService, $log){
+app.controller('locationController',function($scope, $rootScope, $location, $filter, Authenticate, PrinterLocation, PrintJobCollection, FlashService, PrintStatusService, $log){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
@@ -83,14 +83,14 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
     }
   }
 
-  $scope.onPrint = function() {
+  $scope.onPrint = function(whichMar) {
     toPrint = [];
     for (i in $scope.locations) {
       loc = $scope.locations[i];
       if (loc.print) {
         toPrint.push({
           'printer_name': loc.record.printer_name,
-          'file_name': loc.record.mar_file_name,
+          'file_name': loc.record[whichMar + '_file_name'],
           'location_id': loc.record.id
         });
       }
@@ -127,6 +127,24 @@ app.controller('locationController',function($scope, $rootScope, $location, Auth
       location.print = false;
     });
   };
+
+  $scope.formatMarDateOrErrorMsg = function(date, fileName) {
+    var output = 'Unable to find the MAR ' + fileName;
+    if (date) {
+      output = $filter('date')(date, 'short');
+    }
+    return output;
+  }
+
+  $scope.permit = function(roles) {
+    var allow = false;
+    
+    for (roleIndex in roles) {
+      allow = allow || Authenticate.permit(roles[roleIndex]);
+    }
+    
+    return allow;
+  }
 });
 
 app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, AdminLocation, $log){
@@ -159,7 +177,8 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
       'description': $scope.newLocation.description,
       'phone_number': $scope.newLocation.phoneNumber,
       'printer_name': $scope.newLocation.printerName,
-      'mar_file_name': $scope.newLocation.marFileName
+      'todays_mar_file_name': $scope.newLocation.todaysMarFileName,
+      'tomorrows_mar_file_name': $scope.newLocation.tomorrowsMarFileName
     },function() {
       AdminLocation.query({},function(data) {
         locations = []
@@ -194,7 +213,8 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
     $scope.editRecord.description = location.record.description;
     $scope.editRecord.phoneNumber = location.record.phone_number;
     $scope.editRecord.printerName = location.record.printer_name;
-    $scope.editRecord.marFileName = location.record.mar_file_name;
+    $scope.editRecord.todaysMarFileName = location.record.todays_mar_file_name;
+    $scope.editRecord.tomorrowsMarFileName = location.record.tomorrows_mar_file_name;
   }
 
   $scope.onCancel = function(location) {
@@ -207,7 +227,8 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
     location.record.description = $scope.editRecord.description;
     location.record.phone_number = $scope.editRecord.phoneNumber;
     location.record.printer_name = $scope.editRecord.printerName;
-    location.record.mar_file_name = $scope.editRecord.marFileName;
+    location.record.todays_mar_file_name = $scope.editRecord.todaysMarFileName;
+    location.record.tommorows_mar_file_name = $scope.editRecord.tomorrowsMarFileName;
     location.record.$update();
   }
 });
@@ -238,7 +259,7 @@ app.controller('userController',function($scope, $rootScope, $sanitize, $locatio
 });
 
 app.controller('dashboardController', function($scope, $location, $log, $window, $sanitize, Authenticate, FlashService, PrinterLocation, PrintJobCollection){
-  $scope.onPrintAll = function() {
+  $scope.onPrintAll = function(whichMar) {
     var ans = $window.confirm("Are you sure you want to print all the MARs?");
     if (ans) {
       var printAll = function(data) {
@@ -253,7 +274,7 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
             loc = locations[i];
             toPrint.push({
               'printer_name': loc.printer_name,
-              'file_name': loc.mar_file_name,
+              'file_name': loc[whichMar + '_file_name'],
               'location_id': loc.id
             });
           }
@@ -401,7 +422,11 @@ app.controller('alternatePrinterController',function($scope, $rootScope, $locati
     $scope.data = data;
     for (i in data) {
       container = {
-        file_name: data[i].mar_file_name,
+        file_name: data[i].todays_mar_file_name,
+      }
+      files.push(container)
+      container = {
+        file_name: data[i].tomorrows_mar_file_name,
       }
       files.push(container)
     }

@@ -2,14 +2,16 @@
 <input type="text" placeholder="Printer Location" ng-model="newLocation.description"/>
 <input type="text" placeholder="Contact Number" ng-model="newLocation.phoneNumber"/>
 <input type="text" placeholder="Printer Name" ng-model="newLocation.printerName"/>
-<input type="text" placeholder="MAR File Name" ng-model="newLocation.marFileName"/>
+<input type="text" placeholder="Today's MAR File Name" ng-model="newLocation.todaysMarFileName"/>
+<input type="text" placeholder="Tomorrow's MAR File Name" ng-model="newLocation.tomorrowsMarFileName" style="width:180px"/>
 <button ng-click="addLocation()">Add printer location</button>
 <br/>
 <table class="table table-striped">
   <th>Printer Location</th>
   <th>Contact Number</th>
   <th>Printer Name</th>
-  <th>MAR File Name</th>
+  <th>Today's MAR File Name</th>
+  <th>Tomorrow's MAR File Name</th>
   <th></th>
   <!-- <th></th> -->
   <tr ng-repeat="location in locations">
@@ -32,9 +34,15 @@
       </div>
     </td>
     <td ng-switch on="location.editMode">
-      <span ng-switch-when="false">{{ location.record.mar_file_name }}</span>
+      <span ng-switch-when="false">{{ location.record.todays_mar_file_name }}</span>
       <div ng-switch-when="true">
-        <input ng-model="editRecord.marFileName"/>
+        <input ng-model="editRecord.todaysMarFileName"/>
+      </div>
+    </td>
+    <td ng-switch on="location.editMode">
+      <span ng-switch-when="false">{{ location.record.tomorrows_mar_file_name }}</span>
+      <div ng-switch-when="true">
+        <input ng-model="editRecord.tomorrowsMarFileName"/>
       </div>
     </td>
     <td ng-switch on="location.editMode">
