@@ -14,6 +14,12 @@ Halon is a tool to print out Medicine Administration Records for NMH Clinical IT
 6. Run `composer install`
 7. Set `'mar_path' => '<MAR DIRECTORY>'` in app/config/app.php
 
+### Reseting Passwords
+
+There is a script that can be used to reset a user's password. The script can be run using the following command.
+
+`php reset_password.php`
+
 ### Releases
 
 Release names follow http://en.wikipedia.org/wiki/List_of_national_parks_of_the_United_States.
