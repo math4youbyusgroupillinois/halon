@@ -228,7 +228,7 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
     location.record.phone_number = $scope.editRecord.phoneNumber;
     location.record.printer_name = $scope.editRecord.printerName;
     location.record.todays_mar_file_name = $scope.editRecord.todaysMarFileName;
-    location.record.tommorows_mar_file_name = $scope.editRecord.tomorrowsMarFileName;
+    location.record.tomorrows_mar_file_name = $scope.editRecord.tomorrowsMarFileName;
     location.record.$update();
   }
 });
