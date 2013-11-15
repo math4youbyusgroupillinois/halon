@@ -91,7 +91,8 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
         toPrint.push({
           'printer_name': loc.record.printer_name,
           'file_name': loc.record[whichMar + '_file_name'],
-          'location_id': loc.record.id
+          'location_id': loc.record.id,
+          'mar': true
         });
       }
     }
