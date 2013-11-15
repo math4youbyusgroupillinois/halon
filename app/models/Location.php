@@ -22,13 +22,13 @@ class Location extends Eloquent {
   }
 
   public static function allWithLastPrintJob() {
-    $jobs = Location::with('printJobs')->get();
+    $locations = Location::with('printJobs')->get();
     $transformed = array();
-    foreach ($jobs as $job) {
-      $raw = $job->toArray();
+    foreach ($locations as $loc) {
+      $raw = $loc->toArray();
       unset($raw['print_jobs']);
-      if (!is_null($job->lastPrintJob())) {
-        $augment = array_merge((array)$raw, (array)array('last_print_job' => $job->lastPrintJob()->toArray()));
+      if (!is_null($loc->lastPrintJob())) {
+        $augment = array_merge((array)$raw, (array)array('last_print_job' => $loc->lastPrintJob()->toArray()));
         $transformed = array_merge((array)$transformed, (array)array($augment));  
       } else {
         $transformed = array_merge((array)$transformed, (array)array($raw));

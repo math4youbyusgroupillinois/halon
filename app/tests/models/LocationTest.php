@@ -50,6 +50,27 @@ class LocationTest extends TestCase {
     $this->assertTrue(substr_count('2013-10-02', 0) != 0, "Expected substring 2013-10-02, but actual is $actual");
   }
 
+  public function testAllWithLastPrintJob() {
+    $location = $this->createLocation('test floor');
+
+    $date = new DateTime('2013-10-02');
+    $this->createPrintJob('uno', 'bar.ps', $location->id, 'Fail', $date->setTime(14,55,59));
+    $this->createPrintJob('dos', 'qux.ps', $location->id, 'Success', $date->setTime(14,55,55));
+
+    $locations = Location::allWithLastPrintJob();
+    $this->assertEquals(1, sizeof($locations));
+
+    $this->assertEquals('test floor', $locations[0]['description']);
+    $this->assertFalse(array_key_exists('print_jobs', $locations[0]));
+
+    $pj = $locations[0]['last_print_job'];
+    $this->assertNotNull($pj);
+    $this->assertEquals('uno', $pj['printer_name']);
+
+  }
+
+  // Helper Methods
+
   private function createLocation($description)
   {
     $location = new Location();
