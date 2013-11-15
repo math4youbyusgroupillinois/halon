@@ -41,7 +41,7 @@ class Location extends Eloquent {
     $date = NULL;
     if (!empty($this->todays_mar_file_name)) {
       $mar = new Mar($this->todays_mar_file_name);
-      $path = $mar->filePath();
+      $path = $mar->filePath(true);
       if (File::exists($path)) {
         $date = new DateTime();
         $date = $date->setTimestamp(File::lastModified($path));
@@ -56,7 +56,7 @@ class Location extends Eloquent {
     $date = NULL;
     if (!empty($this->tomorrows_mar_file_name)) {
       $mar = new Mar($this->tomorrows_mar_file_name);
-      $path = $mar->filePath();
+      $path = $mar->filePath(true);
       if (File::exists($path)) {
         $date = new DateTime();
         $date = $date->setTimestamp(File::lastModified($path));
