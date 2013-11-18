@@ -11,26 +11,26 @@ class SecuredController extends BaseController {
    */
   public function __construct() {
     $this->beforeFilter('serviceCSRF');
-    $this->beforeFilter('authentication');
+
+    if ($this->permitted) {
+      $this->beforeFilter('authentication');
     
-    // This authroization filter resides in the controller
-    // because we need to pass the permitted role which is
-    // not possible for filters defined in filters.php
-    $role = $this->getPermitted();
-    $unauthorizedResponse = $this->unauthorizedResponse();
-    $this->beforeFilter(function() use ($role, $unauthorizedResponse) {
-      if (!UserAuthorization::permit($role)) {
-        print $role;
-        return $unauthorizedResponse;
-      }
-    });
+      // This authroization filter resides in the controller
+      // because we need to pass the permitted role which is
+      // not possible for filters defined in filters.php
+      $role = $this->permitted;
+      $unauthorizedResponse = $this->unauthorizedResponse();
+      $ctrl = $this;
+      $this->beforeFilter(function() use ($role, $unauthorizedResponse, $ctrl) {
+        if (!UserAuthorization::permit($role)) {
+          Log::info("Unauthorized access attempt", array('context' => get_class($ctrl)));
+          return $unauthorizedResponse;
+        }
+      });
+    }
   }
 
-  public function getPermitted() {
-    if (isset($this->permitted)) return $this->permitted;
-  }
-
-  public function permit($role) {
+  public function isPermitted($role) {
     return UserAuthorization::permit($role);
   }
 
