@@ -21,16 +21,12 @@ Route::get('/dashboard', function() {
 });
 
 Route::resource('locations', 'LocationsController');
+Route::resource('print_jobs', 'PrintJobsController',
+    array('only' => array('store')));
 
 /* Service Routes */
 Route::group(array('prefix' => 'service'), function() {
   Route::resource('authenticate', 'AuthenticationController');
-});
-
-/* Printer Routes */
-Route::group(array('prefix' => 'printer'), function() {
-  Route::resource('print_jobs', 'Printer\PrintJobsController',
-    array('only' => array('store')));
 });
 
 /* Admin Routes */

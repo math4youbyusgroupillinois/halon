@@ -71,8 +71,8 @@ app.factory('User', function($resource){
     return $resource('index.php/admin/users/:userId', {userId:'@id'}, {update: { method: 'PUT' }});
 });
 
-app.factory('PrintJobCollection', function($resource){
-  return $resource("index.php/printer/print_jobs", {}, {create: { method:'POST' }});
+app.factory('PrintJob', function($resource){
+  return $resource("index.php/print_jobs", {}, {create: { method:'POST' }});
 });
 
 app.factory('FlashService', ['$rootScope', function($rootScope) {

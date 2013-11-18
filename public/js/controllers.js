@@ -50,7 +50,7 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
   };
 });
 
-app.controller('locationController',function($scope, $rootScope, $location, $filter, Authenticate, Location, PrintJobCollection, FlashService, PrintStatusService, $log){
+app.controller('locationController',function($scope, $rootScope, $location, $filter, Authenticate, Location, PrintJob, FlashService, PrintStatusService, $log){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
@@ -96,7 +96,7 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
       }
     }
     if (toPrint.length > 0) {
-      PrintJobCollection.create({'items': toPrint}, function(data) {
+      PrintJob.create({'items': toPrint}, function(data) {
         Location.query({},function(data) {
           locations = []
           $scope.data = data;
@@ -258,7 +258,7 @@ app.controller('userController',function($scope, $rootScope, $sanitize, $locatio
   }
 });
 
-app.controller('dashboardController', function($scope, $location, $log, $window, $sanitize, Authenticate, FlashService, Location, PrintJobCollection){
+app.controller('dashboardController', function($scope, $location, $log, $window, $sanitize, Authenticate, FlashService, Location, PrintJob){
   $scope.onPrintAll = function(whichMar) {
     var ans = $window.confirm("Are you sure you want to print all the MARs?");
     if (ans) {
@@ -281,7 +281,7 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
 
           $log.info(toPrint);
           if (toPrint.length > 0) {
-            PrintJobCollection.create({'items': toPrint}, function(data) {
+            PrintJob.create({'items': toPrint}, function(data) {
               $location.path('/printer/locations');
             }, function() {
               FlashService.add('danger', 'Unable to contact server');
@@ -383,7 +383,7 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
   };
 });
 
-app.controller('publicLocationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJobCollection, FlashService, PrintStatusService, $log){
+app.controller('publicLocationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJob, FlashService, PrintStatusService, $log){
   $rootScope.location = $location; // used for ActiveTab
 
   Location.query({},function(data) {
@@ -411,7 +411,7 @@ app.controller('publicLocationController',function($scope, $rootScope, $location
 });
 
 
-app.controller('alternatePrinterController',function($scope, $rootScope, $location, Authenticate, Location, PrintJobCollection, FlashService, PrintStatusService, $log){
+app.controller('alternatePrinterController',function($scope, $rootScope, $location, Authenticate, Location, PrintJob, FlashService, PrintStatusService, $log){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
@@ -444,7 +444,7 @@ app.controller('alternatePrinterController',function($scope, $rootScope, $locati
     }
 
     if (toPrint.length > 0) {
-      PrintJobCollection.create({'items': toPrint}, function(data) {
+      PrintJob.create({'items': toPrint}, function(data) {
         msg = data.items[0].enque_failure_message;
         if (msg != null) {
           FlashService.add('danger', msg);
