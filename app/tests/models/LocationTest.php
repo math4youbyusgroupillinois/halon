@@ -38,6 +38,36 @@ class LocationTest extends TestCase {
     $this->assertEquals(date_format($date, 'Y-m-d H:i:s'), $pj->enque_timestamp);
   }
 
+  public function testLastMarPrintJob()
+  {
+    $location = $this->createLocation('test floor');
+
+    $date = new DateTime('2013-10-02');
+    $this->createPrintJob('uno', 'bar.ps', $location->id, 'Fail', $date->setTime(14,55,59), false);
+    $this->createPrintJob('dos', 'qux.ps', $location->id, 'Success', $date->setTime(14,55,55));
+
+    $pj = $location->lastMarPrintJob();
+
+    $this->assertEquals('Success', $pj->enque_failure_message);
+    $time = $date-> setTime(14, 55, 55);
+    $this->assertEquals(date_format($date, 'Y-m-d H:i:s'), $pj->enque_timestamp);
+  }
+
+  public function testLastNonMarPrintJob()
+  {
+    $location = $this->createLocation('test floor');
+
+    $date = new DateTime('2013-10-02');
+    $this->createPrintJob('uno', 'bar.ps', $location->id, 'Fail', $date->setTime(14,55,59), false);
+    $this->createPrintJob('dos', 'qux.ps', $location->id, 'Success', $date->setTime(14,55,55));
+
+    $pj = $location->lastNonMarPrintJob();
+
+    $this->assertEquals('Fail', $pj->enque_failure_message);
+    $time = $date-> setTime(14, 55, 59);
+    $this->assertEquals(date_format($date, 'Y-m-d H:i:s'), $pj->enque_timestamp);
+  }
+
   public function testTomorrowsMarFileLastModifiedDate() {
     $expected = new DateTime('2013-10-02');
     $expected = $expected->format('U');
@@ -62,7 +92,6 @@ class LocationTest extends TestCase {
     $pj = $location->lastPrintJob();
     $this->assertNotNull($pj);
     $this->assertEquals('uno', $pj->printer_name);
-
   }
 
   public function testAllWithLastPrintJobSerialized() {
@@ -88,9 +117,9 @@ class LocationTest extends TestCase {
     return $found;
   }
 
-  private function createPrintJob($printer_name, $file_name, $location_id, $message, $timestamp)
+  private function createPrintJob($printer_name, $file_name, $location_id, $message, $timestamp, $mar = true)
   {
-    $job = new PrintJob(array('printer_name' => $printer_name, 'file_name' => $file_name, 'location_id' => $location_id));
+    $job = new PrintJob(array('printer_name' => $printer_name, 'file_name' => $file_name, 'location_id' => $location_id, 'mar' => $mar));
     $job->enque_failure_message = $message;
     $job->enque_timestamp = $timestamp;
     $job->save();

@@ -17,7 +17,6 @@ class LocationsController extends \SecuredController {
     return Response::json($all, 200);
   }
 
-
   /**
    * Store a newly created resource in storage.
    *

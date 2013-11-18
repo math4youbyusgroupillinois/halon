@@ -11,14 +11,23 @@ class Location extends Eloquent {
 
   protected $fillable = array('description', 'phone_number', 'printer_name', 'todays_mar_file_name', 'tomorrows_mar_file_name');
 
-  protected $appends = array('todays_mar_last_modified_date', 'tomorrows_mar_last_modified_date', 'last_mar_printed', 'last_print_job');
+  protected $appends = array('todays_mar_last_modified_date', 'tomorrows_mar_last_modified_date', 'last_mar_printed', 'last_print_job', 'last_mar_print_job', 'last_non_mar_print_job');
 
   public function printJobs() {
     return $this->hasMany('printJob');
   }
 
+
   public function lastPrintJob() {
     return $this->printJobs()->orderBy('enque_timestamp','desc')->first();
+  }
+
+  public function lastMarPrintJob() {
+    return $this->printJobs()->isMar(true)->orderBy('enque_timestamp','desc')->first();
+  }
+
+  public function lastNonMarPrintJob() {
+    return $this->printJobs()->isMar(false)->orderBy('enque_timestamp','desc')->first();
   }
 
   public function getTodaysMarLastModifiedDateAttribute() {
@@ -69,5 +78,13 @@ class Location extends Eloquent {
 
   public function getLastPrintJobAttribute() {
     return $this->lastPrintJob();
+  }
+
+  public function getLastMarPrintJobAttribute() {
+   return $this->lastMarPrintJob(); 
+  }
+
+  public function getLastNonMarPrintJobAttribute() {
+   return $this->lastNonMarPrintJob(); 
   }
 }

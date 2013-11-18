@@ -58,4 +58,8 @@ class PrintJob extends Eloquent {
     }
     return is_null($this->attributes['enque_failure_message']);
   }
+
+  public function scopeIsMar($query, $flag) {
+    return $query->whereMar($flag);
+  }
 }
