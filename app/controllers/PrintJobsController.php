@@ -1,12 +1,5 @@
 <?php
 
-namespace Printer;
-
-use \PrintJob;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Response;
-
 class PrintJobsController extends \SecuredController {
 	protected $permitted = array('admin', 'printer');
 

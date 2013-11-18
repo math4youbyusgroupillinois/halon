@@ -63,24 +63,16 @@ app.factory('Authenticate', function($resource, $sanitize, $location, FlashServi
   return r;
 });
 
-app.factory('AdminLocation', function($resource){
-    return $resource("index.php/admin/locations/:id", {id: '@id'}, {update: { method:'PUT' }, create: { method:'POST' }});
-});
-
-app.factory('PublicLocation', function($resource){
-    return $resource("index.php/locations/:id", {id: '@id'});
-});
-
-app.factory('PrinterLocation', function($resource){
-    return $resource("index.php/printer/locations/:id", {id: '@id'});
+app.factory('Location', function($resource){
+    return $resource("index.php/locations/:id", {id: '@id'}, {update: { method:'PUT' }, create: { method:'POST' }});
 });
 
 app.factory('User', function($resource){
     return $resource('index.php/admin/users/:userId', {userId:'@id'}, {update: { method: 'PUT' }});
 });
 
-app.factory('PrintJobCollection', function($resource){
-  return $resource("index.php/printer/print_jobs", {}, {create: { method:'POST' }});
+app.factory('PrintJob', function($resource){
+  return $resource("index.php/print_jobs", {}, {create: { method:'POST' }});
 });
 
 app.factory('FlashService', ['$rootScope', function($rootScope) {

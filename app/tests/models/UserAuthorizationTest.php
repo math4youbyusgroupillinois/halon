@@ -1,39 +1,51 @@
 <?php
 
 class UserAuthorizationTest extends TestCase {
-  public function testPermitSuccess() {
-    $user = new User();
-    $user->role = 'admin';
-    $user->password = Hash::make('admin');
-    $user->save();
+  protected $user;
+  protected $credentials;
 
-    $credentials = array(
+  public function setUp() {
+    parent::setUp();
+    $this->user = new User();
+    $this->user->role = 'admin';
+    $this->user->password = Hash::make('admin');
+    $this->user->save();
+
+    $this->credentials = array(
       'role' => 'admin',
       'password' =>  'admin'
     );
+  }
 
-    Auth::attempt($credentials);
+  public function testPermitSuccess() {
+    Auth::attempt($this->credentials);
+
+    $this->assertTrue(UserAuthorization::permit('admin'));
+  }
+
+  public function testPermitFailure() {
+    Auth::attempt($this->credentials);
+
+    $this->assertFalse(UserAuthorization::permit('foo'));
+  }
+
+  public function testPermitFailureWithNoUser() {
+    $this->assertFalse(UserAuthorization::permit('foo'));
+  }
+
+  public function testPermitSuccessWithArray() {
+    Auth::attempt($this->credentials);
 
     $this->assertTrue(UserAuthorization::permit(array('admin')));
   }
 
-  public function testPermitFailure() {
-    $user = new User();
-    $user->role = 'admin';
-    $user->password = Hash::make('admin');
-    $user->save();
-
-    $credentials = array(
-      'role' => 'admin',
-      'password' =>  'admin'
-    );
-
-    Auth::attempt($credentials);
+  public function testPermitFailureWithArray() {
+    Auth::attempt($this->credentials);
 
     $this->assertFalse(UserAuthorization::permit(array('foo')));
   }
 
-  public function testPermitFailureWithNoUser() {
+  public function testPermitFailureWithNoUserWithArray() {
     $this->assertFalse(UserAuthorization::permit(array('foo')));
   }
 }
