@@ -57,16 +57,24 @@ class LocationTest extends TestCase {
     $this->createPrintJob('uno', 'bar.ps', $location->id, 'Fail', $date->setTime(14,55,59));
     $this->createPrintJob('dos', 'qux.ps', $location->id, 'Success', $date->setTime(14,55,55));
 
-    $locations = Location::allWithLastPrintJob();
-    $this->assertEquals(1, sizeof($locations));
+    $this->assertEquals('test floor', $location->description);
 
-    $this->assertEquals('test floor', $locations[0]['description']);
-    $this->assertFalse(array_key_exists('print_jobs', $locations[0]));
-
-    $pj = $locations[0]['last_print_job'];
+    $pj = $location->lastPrintJob();
     $this->assertNotNull($pj);
-    $this->assertEquals('uno', $pj['printer_name']);
+    $this->assertEquals('uno', $pj->printer_name);
 
+  }
+
+  public function testAllWithLastPrintJobSerialized() {
+    $location = $this->createLocation('test floor');
+
+    $date = new DateTime('2013-10-02');
+    $this->createPrintJob('uno', 'bar.ps', $location->id, 'Fail', $date);
+
+    $actualSerialized = $location->toArray();
+
+    $this->assertEquals('test floor', $actualSerialized['description']);
+    $this->assertFalse(array_key_exists('print_jobs', $actualSerialized));
   }
 
   // Helper Methods
