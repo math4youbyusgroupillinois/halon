@@ -10,4 +10,10 @@
 .input-xlarge { width: 270px; }
 .input-xxlarge { width: 530px; }
 
-input[type="checkbox"] { width: 1.2em; height: 1.2em; } 
+input[type="checkbox"] { width: 1.2em; height: 1.2em; }
+
+.modal {
+  display: block;
+  height: 0;
+  overflow: visible;
+}

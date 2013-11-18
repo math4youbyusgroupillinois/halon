@@ -146,16 +146,16 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
 
   $scope.permit = function(roles) {
     var allow = false;
-    
+
     for (roleIndex in roles) {
       allow = allow || Authenticate.permit(roles[roleIndex]);
     }
-    
+
     return allow;
   }
 });
 
-app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, Location, $log){
+app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, AdminLocation, $log, $modal){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
@@ -239,6 +239,52 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
     location.record.tomorrows_mar_file_name = $scope.editRecord.tomorrowsMarFileName;
     location.record.$update();
   }
+
+  $scope.importLocation = function(){
+    var modalInstance = $modal.open({
+      templateUrl: 'app/partials/admin/import.html',
+      controller: 'importLocationController'
+    });
+
+    modalInstance.result.then( function () {
+      $log.info("========hurry=====");
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+});
+
+app.controller('importLocationController',function ($scope, $modalInstance, $log, $upload){
+  $scope.import = function(){
+    $log.info($scope.files);
+    files = $scope.files;
+    url = URL::action('Admin\LocationsController@index');
+    $log.info(url);
+    if (files.length > 1) {
+      file_to_upload = $files[0];
+      $scope.upload = $upload.upload({
+        url: 'server/upload/url', //upload.php script, node.js route, or servlet url
+        // method: POST or PUT,
+        file: file_to_upload
+      }).success(function(data, status, headers, config) {
+        // file is uploaded successfully
+        console.log(data);
+      })
+    }
+    $modalInstance.close();
+  };
+
+  $scope.onFileSelect = function($files) {
+    // for (var i = 0; i < $files.length; i++) {
+    //   var $file = $files[i];
+    //   $scope.file = $file;
+    // }
+    $scope.files = $files;
+  }
+
+  $scope.cancel = function(){
+    $modalInstance.dismiss('cancel');
+  };
 });
 
 app.controller('userController',function($scope, $rootScope, $sanitize, $location, $resource, Authenticate, FlashService, User, PasswordService){

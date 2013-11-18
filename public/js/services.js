@@ -5,7 +5,7 @@ app.factory('Authenticate', function($resource, $sanitize, $location, FlashServi
     var success = function(data) {
       sessionStorage.authenticated = true;
       sessionStorage.userRole = data['user']['role'];
-      
+
       callerSuccess(data);
     };
 
