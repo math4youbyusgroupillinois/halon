@@ -27,7 +27,7 @@
   <th><button class="btn-mini btn-link" ng-click="sort('last_print_status')">Last Print Status</button></th>
   <th><button class="btn-mini btn-link" ng-click="sort('location.last_print_job.enque_timestamp')">Last Print Time</button></th>
   <tr ng-repeat="location in locations | orderBy:defaultColumn:reverse">
-    <td><input type="checkbox" ng-model="location.print"/></td>
+    <td><input type="checkbox" ng-model="location.print" ng-show="permit(['admin', 'printer'])"/></td>
     <td>{{ location.record.description }}</td>
     <td>{{ location.record.phone_number }}</td>
     <td>{{ location.record.printer_name }}</td>
