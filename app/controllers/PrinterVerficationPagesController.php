@@ -13,15 +13,17 @@ class PrinterVerficationPagesController extends \SecuredController {
   {
     $pagesByLocation = array();
     $planned = Input::get('pages');
-    foreach ($planned as $p) {
-      $location = Location::find($p['location_id']);
+    if ($planned) {
+      foreach ($planned as $p) {
+        $location = Location::find($p['location_id']);
 
-      if ($location) {
-        $dt = new DateTime();
-        $ut = $location->description;
-        $pt = $location->printer_name;
-        array_push($pagesByLocation,
-          array($location, new PrinterVerificationPage($dt, $ut, $pt)));
+        if ($location) {
+          $dt = new DateTime();
+          $ut = $location->description;
+          $pt = $location->printer_name;
+          array_push($pagesByLocation,
+            array($location, new PrinterVerificationPage($dt, $ut, $pt)));
+        }
       }
     }
 
