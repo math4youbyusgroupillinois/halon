@@ -17,8 +17,10 @@ abstract class Printable {
     if ($this->baseDir && !is_dir($this->baseDir)) {
         mkdir($this->baseDir, 0777, true);
     }
-
-    return FALSE === File::put($this->filePath(), $this->content());
+    
+    $result = File::put($this->filePath(), $this->content());
+    
+    return !($result === FALSE); // $result may be a non-Boolean value which evaluates to FALSE. 
   }
 
   public function filePath() {
