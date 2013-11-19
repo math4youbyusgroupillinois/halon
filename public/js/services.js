@@ -97,10 +97,10 @@ app.factory('FlashService', ['$rootScope', function($rootScope) {
 
 app.factory('PrintStatusService', function() {
   var displayService = {
-    displayStatus: function(last_print_job) {
+    displayStatus: function(last_mar_print_job) {
       printStatus = null;
-      if (last_print_job) {
-        if (last_print_job.is_enque_successful) {
+      if (last_mar_print_job) {
+        if (last_mar_print_job.is_enque_successful) {
           printStatus = "Successful";
         } else {
           printStatus = "Failed";

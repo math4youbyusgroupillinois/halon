@@ -90,7 +90,7 @@ class PrintJobTest extends TestCase {
     $this->assertNotNull($loc->id);
 
     $result = $loc->printJobs()->create(array('file_name' => 'foo', 'printer_name' => 'bar'));
-    $pj = $loc->lastPrintJob();
+    $pj = $loc->lastNonMarPrintJob();
     $this->assertNotNull($loc->id);
     $this->assertEquals('foo', $pj->file_name);
     $this->assertEquals('bar', $pj->printer_name);

@@ -64,14 +64,14 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
       container = {
         print: false,
         record: data[i],
-        last_print_status: PrintStatusService.displayStatus(data[i].last_print_job)
+        last_print_status: PrintStatusService.displayStatus(data[i].last_mar_print_job)
       }
       locations.push(container)
     }
     $scope.locations = locations;
   });
 
-  $scope.defaultColumn = 'record.last_print_job.enque_timestamp';
+  $scope.defaultColumn = 'record.last_mar_print_job.enque_timestamp';
   $scope.reverse = true;
 
   $scope.sort = function(column) {
@@ -105,7 +105,7 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
             container = {
               print: false,
               record: data[i],
-              last_print_status: PrintStatusService.displayStatus(data[i].last_print_job)
+              last_print_status: PrintStatusService.displayStatus(data[i].last_mar_print_job)
             }
             locations.push(container)
           }
@@ -392,13 +392,13 @@ app.controller('publicLocationController',function($scope, $rootScope, $location
     for (i in data) {
       container = {
         record: data[i],
-        last_print_status: PrintStatusService.displayStatus(data[i].last_print_job)
+        last_print_status: PrintStatusService.displayStatus(data[i].last_mar_print_job)
       }
       locations.push(container)
     }
     $scope.locations = locations;
   });
-  $scope.defaultColumn = 'record.last_print_job.enque_timestamp';
+  $scope.defaultColumn = 'record.last_mar_print_job.enque_timestamp';
   $scope.reverse = true;
 
   $scope.sort = function(column) {

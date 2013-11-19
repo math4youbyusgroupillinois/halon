@@ -23,7 +23,7 @@ class LocationTest extends TestCase {
     $this->assertEquals(2, sizeof($pjs->getResults()));
   }
 
-  public function testLastPrintJob()
+  public function testLastPrintJobPicksByTime()
   {
     $location = $this->createLocation('test floor');
 
@@ -31,14 +31,14 @@ class LocationTest extends TestCase {
     $this->createPrintJob('uno', 'bar.ps', $location->id, 'Fail', $date->setTime(14,55,59));
     $this->createPrintJob('dos', 'qux.ps', $location->id, 'Success', $date->setTime(14,55,55));
 
-    $pj = $location->lastPrintJob();
+    $pj = $location->lastMarPrintJob();
 
     $this->assertEquals('Fail', $pj->enque_failure_message);
     $time = $date-> setTime(14, 55, 59);
     $this->assertEquals(date_format($date, 'Y-m-d H:i:s'), $pj->enque_timestamp);
   }
 
-  public function testLastMarPrintJob()
+  public function testLastMarPrintJobOnlyPicksMars()
   {
     $location = $this->createLocation('test floor');
 
@@ -53,7 +53,7 @@ class LocationTest extends TestCase {
     $this->assertEquals(date_format($date, 'Y-m-d H:i:s'), $pj->enque_timestamp);
   }
 
-  public function testLastNonMarPrintJob()
+  public function testLastNonMarPrintJobOnlyPicksNonMars()
   {
     $location = $this->createLocation('test floor');
 
@@ -80,7 +80,7 @@ class LocationTest extends TestCase {
     $this->assertTrue(substr_count('2013-10-02', 0) != 0, "Expected substring 2013-10-02, but actual is $actual");
   }
 
-  public function testAllWithLastPrintJob() {
+  public function testLastMarPrintJob() {
     $location = $this->createLocation('test floor');
 
     $date = new DateTime('2013-10-02');
@@ -89,12 +89,12 @@ class LocationTest extends TestCase {
 
     $this->assertEquals('test floor', $location->description);
 
-    $pj = $location->lastPrintJob();
+    $pj = $location->lastMarPrintJob();
     $this->assertNotNull($pj);
     $this->assertEquals('uno', $pj->printer_name);
   }
 
-  public function testAllWithLastPrintJobSerialized() {
+  public function testLastPrintJobSerialized() {
     $location = $this->createLocation('test floor');
 
     $date = new DateTime('2013-10-02');

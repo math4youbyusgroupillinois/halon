@@ -11,23 +11,22 @@ class Location extends Eloquent {
 
   protected $fillable = array('description', 'phone_number', 'printer_name', 'todays_mar_file_name', 'tomorrows_mar_file_name');
 
-  protected $appends = array('todays_mar_last_modified_date', 'tomorrows_mar_last_modified_date', 'last_mar_printed', 'last_print_job', 'last_mar_print_job', 'last_non_mar_print_job');
+  protected $appends = array('todays_mar_last_modified_date', 'tomorrows_mar_last_modified_date', 'last_mar_printed', 'last_mar_print_job', 'last_non_mar_print_job');
 
   public function printJobs() {
     return $this->hasMany('printJob');
   }
 
-
-  public function lastPrintJob() {
-    return $this->printJobs()->orderBy('enque_timestamp','desc')->first();
+  public function lastPrintJobCriteria($isMar) {
+    return $this->printJobs()->isMar($isMar)->orderBy('enque_timestamp','desc');
   }
 
   public function lastMarPrintJob() {
-    return $this->printJobs()->isMar(true)->orderBy('enque_timestamp','desc')->first();
+    return $this->lastPrintJobCriteria(true)->first();
   }
 
   public function lastNonMarPrintJob() {
-    return $this->printJobs()->isMar(false)->orderBy('enque_timestamp','desc')->first();
+    return $this->lastPrintJobCriteria(false)->first();
   }
 
   public function getTodaysMarLastModifiedDateAttribute() {
@@ -63,8 +62,8 @@ class Location extends Eloquent {
     $out = NULL;
     $lastFilePrinted = NULL;
     
-    if ($this->lastPrintJob()) {
-      $lastFilePrinted = $this->lastPrintJob()->file_name;
+    if ($this->lastMarPrintJob()) {
+      $lastFilePrinted = $this->lastMarPrintJob()->file_name;
     }
 
     if ($lastFilePrinted == $this->tomorrows_mar_file_name) {
@@ -76,15 +75,17 @@ class Location extends Eloquent {
     return $out;
   }
 
-  public function getLastPrintJobAttribute() {
-    return $this->lastPrintJob();
-  }
-
   public function getLastMarPrintJobAttribute() {
-   return $this->lastMarPrintJob(); 
+    // toArray() is needed to work around JSON serialization problem
+    // where no attributes are serialized
+    $last = $this->lastMarPrintJob();
+    return !is_null($last) ? $last->toArray() : null;
   }
 
   public function getLastNonMarPrintJobAttribute() {
-   return $this->lastNonMarPrintJob(); 
+    // toArray() is needed to work around JSON serialization problem
+    // where no attributes are serialized
+    $last = $this->lastNonMarPrintJob();
+    return !is_null($last) ? $last->toArray() : null;
   }
 }
