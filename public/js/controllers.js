@@ -6,12 +6,6 @@ app.controller('navController', function($scope, $location, Authenticate, FlashS
       allow = allow || Authenticate.permit(arguments[argIdx]);
     }
     
-    // for (roleIndex in roles) {
-    //   $log.info(roles[roleIndex]);
-    //   $log.info(Authenticate.permit(roles[roleIndex]));
-      
-    // }
-    
     return allow;
   }
   $scope.authenticated = function() {
