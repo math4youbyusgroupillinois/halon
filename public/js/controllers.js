@@ -1,6 +1,18 @@
 app.controller('navController', function($scope, $location, Authenticate, FlashService, $log){
-  $scope.permit = function(role) {
-    return Authenticate.permit(role);
+  $scope.permit = function() {
+    var allow = false;
+
+    for (argIdx in arguments) {
+      allow = allow || Authenticate.permit(arguments[argIdx]);
+    }
+    
+    // for (roleIndex in roles) {
+    //   $log.info(roles[roleIndex]);
+    //   $log.info(Authenticate.permit(roles[roleIndex]));
+      
+    // }
+    
+    return allow;
   }
   $scope.authenticated = function() {
     return Authenticate.isAuthenticated();
@@ -15,7 +27,9 @@ app.controller('navController', function($scope, $location, Authenticate, FlashS
     }
     Authenticate.logout(success, failure);
   }
-
+  $scope.login = function() {
+    $location.path('/login');
+  }
   $scope.linkToAdmin = function() {
     $location.path('/admin');
   }
