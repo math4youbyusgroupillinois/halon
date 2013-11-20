@@ -21,7 +21,9 @@
 <button id="printLabel" class="btn-lg" data-target="#" ng-click="onPrintTestPage()" ng-show="testMode">
   <span class="glyphicon glyphicon-print"></span> Print
 </button>
-<input type="checkbox" ng-model="testMode"/> Test Page Mode
+<span ng-show="permit(['admin', 'printer'])">
+  <input type="checkbox" ng-model="testMode"/> Test Page Mode
+</span>
 <table class="table table-striped" style="margin-top:5px">
   <th></th>
   <th>
@@ -59,8 +61,12 @@
     <td>{{ location.record.description }}</td>
     <td>{{ location.record.phone_number }}</td>
     <td>{{ location.record.printer_name }}</td>
-    <td ng-hide="testMode">{{ formatMarDateOrErrorMsg(location.record.todays_mar_last_modified_date, location.record.todays_mar_file_name) }}</td>
-    <td ng-hide="testMode">{{ formatMarDateOrErrorMsg(location.record.tomorrows_mar_last_modified_date, location.record.tomorrows_mar_file_name) }}</td>
+    <td ng-hide="testMode">
+      <mar-modified-date date="location.record.todays_mar_last_modified_date" file-name="location.record.todays_mar_file_name"/>
+    </td>
+    <td ng-hide="testMode">
+      <mar-modified-date date="location.record.tomorrows_mar_last_modified_date" file-name="location.record.tomorrows_mar_file_name"/>
+    </td>
     <td ng-hide="testMode">{{ location.record.last_mar_printed }}</td>
     <td ng-hide="testMode">
         <span popover-append-to-body="true" popover="{{location.record.last_mar_print_job.enque_failure_message}}" popover-trigger="mouseenter">
