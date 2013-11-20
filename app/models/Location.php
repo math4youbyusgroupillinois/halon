@@ -66,10 +66,12 @@ class Location extends Eloquent {
       $lastFilePrinted = $this->lastMarPrintJob()->file_name;
     }
 
-    if ($lastFilePrinted == $this->tomorrows_mar_file_name) {
-      $out = "Tomorrow's";
-    } elseif ($lastFilePrinted == $this->todays_mar_file_name) {
-      $out = "Today's";
+    if ($lastFilePrinted != NULL) {
+      if ($lastFilePrinted == $this->tomorrows_mar_file_name) {
+        $out = "Tomorrow's";
+      } elseif ($lastFilePrinted == $this->todays_mar_file_name) {
+        $out = "Today's";
+      }
     }
 
     return $out;

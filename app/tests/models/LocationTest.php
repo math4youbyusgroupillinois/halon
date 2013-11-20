@@ -106,6 +106,37 @@ class LocationTest extends TestCase {
     $this->assertFalse(array_key_exists('print_jobs', $actualSerialized));
   }
 
+  public function testGetLastMarPrintedAttributeWhenToday() {
+    $location = $this->createLocation('test floor');
+    $location->todays_mar_file_name = "qux.ps";
+
+    $date = new DateTime('2013-10-02');
+    $this->createPrintJob('uno', 'bar.ps', $location->id, 'Fail', $date->setTime(14,55,59), false);
+    $this->createPrintJob('dos', 'qux.ps', $location->id, 'Success', $date->setTime(14,55,55));
+
+    $this->assertEquals("Today's", $location->getLastMarPrintedAttribute());
+  }
+
+  public function testGetLastMarPrintedAttributeWhenTomorrow() {
+    $location = $this->createLocation('test floor');
+    $location->tomorrows_mar_file_name = "qux.ps";
+
+    $date = new DateTime('2013-10-02');
+    $this->createPrintJob('uno', 'bar.ps', $location->id, 'Fail', $date->setTime(14,55,59), false);
+    $this->createPrintJob('dos', 'qux.ps', $location->id, 'Success', $date->setTime(14,55,55));
+
+    $this->assertEquals("Tomorrow's", $location->getLastMarPrintedAttribute());
+  }
+
+  public function testGetLastMarPrintedAttributeWhenNeither() {
+    $location = $this->createLocation('test floor');
+    $location->todays_mar_file_name = "qux.ps";
+
+    $this->assertNull($location->getLastMarPrintedAttribute());
+  }
+
+
+
   // Helper Methods
 
   private function createLocation($description)
