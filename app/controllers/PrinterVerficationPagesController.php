@@ -18,7 +18,8 @@ class PrinterVerficationPagesController extends \SecuredController {
         $location = Location::find($p['location_id']);
 
         if ($location) {
-          $dt = new DateTime();
+          $now = new DateTime("America/Chicago");
+          $dt = $now->format('m/d/Y H:i:s');
           $ut = $location->description;
           $pt = $location->printer_name;
           array_push($pagesByLocation,

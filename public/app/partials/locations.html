@@ -63,10 +63,16 @@
     <td ng-hide="testMode">{{ formatMarDateOrErrorMsg(location.record.tomorrows_mar_last_modified_date, location.record.tomorrows_mar_file_name) }}</td>
     <td ng-hide="testMode">{{ location.record.last_mar_printed }}</td>
     <td ng-hide="testMode">
-        <span popover-append-to-body="true" popover="{{location.record.last_mar_print_job.enque_failure_message}}" popover-trigger="mouseenter">{{ location.last_print_status }}</span>
+        <span popover-append-to-body="true" popover="{{location.record.last_mar_print_job.enque_failure_message}}" popover-trigger="mouseenter">
+          <human-readable-boolean status="location.record.last_mar_print_job.is_enque_successful"/>
+        </span>
     </td>
     <td ng-hide="testMode">{{ location.record.last_mar_print_job.enque_timestamp }}</td>
-    <td ng-show="testMode">Fix me</td>
+    <td ng-show="testMode">
+      <span popover-append-to-body="true" popover="{{location.record.last_non_mar_print_job.enque_failure_message}}" popover-trigger="mouseenter">
+        <human-readable-boolean status="location.record.last_non_mar_print_job.is_enque_successful"/>
+      </span>
+    </td>
     <td ng-show="testMode">{{ location.record.last_non_mar_print_job.enque_timestamp}}</td>
   </tr>
 </table>

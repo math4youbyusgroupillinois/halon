@@ -49,6 +49,29 @@ app.run(function($rootScope, FlashService){
     });
 });
 
+app.directive('humanReadableBoolean', function() {
+  // var humanReadable = function(val) {
+  //   console.log('test');
+  //   return val ? "Successful" : "Failed";
+  // }
+  // $scope.humanReadable = "ya";
+
+  return {
+    restrict: 'E',
+    replace: true,
+    // template: '<span>foo</span>',
+    template: '<span>{{humanReadable(status)}}</span>',
+    scope: {
+      status: '=',
+    },
+    controller: function($scope) {
+      $scope.humanReadable = function(val) {
+        return val ? "Successful" : "Failed";
+      }
+    }
+  }
+});
+
 // app.config(function($httpProvider){
 //   // underscore logic taken from
 //   // https://github.com/FineLinePrototyping/angularjs-rails-resource/blob/master/angularjs-rails-resource.js

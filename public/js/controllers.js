@@ -50,7 +50,7 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
   };
 });
 
-app.controller('locationController',function($scope, $rootScope, $location, $filter, Authenticate, Location, PrintJob, FlashService, PrintStatusService, PrinterVerificationPage, $log){
+app.controller('locationController',function($scope, $rootScope, $location, $filter, Authenticate, Location, PrintJob, FlashService, PrinterVerificationPage, $log){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
@@ -66,8 +66,7 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
     for (i in data) {
       container = {
         print: false,
-        record: data[i],
-        last_print_status: PrintStatusService.displayStatus(data[i].last_mar_print_job)
+        record: data[i]
       }
       locations.push(container)
     }
@@ -110,8 +109,7 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
           for (i in data) {
             container = {
               print: false,
-              record: data[i],
-              last_print_status: PrintStatusService.displayStatus(data[i].last_mar_print_job)
+              record: data[i]
             }
             locations.push(container)
           }
@@ -149,7 +147,6 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
             container = {
               print: false,
               record: data[i],
-              last_print_status: PrintStatusService.displayStatus(data[i].last_mar_print_job)
             }
             locations.push(container)
           }
@@ -446,15 +443,14 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
   };
 });
 
-app.controller('publicLocationController',function($scope, $rootScope, $location, Authenticate, Location, FlashService, PrintStatusService, $log){
+app.controller('publicLocationController',function($scope, $rootScope, $location, Authenticate, Location, FlashService, $log){
   $rootScope.location = $location; // used for ActiveTab
 
   Location.query({},function(data) {
     locations = []
     for (i in data) {
       container = {
-        record: data[i],
-        last_print_status: PrintStatusService.displayStatus(data[i].last_mar_print_job)
+        record: data[i]
       }
       locations.push(container)
     }
@@ -474,7 +470,7 @@ app.controller('publicLocationController',function($scope, $rootScope, $location
 });
 
 
-app.controller('alternatePrinterController',function($scope, $rootScope, $location, Authenticate, Location, PrintJob, FlashService, PrintStatusService, $log){
+app.controller('alternatePrinterController',function($scope, $rootScope, $location, Authenticate, Location, PrintJob, FlashService, $log){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;

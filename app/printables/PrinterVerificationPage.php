@@ -3,9 +3,6 @@
 class PrinterVerificationPage extends Printable {
   public function __construct($date, $unit, $printer) {
     parent::__construct();
-    if (is_object($date) && get_class($date) == 'DateTime') {
-      $date = strftime('%m/%d/%Y %T', $date->getTimestamp());
-    }
     $this->date = $date;
     $this->unit = $unit;
     $this->printer = $printer;
