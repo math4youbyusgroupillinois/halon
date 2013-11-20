@@ -50,13 +50,16 @@ app.controller('loginController',function($scope, $rootScope, $sanitize, $locati
   };
 });
 
-app.controller('locationController',function($scope, $rootScope, $location, $filter, Authenticate, Location, PrintJob, FlashService, PrintStatusService, $log){
+app.controller('locationController',function($scope, $rootScope, $location, $filter, Authenticate, Location, PrintJob, FlashService, PrintStatusService, PrinterVerificationPage, $log){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
   }
 
   $rootScope.location = $location; // used for ActiveTab
+
+  $scope.testMode = false;
+
   Location.query({},function(data) {
     locations = []
     $scope.data = data;
@@ -74,6 +77,9 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
   $scope.defaultColumn = 'record.last_mar_print_job.enque_timestamp';
   $scope.reverse = true;
 
+  $scope.isMarMode = function() {
+    return !$scope.testMode;
+  }
   $scope.sort = function(column) {
     if ($scope.defaultColumn === column) {
       $scope.reverse = !$scope.reverse;
@@ -92,7 +98,7 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
           'printer_name': loc.record.printer_name,
           'file_name': loc.record[whichMar + '_file_name'],
           'location_id': loc.record.id,
-          'mar': true
+          'mar': $scope.isMarMode()
         });
       }
     }
@@ -115,6 +121,61 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
         FlashService.add('danger', 'Unable to contact server');
       });
     }
+  };
+
+  $scope.onPrintTestPage = function() {
+    $log.info("onPrintTestPage");
+    var toCreate = [];
+    var printersByLocation = {};
+    for (i in $scope.locations) {
+      loc = $scope.locations[i];
+      if (loc.print) {
+        toCreate.push({
+          'location_id': loc.record.id,
+        });
+
+        printersByLocation[loc.record.id.toString()] = loc.record.printer_name;
+      }
+    }
+
+    var success = function(pages) {
+      pages = pages['pages'];
+
+      var success = function() {
+        Location.query({},function(data) {
+          locations = []
+          $scope.data = data;
+          for (i in data) {
+            container = {
+              print: false,
+              record: data[i],
+              last_print_status: PrintStatusService.displayStatus(data[i].last_mar_print_job)
+            }
+            locations.push(container)
+          }
+          $scope.locations = locations;
+        });
+      };
+
+      var failure = function () {
+        FlashService.add('danger', 'Unable to contact server');
+      };
+
+      $log.info(pages);
+
+      for (o in pages) {
+        var page = pages[o];
+        page['printer_name'] = printersByLocation[page['location_id'].toString()];
+      }
+
+      PrintJob.create({'items': pages}, success, failure);
+    };
+
+    var failure = function() {
+      FlashService.add('danger', 'Unable to contact server');
+    }
+
+    PrinterVerificationPage.create({'pages': toCreate}, success, failure);
   };
 
   $scope.onSelectAll = function() {
@@ -276,7 +337,8 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
             toPrint.push({
               'printer_name': loc.printer_name,
               'file_name': loc[whichMar + '_file_name'],
-              'location_id': loc.id
+              'location_id': loc.id,
+              'mar': true
             });
           }
 
@@ -384,7 +446,7 @@ app.controller('dashboardController', function($scope, $location, $log, $window,
   };
 });
 
-app.controller('publicLocationController',function($scope, $rootScope, $location, Authenticate, Location, PrintJob, FlashService, PrintStatusService, $log){
+app.controller('publicLocationController',function($scope, $rootScope, $location, Authenticate, Location, FlashService, PrintStatusService, $log){
   $rootScope.location = $location; // used for ActiveTab
 
   Location.query({},function(data) {
@@ -440,7 +502,8 @@ app.controller('alternatePrinterController',function($scope, $rootScope, $locati
       fileName = $scope.filesToPrint[i]
       toPrint.push({
         'printer_name': $scope.newPrinter.printerName,
-        'file_name': fileName
+        'file_name': fileName,
+        'mar': true
       });
     }
 

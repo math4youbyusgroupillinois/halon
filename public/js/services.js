@@ -75,6 +75,10 @@ app.factory('PrintJob', function($resource){
   return $resource("index.php/print_jobs", {}, {create: { method:'POST' }});
 });
 
+app.factory('PrinterVerificationPage', function($resource) {
+  return $resource("index.php/printer_verification_pages", {}, {create: { method:'POST' }});
+})
+
 app.factory('FlashService', ['$rootScope', function($rootScope) {
   $rootScope.alerts = [];
   var alertService = {

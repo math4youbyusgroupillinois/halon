@@ -8,6 +8,7 @@
     <li role="presentation"><a role="menuitem" tabindex="-1"  data-target="#" ng-click="onSelectNone()">None</a></li>
   </ul>
 </span>
+<span ng-hide="testMode">
 <span class="dropdown" ng-show="permit(['admin', 'printer'])">
   <button id="printLabel" class="btn-lg" data-toggle="dropdown" data-target="#"><span class="glyphicon glyphicon-print"></span> Print</button>
   <ul class="dropdown-menu" role="menu" aria-labelledby="printLabel">
@@ -16,27 +17,56 @@
 
   </ul>
 </span>
+</span>
+<button id="printLabel" class="btn-lg" data-target="#" ng-click="onPrintTestPage()" ng-show="testMode">
+  <span class="glyphicon glyphicon-print"></span> Print
+</button>
+<input type="checkbox" ng-model="testMode"/> Test Mode
 <table class="table table-striped" style="margin-top:5px">
   <th></th>
-  <th><button class="btn-mini btn-link" ng-click="sort('record.description')">Printer Location</button></th>
-  <th><button class="btn-mini btn-link" ng-click="sort('record.phone_number')">Contact Number</button></th>
-  <th><button class="btn-mini btn-link" ng-click="sort('record.printer_name')">Printer Name</button></th>
-  <th><button class="btn-mini btn-link" ng-click="sort('record.todays_mar_last_modified_date')">Today's MAR Date</button></th>
-  <th><button class="btn-mini btn-link" ng-click="sort('record.tomorrows_mar_last_modified_date')">Tomorrow's MAR Date</button></th>
-  <th><button class="btn-mini btn-link" ng-click="sort('record.last_mar_printed')">Which MAR Printed?</button></th>
-  <th><button class="btn-mini btn-link" ng-click="sort('last_print_status')">Last Print Status</button></th>
-  <th><button class="btn-mini btn-link" ng-click="sort('location.last_mar_print_job.enque_timestamp')">Last Print Time</button></th>
+  <th>
+    <button class="btn-mini btn-link" ng-click="sort('record.description')">Printer Location</button>
+  </th>
+  <th>
+    <button class="btn-mini btn-link" ng-click="sort('record.phone_number')">Contact Number</button>
+  </th>
+  <th>
+    <button class="btn-mini btn-link" ng-click="sort('record.printer_name')">Printer Name</button>
+  </th>
+  <th ng-hide="testMode">
+    <button class="btn-mini btn-link" ng-click="sort('record.todays_mar_last_modified_date')">Today's MAR Date</button>
+  </th>
+  <th ng-hide="testMode">
+    <button class="btn-mini btn-link" ng-click="sort('record.tomorrows_mar_last_modified_date')">Tomorrow's MAR Date</button>
+  </th>
+  <th ng-hide="testMode">
+    <button class="btn-mini btn-link" ng-click="sort('record.last_mar_printed')">Which MAR Printed?</button>
+  </th>
+  <th ng-hide="testMode">
+    <button class="btn-mini btn-link" ng-click="sort('last_print_status')">Last Print Status</button>
+  </th>
+  <th ng-hide="testMode">
+    <button class="btn-mini btn-link" ng-click="sort('location.last_mar_print_job.enque_timestamp')">Last Print Time</button>
+  </th>
+  <th ng-show="testMode">
+    Last Test Print Status
+  </th>
+  <th ng-show="testMode">
+    Last Test Print Time
+  </th>
   <tr ng-repeat="location in locations | orderBy:defaultColumn:reverse">
     <td><input type="checkbox" ng-model="location.print" ng-show="permit(['admin', 'printer'])"/></td>
     <td>{{ location.record.description }}</td>
     <td>{{ location.record.phone_number }}</td>
     <td>{{ location.record.printer_name }}</td>
-    <td>{{ formatMarDateOrErrorMsg(location.record.todays_mar_last_modified_date, location.record.todays_mar_file_name) }}</td>
-    <td>{{ formatMarDateOrErrorMsg(location.record.tomorrows_mar_last_modified_date, location.record.tomorrows_mar_file_name) }}</td>
-    <td>{{ location.record.last_mar_printed }}</td>
-    <td>
+    <td ng-hide="testMode">{{ formatMarDateOrErrorMsg(location.record.todays_mar_last_modified_date, location.record.todays_mar_file_name) }}</td>
+    <td ng-hide="testMode">{{ formatMarDateOrErrorMsg(location.record.tomorrows_mar_last_modified_date, location.record.tomorrows_mar_file_name) }}</td>
+    <td ng-hide="testMode">{{ location.record.last_mar_printed }}</td>
+    <td ng-hide="testMode">
         <span popover-append-to-body="true" popover="{{location.record.last_mar_print_job.enque_failure_message}}" popover-trigger="mouseenter">{{ location.last_print_status }}</span>
     </td>
-    <td>{{ location.record.last_mar_print_job.enque_timestamp }}</td>
+    <td ng-hide="testMode">{{ location.record.last_mar_print_job.enque_timestamp }}</td>
+    <td ng-show="testMode">Fix me</td>
+    <td ng-show="testMode">{{ location.record.last_non_mar_print_job.enque_timestamp}}</td>
   </tr>
 </table>
