@@ -9,19 +9,19 @@
   </ul>
 </span>
 <span ng-hide="testMode">
-<span class="dropdown" ng-show="permit(['admin', 'printer'])">
-  <button id="printLabel" class="btn-lg" data-toggle="dropdown" data-target="#"><span class="glyphicon glyphicon-print"></span> Print</button>
-  <ul class="dropdown-menu" role="menu" aria-labelledby="printLabel">
-    <li role="presentation"><a role="menuitem" data-target="#" ng-click="onPrint('todays_mar')">Today</a></li>
-    <li role="presentation"><a role="menuitem" data-target="#" ng-click="onPrint('tomorrows_mar')">Tomorrow</a></li>
+  <span class="dropdown" ng-show="permit(['admin', 'printer'])">
+    <button id="printLabel" class="btn-lg" data-toggle="dropdown" data-target="#"><span class="glyphicon glyphicon-print"></span> Print</button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="printLabel">
+      <li role="presentation"><a role="menuitem" data-target="#" ng-click="onPrint('todays_mar')">Today</a></li>
+      <li role="presentation"><a role="menuitem" data-target="#" ng-click="onPrint('tomorrows_mar')">Tomorrow</a></li>
 
-  </ul>
-</span>
+    </ul>
+  </span>
 </span>
 <button id="printLabel" class="btn-lg" data-target="#" ng-click="onPrintTestPage()" ng-show="testMode">
   <span class="glyphicon glyphicon-print"></span> Print
 </button>
-<input type="checkbox" ng-model="testMode"/> Test Mode
+<input type="checkbox" ng-model="testMode"/> Test Page Mode
 <table class="table table-striped" style="margin-top:5px">
   <th></th>
   <th>
@@ -43,16 +43,16 @@
     <button class="btn-mini btn-link" ng-click="sort('record.last_mar_printed')">Which MAR Printed?</button>
   </th>
   <th ng-hide="testMode">
-    <button class="btn-mini btn-link" ng-click="sort('last_print_status')">Last Print Status</button>
+    <button class="btn-mini btn-link" ng-click="sort('record.last_mar_printed.enque_status')">Last Print Status</button>
   </th>
   <th ng-hide="testMode">
     <button class="btn-mini btn-link" ng-click="sort('location.last_mar_print_job.enque_timestamp')">Last Print Time</button>
   </th>
   <th ng-show="testMode">
-    Last Test Print Status
+    <button class="btn-mini btn-link" ng-click="sort('record.last_non_mar_printed.enque_status')">Last Test Print Status</button>
   </th>
   <th ng-show="testMode">
-    Last Test Print Time
+    <button class="btn-mini btn-link" ng-click="sort('record.last_non_mar_printed.enque_timestamp')">Last Test Print Time</button>
   </th>
   <tr ng-repeat="location in locations | orderBy:defaultColumn:reverse">
     <td><input type="checkbox" ng-model="location.print" ng-show="permit(['admin', 'printer'])"/></td>
