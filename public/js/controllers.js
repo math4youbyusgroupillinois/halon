@@ -155,7 +155,7 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
   }
 });
 
-app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, AdminLocation, $log, $modal){
+app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, Location, $modal, FlashService){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
@@ -240,46 +240,49 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
     location.record.$update();
   }
 
-  $scope.importLocation = function(){
+  $scope.importLocations = function(){
     var modalInstance = $modal.open({
       templateUrl: 'app/partials/admin/import.html',
       controller: 'importLocationController'
     });
 
     modalInstance.result.then( function () {
-      $log.info("========hurry=====");
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
+      Location.query({},function(data) {
+        locations = []
+        $scope.data = data;
+        for (i in data) {
+          container = {
+            editMode: false,
+            record: data[i]
+          }
+          locations.push(container)
+        }
+        $scope.locations = locations;
+      });
     });
   };
 });
 
-app.controller('importLocationController',function ($scope, $modalInstance, $log, $upload){
+app.controller('importLocationController',function ($scope, $modalInstance, $upload, FlashService){
   $scope.import = function(){
-    $log.info($scope.files);
-    files = $scope.files;
-    url = URL::action('Admin\LocationsController@index');
-    $log.info(url);
-    if (files.length > 1) {
-      file_to_upload = $files[0];
+    if ($scope.files.length > 0) {
+      file_to_upload = $scope.files[0];
       $scope.upload = $upload.upload({
-        url: 'server/upload/url', //upload.php script, node.js route, or servlet url
-        // method: POST or PUT,
+        url: 'index.php/locations/import',
+        method: 'POST',
         file: file_to_upload
       }).success(function(data, status, headers, config) {
-        // file is uploaded successfully
-        console.log(data);
+        FlashService.add('success', data + " Locations are imported");
+      }).error(function(data, status, headers, config) {
+        FlashService.add('info', data);
       })
     }
     $modalInstance.close();
   };
 
   $scope.onFileSelect = function($files) {
-    // for (var i = 0; i < $files.length; i++) {
-    //   var $file = $files[i];
-    //   $scope.file = $file;
-    // }
     $scope.files = $files;
+    $scope.hasFile = true;
   }
 
   $scope.cancel = function(){
