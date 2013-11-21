@@ -3,15 +3,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <button class="close" aria-hidden="true" ng-click="cancel()">&times;</button>
-        <h4 class="modal-title">Import</h4>
+        <h4 class="modal-title">Import Locations</h4>
       </div>
       <div class="modal-body">
-        <!-- <input type="file" ng-file-select="onFileSelect($files)"> -->
         <input type="file" ng-file-select="onFileSelect($files)">
       </div>
       <div class="modal-footer">
-        <button class="btn btn-default" ng-click="import()">Import</button>
-        <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-primary" ng-show="hasFile" ng-click="import()">Import</button>
+        <button class="btn btn-link" ng-click="cancel()">Cancel</button>
       </div>
     </div>
   </div>
