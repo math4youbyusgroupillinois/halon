@@ -18,6 +18,53 @@ class LocationsController extends \SecuredController {
   }
 
   /**
+   * Upload json file
+   *
+   * @return Response
+   */
+  public function import()
+  {
+    if (!$this->isPermitted('admin')) {
+      Log::info("Unauthorized access attempt", array('context' => get_class($this)."#update"));
+      return $this->unauthorizedResponse();
+    }
+    if (Input::hasFile('file')) {
+      $file_content = file_get_contents(Input::file('file'));
+      $json_content = json_decode($file_content, true);
+      if (json_last_error() == JSON_ERROR_NONE) {
+        if (isset($json_content["NURSE_UNIT"]["UNIT"])) {
+          $locations = $json_content["NURSE_UNIT"]["UNIT"];
+          $count = 0;
+          foreach ($locations as $loc) {
+            if ($loc["DONT_PRT_MAR"] === 0) {
+              $display_key = $loc["DISPLAY_KEY"];
+              $location = Location::where('display_key', '=', $display_key)->first();
+              if ($location === NULL) {
+                $location = new Location();
+              }
+              $location->description = $display_key;
+              $location->printer_name = Config::get('app.print_server_name').$loc["PRINTER"];
+              $location->phone_number = $loc["PHONE"];
+              $location->todays_mar_file_name = 'dt_mar1_'.$loc["DISPLAY_KEY"].'.ps';
+              $location->tomorrows_mar_file_name = 'dt_mar2_'.$loc["DISPLAY_KEY"].'.ps';
+              $location->display_key = $display_key;
+              $location->save();
+              $count++;
+            }
+          }
+          return Response::json($count, 201);
+        } else {
+          return Response::json('Syntax error - bad JSON', 400);
+        }
+      } else {
+        return Response::json('Syntax error - bad JSON', 400);
+      }
+    } else {
+      return Response::json('Location import failed', 400);
+    }
+  }
+
+  /**
    * Store a newly created resource in storage.
    *
    * @return Response

@@ -194,5 +194,5 @@ return array(
   */
 
   'mar_path' => 'C:\\inetpub\\wwwroot',
-
+  'print_server_name' => '\\\\Test\\'
 );

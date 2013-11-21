@@ -1,5 +1,5 @@
 // app.js
-var app = angular.module("halon",['ui.bootstrap','ngResource','ngSanitize']);
+var app = angular.module("halon",['ui.bootstrap','ngResource','ngSanitize', 'angularFileUpload']);
 
 app.config(['$routeProvider',function($routeProvider){
   $routeProvider.when('/login',{templateUrl:'app/partials/login.html', controller: 'loginController'});

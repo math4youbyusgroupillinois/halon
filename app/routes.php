@@ -19,7 +19,7 @@ Route::get('/', function()
 Route::get('/dashboard', function() {
   return View::make('dashboard');
 });
-
+Route::post('locations/import', 'LocationsController@import');
 Route::resource('locations', 'LocationsController');
 Route::resource('print_jobs', 'PrintJobsController',
     array('only' => array('store')));

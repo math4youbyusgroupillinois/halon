@@ -1,0 +1,18 @@
+{ "NURSE_UNIT":
+  {
+    "UNIT_CNT":81,
+    "UNIT":[
+    {
+      "DISPLAY_KEY":"CCU",
+      "PRINTER":"Printer1",
+      "PHONE":"123-4567",
+      "DONT_PRT_MAR":0
+    },
+    {
+      "DISPLAY_KEY":"ICU",
+      "PRINTER":"Printer2",
+      "PHONE":"456-1234",
+      "DONT_PRT_MAR":0
+    }]
+  }
+}

@@ -205,16 +205,16 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
 
   $scope.permit = function(roles) {
     var allow = false;
-    
+
     for (roleIndex in roles) {
       allow = allow || Authenticate.permit(roles[roleIndex]);
     }
-    
+
     return allow;
   }
 });
 
-app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, Location, $log){
+app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, Location, $modal, FlashService){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
@@ -298,6 +298,55 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
     location.record.tomorrows_mar_file_name = $scope.editRecord.tomorrowsMarFileName;
     location.record.$update();
   }
+
+  $scope.importLocations = function(){
+    var modalInstance = $modal.open({
+      templateUrl: 'app/partials/admin/import.html',
+      controller: 'importLocationController'
+    });
+
+    modalInstance.result.then( function () {
+      Location.query({},function(data) {
+        locations = []
+        $scope.data = data;
+        for (i in data) {
+          container = {
+            editMode: false,
+            record: data[i]
+          }
+          locations.push(container)
+        }
+        $scope.locations = locations;
+      });
+    });
+  };
+});
+
+app.controller('importLocationController',function ($scope, $modalInstance, $upload, FlashService){
+  $scope.import = function(){
+    if ($scope.files.length > 0) {
+      file_to_upload = $scope.files[0];
+      $scope.upload = $upload.upload({
+        url: 'index.php/locations/import',
+        method: 'POST',
+        file: file_to_upload
+      }).success(function(data, status, headers, config) {
+        FlashService.add('success', data + " Locations are imported");
+      }).error(function(data, status, headers, config) {
+        FlashService.add('info', data);
+      })
+    }
+    $modalInstance.close();
+  };
+
+  $scope.onFileSelect = function($files) {
+    $scope.files = $files;
+    $scope.hasFile = true;
+  }
+
+  $scope.cancel = function(){
+    $modalInstance.dismiss('cancel');
+  };
 });
 
 app.controller('userController',function($scope, $rootScope, $sanitize, $location, $resource, Authenticate, FlashService, User, PasswordService){
