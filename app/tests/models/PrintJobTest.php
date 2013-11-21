@@ -28,8 +28,9 @@ class PrintJobTest extends TestCase {
   }
 
   public function testBulkEnque() {
-    Printer::shouldReceive('enque')->once()->with('uno', '/tmp/halon/bar.ps')->andReturn(true);
-    Printer::shouldReceive('enque')->once()->with('dos', '/tmp/halon/qux.ps')->andReturn(true);
+    $printablePath = Printable::defaultBasePath();
+    Printer::shouldReceive('enque')->once()->with('uno', "$printablePath/bar.ps")->andReturn(true);
+    Printer::shouldReceive('enque')->once()->with('dos', "$printablePath/qux.ps")->andReturn(true);
 
     PrintJob::truncate();
 
@@ -40,13 +41,27 @@ class PrintJobTest extends TestCase {
     PrintJob::bulkEnque($jobs);
   }
 
+  public function testBulkEnqueWithMARs() {
+    Printer::shouldReceive('enque')->once()->with('uno', '/tmp/halon/bar.ps')->andReturn(true);
+    Printer::shouldReceive('enque')->once()->with('dos', '/tmp/halon/qux.ps')->andReturn(true);
+
+    PrintJob::truncate();
+
+    $jobs = array(
+      new PrintJob(array('printer_name' => 'uno', 'file_name' => 'bar.ps', 'mar' => true)),
+      new PrintJob(array('printer_name' => 'dos', 'file_name' => 'qux.ps', 'mar' => true)));
+
+    PrintJob::bulkEnque($jobs);
+  }
+
+
   public function testBulkEnqueHasFailureMessageWhenPrinterExceptionThrown() {
     Printer::shouldReceive('enque')->once()->with('bad-printer', '/tmp/halon/bar.ps')->andThrow('Northwestern\Printer\PrinterException', 'Massive Failure');
 
     PrintJob::truncate();
 
     $jobs = array(
-      new PrintJob(array('printer_name' => 'bad-printer', 'file_name' => 'bar.ps')));
+      new PrintJob(array('printer_name' => 'bad-printer', 'file_name' => 'bar.ps', 'mar' => true)));
 
     $actual = PrintJob::bulkEnque($jobs);
     $this->assertEquals('bad-printer', $actual[0]->printer_name);
@@ -61,7 +76,7 @@ class PrintJobTest extends TestCase {
     PrintJob::truncate();
 
     $jobs = array(
-      new PrintJob(array('printer_name' => 'uno', 'file_name' => 'bad-file')));
+      new PrintJob(array('printer_name' => 'uno', 'file_name' => 'bad-file', 'mar' => true)));
 
     $actual = PrintJob::bulkEnque($jobs);
     $this->assertEquals('uno', $actual[0]->printer_name);
@@ -75,7 +90,7 @@ class PrintJobTest extends TestCase {
     $this->assertNotNull($loc->id);
 
     $result = $loc->printJobs()->create(array('file_name' => 'foo', 'printer_name' => 'bar'));
-    $pj = $loc->lastPrintJob();
+    $pj = $loc->lastNonMarPrintJob();
     $this->assertNotNull($loc->id);
     $this->assertEquals('foo', $pj->file_name);
     $this->assertEquals('bar', $pj->printer_name);

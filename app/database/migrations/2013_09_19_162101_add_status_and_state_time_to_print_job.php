@@ -25,7 +25,7 @@ class AddStatusAndStateTimeToPrintJob extends Migration {
 	public function down()
 	{
     Schema::table('print_jobs', function($table) {
-       $table->dropColumn('enque_failure_message');
+      $table->dropColumn('enque_failure_message');
     });
 
     Schema::table('print_jobs', function($table) {
