@@ -13,6 +13,7 @@ Halon is a tool to print out Medicine Administration Records for NMH Clinical IT
 5. Run `composer install -d workbench/northwestern/printer`
 6. Run `composer install`
 7. Set `'mar_path' => '<MAR DIRECTORY>'` in app/config/app.php
+8. Set `'print_server_name' => '<Network Printer Server Path(with slash included)>'` in app/config/app.php
 
 ### Reseting Passwords
 
