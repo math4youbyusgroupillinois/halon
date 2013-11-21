@@ -13,10 +13,9 @@ class LocationsController extends \SecuredController {
    */
   public function index()
   {
-    $transformed = Location::allWithLastPrintJob();
-    return Response::json($transformed, 200);
+    $all = Location::all();
+    return Response::json($all, 200);
   }
-
 
   /**
    * Store a newly created resource in storage.

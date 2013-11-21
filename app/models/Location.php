@@ -11,37 +11,29 @@ class Location extends Eloquent {
 
   protected $fillable = array('description', 'phone_number', 'printer_name', 'todays_mar_file_name', 'tomorrows_mar_file_name');
 
-  protected $appends = array('todays_mar_last_modified_date', 'tomorrows_mar_last_modified_date', 'last_mar_printed');
+  protected $appends = array('todays_mar_last_modified_date', 'tomorrows_mar_last_modified_date', 'last_mar_printed', 'last_mar_print_job', 'last_non_mar_print_job');
 
   public function printJobs() {
     return $this->hasMany('printJob');
   }
 
-  public function lastPrintJob() {
-    return $this->printJobs()->orderBy('enque_timestamp','desc')->first();
+  public function lastPrintJobCriteria($isMar) {
+    return $this->printJobs()->isMar($isMar)->orderBy('enque_timestamp','desc');
   }
 
-  public static function allWithLastPrintJob() {
-    $jobs = Location::with('printJobs')->get();
-    $transformed = array();
-    foreach ($jobs as $job) {
-      $raw = $job->toArray();
-      unset($raw['print_jobs']);
-      if (!is_null($job->lastPrintJob())) {
-        $augment = array_merge((array)$raw, (array)array('last_print_job' => $job->lastPrintJob()->toArray()));
-        $transformed = array_merge((array)$transformed, (array)array($augment));  
-      } else {
-        $transformed = array_merge((array)$transformed, (array)array($raw));
-      }
-    }
-    return $transformed;
+  public function lastMarPrintJob() {
+    return $this->lastPrintJobCriteria(true)->first();
+  }
+
+  public function lastNonMarPrintJob() {
+    return $this->lastPrintJobCriteria(false)->first();
   }
 
   public function getTodaysMarLastModifiedDateAttribute() {
     $date = NULL;
     if (!empty($this->todays_mar_file_name)) {
       $mar = new Mar($this->todays_mar_file_name);
-      $path = $mar->filePath();
+      $path = $mar->filePath(true);
       if (File::exists($path)) {
         $date = new DateTime();
         $date = $date->setTimestamp(File::lastModified($path));
@@ -56,7 +48,7 @@ class Location extends Eloquent {
     $date = NULL;
     if (!empty($this->tomorrows_mar_file_name)) {
       $mar = new Mar($this->tomorrows_mar_file_name);
-      $path = $mar->filePath();
+      $path = $mar->filePath(true);
       if (File::exists($path)) {
         $date = new DateTime();
         $date = $date->setTimestamp(File::lastModified($path));
@@ -70,16 +62,32 @@ class Location extends Eloquent {
     $out = NULL;
     $lastFilePrinted = NULL;
     
-    if ($this->lastPrintJob()) {
-      $lastFilePrinted = $this->lastPrintJob()->file_name;
+    if ($this->lastMarPrintJob()) {
+      $lastFilePrinted = $this->lastMarPrintJob()->file_name;
     }
 
-    if ($lastFilePrinted == $this->tomorrows_mar_file_name) {
-      $out = "Tomorrow's";
-    } elseif ($lastFilePrinted == $this->todays_mar_file_name) {
-      $out = "Today's";
+    if ($lastFilePrinted != NULL) {
+      if ($lastFilePrinted == $this->tomorrows_mar_file_name) {
+        $out = "Tomorrow's";
+      } elseif ($lastFilePrinted == $this->todays_mar_file_name) {
+        $out = "Today's";
+      }
     }
 
     return $out;
+  }
+
+  public function getLastMarPrintJobAttribute() {
+    // toArray() is needed to work around JSON serialization problem
+    // where no attributes are serialized
+    $last = $this->lastMarPrintJob();
+    return !is_null($last) ? $last->toArray() : null;
+  }
+
+  public function getLastNonMarPrintJobAttribute() {
+    // toArray() is needed to work around JSON serialization problem
+    // where no attributes are serialized
+    $last = $this->lastNonMarPrintJob();
+    return !is_null($last) ? $last->toArray() : null;
   }
 }

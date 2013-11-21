@@ -75,6 +75,10 @@ app.factory('PrintJob', function($resource){
   return $resource("index.php/print_jobs", {}, {create: { method:'POST' }});
 });
 
+app.factory('PrinterVerificationPage', function($resource) {
+  return $resource("index.php/printer_verification_pages", {}, {create: { method:'POST' }});
+})
+
 app.factory('FlashService', ['$rootScope', function($rootScope) {
   $rootScope.alerts = [];
   var alertService = {
@@ -94,23 +98,6 @@ app.factory('FlashService', ['$rootScope', function($rootScope) {
   }
   return alertService;
 }]);
-
-app.factory('PrintStatusService', function() {
-  var displayService = {
-    displayStatus: function(last_print_job) {
-      printStatus = null;
-      if (last_print_job) {
-        if (last_print_job.is_enque_successful) {
-          printStatus = "Successful";
-        } else {
-          printStatus = "Failed";
-        }
-      }
-      return printStatus;
-    }
-  }
-  return displayService;
-});
 
 app.factory('PasswordService', function () {
   // ref: http://stackoverflow.com/questions/1497481/javascript-password-generator

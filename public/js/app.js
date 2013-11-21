@@ -49,6 +49,34 @@ app.run(function($rootScope, FlashService){
     });
 });
 
+app.directive('humanReadableBoolean', function() {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: '<span>{{humanReadable(status)}}</span>',
+    scope: {
+      status: '=',
+    },
+    controller: function($scope) {
+      $scope.humanReadable = function(val) {
+        return val ? "Successful" : "Failed";
+      }
+    }
+  }
+});
+
+app.directive('marModifiedDate', function($filter) {
+  return {
+    restrict: 'E',
+    replace: false,
+    template: '<span ng-show="date">{{ date | date:\'short\' }}</span><span ng-hide="date">File not found: {{fileName}}</span>',
+    scope: {
+      date: '=',
+      fileName: '='
+    }
+  }
+});
+
 // app.config(function($httpProvider){
 //   // underscore logic taken from
 //   // https://github.com/FineLinePrototyping/angularjs-rails-resource/blob/master/angularjs-rails-resource.js

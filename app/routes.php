@@ -23,6 +23,8 @@ Route::get('/dashboard', function() {
 Route::resource('locations', 'LocationsController');
 Route::resource('print_jobs', 'PrintJobsController',
     array('only' => array('store')));
+Route::resource('printer_verification_pages', 'PrinterVerficationPagesController',
+    array('only' => array('store')));
 
 /* Service Routes */
 Route::group(array('prefix' => 'service'), function() {
