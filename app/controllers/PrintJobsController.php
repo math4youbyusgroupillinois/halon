@@ -24,7 +24,7 @@ class PrintJobsController extends \SecuredController {
       Log::info("The newly created print job are: ", $jobsToArray);
       return Response::json(array('items' => $jobsToArray), 201);
     } else {
-      return Response::json("{}", 400);
+      return Response::json("{}", 200);
     }
     
 	}
