@@ -537,14 +537,18 @@ app.controller('alternatePrinterController',function($scope, $rootScope, $locati
     files = []
     $scope.data = data;
     for (i in data) {
-      container = {
-        file_name: data[i].todays_mar_file_name,
+      if (data[i].todays_mar_file_name) {
+        container = {
+          file_name: data[i].todays_mar_file_name,
+        }
+        files.push(container)
       }
-      files.push(container)
-      container = {
-        file_name: data[i].tomorrows_mar_file_name,
+      if (data[i].tomorrows_mar_file_name) {
+        container = {
+          file_name: data[i].tomorrows_mar_file_name,
+        }
+        files.push(container)
       }
-      files.push(container)
     }
     $scope.files = files;
   });
