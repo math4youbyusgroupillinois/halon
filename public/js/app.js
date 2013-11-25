@@ -59,7 +59,13 @@ app.directive('humanReadableBoolean', function() {
     },
     controller: function($scope) {
       $scope.humanReadable = function(val) {
-        return val ? "Successful" : "Failed";
+        var display = '';
+        if (val === true) {
+          display = 'Successful';
+        } else if (val === false) {
+          display = 'Failed';
+        }
+        return display;
       }
     }
   }
