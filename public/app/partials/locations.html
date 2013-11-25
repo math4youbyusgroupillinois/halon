@@ -21,7 +21,7 @@
 <button id="printLabel" class="btn-lg" data-target="#" ng-click="onPrintTestPage()" ng-show="testMode">
   <span class="glyphicon glyphicon-print"></span> Print
 </button>
-<span ng-show="permit(['admin', 'printer'])">
+<span ng-show="permit(['admin', 'printer'])" style="margin-left: 20px">
   <input type="checkbox" ng-model="testMode"/> Test Page Mode
 </span>
 <table class="table table-striped" style="margin-top:5px">
