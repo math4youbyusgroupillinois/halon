@@ -10,7 +10,7 @@ class PrintJobsControllerTest extends TestCase {
   }
 
   public function sendSuccessfullRequest() {
-    $this->action('POST', 'PrintJobsController@store', 
+    $this->action('POST', 'PrintJobsController@store', array(), 
       array('items' => array(
         array('file_name' => 'foo/bar.ps', 'location_id' => 2), 
         array('file_name' => 'baz/qux.ps', 'location_id' => 4))));
@@ -36,5 +36,10 @@ class PrintJobsControllerTest extends TestCase {
     $this->assertNotNull($item1['enque_timestamp']);
     $this->assertEquals('foo/bar.ps', $item0['file_name']);
     $this->assertEquals('baz/qux.ps', $item1['file_name']);
+  }
+
+  public function testPostIs200WithNoPrintJobs() {
+    $this->action('POST', 'PrintJobsController@store', array(), array('items' => array()));
+    $this->assertResponseStatus(200);
   }
 }

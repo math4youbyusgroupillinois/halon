@@ -180,7 +180,9 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
       FlashService.add('danger', 'Unable to contact server');
     }
 
-    PrinterVerificationPage.create({'pages': toCreate}, success, failure);
+    if (toCreate.length > 0) {
+      PrinterVerificationPage.create({'pages': toCreate}, success, failure);
+    }
   };
 
   $scope.onSelectAll = function() {
