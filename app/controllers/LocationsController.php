@@ -45,8 +45,8 @@ class LocationsController extends \SecuredController {
               $location->description = $display_key;
               $location->printer_name = Config::get('app.print_server_name').$loc["PRINTER"];
               $location->phone_number = $loc["PHONE"];
-              $location->todays_mar_file_name = 'dt_mar1_'.$loc["DISPLAY_KEY"].'.ps';
-              $location->tomorrows_mar_file_name = 'dt_mar2_'.$loc["DISPLAY_KEY"].'.ps';
+              $location->todays_mar_file_name = 'dt_mar1_'.$loc["DISPLAY_KEY"].'.dat';
+              $location->tomorrows_mar_file_name = 'dt_mar2_'.$loc["DISPLAY_KEY"].'.dat';
               $location->display_key = $display_key;
               $location->save();
               $count++;
