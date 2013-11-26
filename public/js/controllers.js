@@ -197,14 +197,6 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
     });
   };
 
-  $scope.formatMarDateOrErrorMsg = function(date, fileName) {
-    var output = 'Unable to find the MAR ' + fileName;
-    if (date) {
-      output = $filter('date')(date, 'short');
-    }
-    return output;
-  }
-
   $scope.permit = function(roles) {
     var allow = false;
 

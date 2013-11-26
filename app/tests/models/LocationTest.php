@@ -135,7 +135,22 @@ class LocationTest extends TestCase {
     $this->assertNull($location->getLastMarPrintedAttribute());
   }
 
+  public function testGetShortPrinterNameAttributeWithNetworkName() {
+    $loc = new Location();
 
+    $loc->printer_name = '\\\\foo\\bar';
+    $this->assertEquals('bar', $loc->getShortPrinterNameAttribute());
+
+    $loc->printer_name = '\\\\abc-def-gh1\\baz-huf-gh1';
+    $this->assertEquals('baz-huf-gh1', $loc->getShortPrinterNameAttribute());
+  }
+
+  public function testGetShortPrinterNameAttributeWithNonNetworkName() {
+    $loc = new Location();
+
+    $loc->printer_name = 'moo';
+    $this->assertEquals('moo', $loc->getShortPrinterNameAttribute());
+  }
 
   // Helper Methods
 

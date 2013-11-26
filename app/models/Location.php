@@ -11,7 +11,7 @@ class Location extends Eloquent {
 
   protected $fillable = array('description', 'phone_number', 'printer_name', 'todays_mar_file_name', 'tomorrows_mar_file_name');
 
-  protected $appends = array('todays_mar_last_modified_date', 'tomorrows_mar_last_modified_date', 'last_mar_printed', 'last_mar_print_job', 'last_non_mar_print_job');
+  protected $appends = array('todays_mar_last_modified_date', 'tomorrows_mar_last_modified_date', 'last_mar_printed', 'last_mar_print_job', 'last_non_mar_print_job', 'short_printer_name');
 
   public function printJobs() {
     return $this->hasMany('printJob');
@@ -89,5 +89,14 @@ class Location extends Eloquent {
     // where no attributes are serialized
     $last = $this->lastNonMarPrintJob();
     return !is_null($last) ? $last->toArray() : null;
+  }
+
+  public function getShortPrinterNameAttribute() {
+    $short = $this->printer_name;
+    preg_match('@^\\\\\\\\+(.+)\\\\+(.+)@', $short, $matches);
+    if (count($matches) == 3) {
+      $short = $matches[2];
+    }
+    return $short;
   }
 }
