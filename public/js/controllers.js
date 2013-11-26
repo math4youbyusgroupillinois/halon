@@ -5,7 +5,7 @@ app.controller('navController', function($scope, $location, Authenticate, FlashS
     for (argIdx in arguments) {
       allow = allow || Authenticate.permit(arguments[argIdx]);
     }
-    
+
     return allow;
   }
   $scope.authenticated = function() {
@@ -564,10 +564,17 @@ app.controller('alternatePrinterController',function($scope, $rootScope, $locati
 
     if (toPrint.length > 0) {
       PrintJob.create({'items': toPrint}, function(data) {
-        msg = data.items[0].enque_failure_message;
-        if (msg != null) {
-          FlashService.add('danger', msg);
+        $scope.hasStatus = true;
+        printJobs = [];
+        for (i in data.items) {
+          container = {
+            file_name: data.items[i].file_name,
+            status_code: data.items[i].is_enque_successful ? "active" : "danger",
+            status_message : data.items[i].is_enque_successful ? "Successful" : data.items[i].enque_failure_message
+          }
+          printJobs.push(container);
         }
+        $scope.printJobs = printJobs;
       }, function() {
         FlashService.add('danger', 'Unable to contact server');
       });
