@@ -26,16 +26,14 @@
   <input type="checkbox" ng-model="testMode"/> Test Page Mode
 </span>
 <table class="table table-striped table-bordered location-table" style="margin-top:5px">
-  <thead style="background-color:#eee">
-    <tr>
-      <th colspan="4" class="text-center" style="background-color:#fff">Nurse Unit</th>
-      <th ng-hide="testMode" colspan="2" class="text-center" style="background-color:#fff"><span>MAR Last Updated</span></th>
-      <th ng-hide="testMode" colspan="3" class="text-center" style="background-color:#fff">MAR Last Printed</th>
-      <th ng-show="testMode" colspan="3" class="text-center" style="background-color:#fff">Last Test Page Printed</th>
+  <thead>
+    <tr style="background-color:#fff">
+      <th colspan="4" class="text-center">Nurse Unit</th>
+      <th ng-hide="testMode" colspan="2" class="text-center">MAR Last Updated</th>
+      <th ng-hide="testMode" colspan="3" class="text-center">MAR Last Printed</th>
+      <th ng-show="testMode" colspan="3" class="text-center">Last Test Page Printed</th>
     </tr>
-    <tr>
-    </tr>
-    <tr>
+    <tr style="background-color:#eee">
       <th></th>
       <th ng-click="sort('record.description')" class="sortable" style="min-width:100px;">
         <span class="btn-link">Location</span>
@@ -70,7 +68,7 @@
         <span class="glyphicon glyphicon-sort" style="float:right"></span>
       </th>
       <th ng-show="testMode" ng-click="sort('record.last_non_mar_printed.enque_status')" class="sortable" style="min-width:80px">
-        <span>Status</span>
+        <span class="btn-link">Status</span>
         <span class="glyphicon glyphicon-sort" style="float:right"></span>
       </th>
       <th ng-show="testMode" ng-click="sort('record.last_non_mar_printed.enque_timestamp')" class="sortable" style="min-width:80px">
@@ -84,7 +82,7 @@
       <td><input type="checkbox" ng-model="location.print" ng-show="permit(['admin', 'printer'])"/></td>
       <td>{{ location.record.description }}</td>
       <td>{{ location.record.phone_number }}</td>
-      <td>{{ location.record.printer_name }}</td>
+      <td>{{ location.record.short_printer_name }}</td>
       <td ng-hide="testMode" style="border-left: 1px solid #ccc">
         <mar-modified-date date="location.record.todays_mar_last_modified_date" file-name="location.record.todays_mar_file_name"/>
       </td>
@@ -93,13 +91,13 @@
       </td>
       <td ng-hide="testMode" class="text-left" style="border-left: 1px solid #ccc">{{ location.record.last_mar_printed }}</td>
       <td ng-hide="testMode">
-          <span popover-append-to-body="true" popover="{{location.record.last_mar_print_job.enque_failure_message}}" popover-trigger="mouseenter">
+          <span popover-append-to-body="true" popover="{{location.record.last_mar_print_job.enque_failure_message}}" popover-trigger="mouseenter" ng-class="{'btn-link': !location.record.last_mar_print_job.is_enque_successful}">
             <human-readable-boolean status="location.record.last_mar_print_job.is_enque_successful"/>
           </span>
       </td>
       <td ng-hide="testMode">{{ location.record.last_mar_print_job.enque_timestamp }}</td>
       <td ng-show="testMode">
-        <span popover-append-to-body="true" popover="{{location.record.last_non_mar_print_job.enque_failure_message}}" popover-trigger="mouseenter">
+        <span popover-append-to-body="true" popover="{{location.record.last_non_mar_print_job.enque_failure_message}}" popover-trigger="mouseenter" ng-class="{'btn-link': !location.record.last_non_mar_print_job.is_enque_successful}">
           <human-readable-boolean status="location.record.last_non_mar_print_job.is_enque_successful"/>
         </span>
       </td>
