@@ -25,3 +25,14 @@
     <button ng-click="printToPrinter()">Print To This Printer</button>
   </div>
 </div>
+<div class="panel panel-default" ng-show="hasStatus" style="margin-top:10px">
+  <div class="panel-heading">Printing status</div>
+  <table class="table table-striped">
+    <th>File</th>
+    <th>Status</th>
+    <tr class="{{ printJob.status_code }}" ng-repeat="printJob in printJobs">
+      <td>{{ printJob.file_name }}</td>
+      <td>{{ printJob.status_message }}</td>
+    </tr>
+  </table>
+</div>
