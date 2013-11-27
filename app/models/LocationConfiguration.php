@@ -9,15 +9,13 @@ class LocationConfiguration extends Eloquent {
    */
   protected $table = 'location_configurations';
 
-  // protected $fillable = array('imported_at');
-
   public static function isImportRequired() {
     $import_required = false;
     $last_imported = LocationConfiguration::orderBy('updated_at', 'desc')->first();
     if ($last_imported == null) {
       $import_required = true;
     } else {
-      $path = Config::get('app.import_file');
+      $path = Config::get('app.import_file_path');
       if (File::exists($path)) {
         $date = new DateTime();
         $date = $date->setTimestamp(File::lastModified($path));

@@ -6,11 +6,11 @@
         <h4 class="modal-title">Import Locations</h4>
       </div>
       <div class="modal-body">
-        <input type="file" ng-file-select="onFileSelect($files)">
+        <h5>Are you sure want to import locations?</h5>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" ng-show="hasFile" ng-click="import()">Import</button>
-        <button class="btn btn-link" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-primary" ng-click="import()">Yes</button>
+        <button class="btn btn-link" ng-click="cancel()">No</button>
       </div>
     </div>
   </div>

@@ -38,8 +38,9 @@ class LocationsController extends \SecuredController {
       Log::info("Unauthorized access attempt", array('context' => get_class($this)."#update"));
       return $this->unauthorizedResponse();
     }
-    if (Input::hasFile('file')) {
-      $file_content = file_get_contents(Input::file('file'));
+    $file = Config::get('app.import_file_path');
+    if (File::exists($file)) {
+      $file_content = file_get_contents($file);
       $json_content = json_decode($file_content, true);
       if (json_last_error() == JSON_ERROR_NONE) {
         if (isset($json_content["NURSE_UNIT"]["UNIT"])) {
@@ -62,15 +63,18 @@ class LocationsController extends \SecuredController {
               $count++;
             }
           }
+          $location_configuaration = new LocationConfiguration();
+          $location_configuaration->imported_at = new DateTime();
+          $location_configuaration->save();
           return Response::json($count, 201);
         } else {
-          return Response::json('Syntax error - bad JSON', 400);
+          return Response::json(array('message' => "Syntax error - bad JSON"), 400);
         }
       } else {
-        return Response::json('Syntax error - bad JSON', 400);
+        return Response::json(array('message' => "Syntax error - bad JSON"), 400);
       }
     } else {
-      return Response::json('Location import failed', 400);
+      return Response::json(array('message' => "$file - File does not exist. Please check the file path"), 400);
     }
   }
 

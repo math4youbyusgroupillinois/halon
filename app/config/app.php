@@ -194,5 +194,6 @@ return array(
   */
 
   'mar_path' => 'C:\\inetpub\\wwwroot',
-  'print_server_name' => '\\\\Test\\'
+  'print_server_name' => '\\\\Test\\',
+  'import_file_path' => app_path().'/config/locations.json'
 );
