@@ -302,7 +302,7 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
     location.record.$update();
   }
 
-  $http({method: 'GET', url: '/index.php/locations/import_status'}).success(function(data) {
+  $http({method: 'GET', url: 'index.php/locations/import_status'}).success(function(data) {
     if (data == "true") {
       FlashService.add('warning', 'Locations file has been changed. Please import.');
     }
