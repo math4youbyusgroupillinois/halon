@@ -216,7 +216,7 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
   }
 });
 
-app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, Location, $modal, FlashService){
+app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, Location, $modal, FlashService, $log){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
@@ -229,6 +229,7 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
 
   $rootScope.location = $location; // used for ActiveTab
   $scope.editRecord = {};
+  $scope.newLocation = {};
   Location.query({},function(data) {
     locations = []
     $scope.data = data;
