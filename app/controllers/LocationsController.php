@@ -18,6 +18,16 @@ class LocationsController extends \SecuredController {
   }
 
   /**
+   * Import status.
+   *
+   * @return Response
+   */
+  public function import_status()
+  {
+    return Response::json(LocationConfiguration::isImportRequired(), 200);
+  }
+
+  /**
    * Upload json file
    *
    * @return Response

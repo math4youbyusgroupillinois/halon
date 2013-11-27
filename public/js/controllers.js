@@ -216,7 +216,7 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
   }
 });
 
-app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, Location, $modal, FlashService){
+app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, Location, $modal, FlashService, $http){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
@@ -300,6 +300,12 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
     location.record.tomorrows_mar_file_name = $scope.editRecord.tomorrowsMarFileName;
     location.record.$update();
   }
+
+  $http({method: 'GET', url: '/index.php/locations/import_status'}).success(function(data) {
+    if (data == "true") {
+      FlashService.add('warning', 'Locations file has been changed. Please import.');
+    }
+  });
 
   $scope.importLocations = function(){
     var modalInstance = $modal.open({
