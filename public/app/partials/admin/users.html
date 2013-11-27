@@ -13,9 +13,9 @@
   <tbody>
     <tr ng-repeat="user in users">
       <td>{{user.role}}</td>
-      <td>Generated: {{user.updated_at}}</td>
+      <td>Changed: {{user.updated_at}}</td>
       <td>
-        <button class="btn btn-default" ng-click="regenerate()">Regenerate</button>
+        <button class="btn btn-default" ng-click="changePassword()">Change Password</button>
       </td>
     </tr>
   </tbody>
