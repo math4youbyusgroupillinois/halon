@@ -5,7 +5,7 @@ app.controller('navController', function($scope, $location, Authenticate, FlashS
     for (argIdx in arguments) {
       allow = allow || Authenticate.permit(arguments[argIdx]);
     }
-    
+
     return allow;
   }
   $scope.authenticated = function() {
@@ -216,7 +216,7 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
   }
 });
 
-app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, Location, $modal, FlashService, $http){
+app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, Location, $modal, FlashService, $log, $http){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
@@ -229,6 +229,7 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
 
   $rootScope.location = $location; // used for ActiveTab
   $scope.editRecord = {};
+  $scope.newLocation = {};
   Location.query({},function(data) {
     locations = []
     $scope.data = data;
@@ -345,7 +346,7 @@ app.controller('importLocationController',function ($scope, $modalInstance, $upl
   };
 });
 
-app.controller('userController',function($scope, $rootScope, $sanitize, $location, $resource, Authenticate, FlashService, User, PasswordService){
+app.controller('userController',function($scope, $rootScope, $sanitize, $location, $resource, Authenticate, FlashService, User, PasswordService, $modal, $log){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
@@ -359,15 +360,47 @@ app.controller('userController',function($scope, $rootScope, $sanitize, $locatio
   $rootScope.location = $location; // used for ActiveTab
   $scope.users = User.query();
 
-  $scope.regenerate = function() {
-    var random_pass = PasswordService.generate(12);
-    var usr = $scope.users[this.$index];
-    usr.password = $sanitize(random_pass);
-    usr.$update({}, function() {
-      var pass_msg = "Password Reset to: " + random_pass;
-      FlashService.add('info', pass_msg);
-    })
+  $scope.changePassword = function() {
+    var selectedUser = $scope.users[this.$index];
+    $modal.open({
+      templateUrl: 'app/partials/admin/changeUserPassword.html',
+      controller: 'changeUserPasswordController',
+      resolve: {
+        user: function() { return   selectedUser;}
+      }
+    });
   }
+});
+
+app.controller('changeUserPasswordController', function($scope, $modalInstance, $sanitize, $log, user, PasswordService) {
+  $scope.user = user;
+  $scope.password = {};
+  $scope.passwordConfirm = {};
+
+  $scope.change = function(){
+    if ($scope.password.text !== $scope.passwordConfirm.text) {
+      $scope.error = "The two passwords do not match";
+    } else {
+      $scope.error = "";
+      $scope.user.password = $sanitize($scope.password.text);
+      $scope.user.$update({},
+        function() {
+          $modalInstance.dismiss('password changed');
+        },
+        function() {
+          $scope.error = "Failed to change password";
+        }
+      );
+    };
+  };
+
+  $scope.suggest = function() {
+    $scope.suggested = PasswordService.generate(12);
+  }
+
+  $scope.cancel = function(){
+    $modalInstance.dismiss('cancel');
+  };
 });
 
 app.controller('dashboardController', function($scope, $location, $log, $window, $sanitize, Authenticate, FlashService, Location, PrintJob){
