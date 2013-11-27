@@ -8,6 +8,7 @@ class LocationsControllerTest extends TestCase {
     $user->role = 'admin';
     $this->be($user);
     Config::set('app.print_server_name', '/testserver/');
+    Config::set('app.import_file_path', __DIR__ .'/../fixtures/test-file.json');
   }
 
   public function testImportSuccessful() {
@@ -42,22 +43,23 @@ class LocationsControllerTest extends TestCase {
     $this->assertEquals('dt_mar2_CCU.dat', $location->tomorrows_mar_file_name);
   }
 
-  public function testImportFailsWithoutFile() {
-    $res = $this->action('POST', 'LocationsController@import', array());
+  public function testImportFailsWithNoFile() {
+    $file = '/fixtures/no-file.json';
+    Config::set('app.import_file_path', $file);
+    $res = $this->action('POST', 'LocationsController@import');
     $this->assertResponseStatus(400);
-    $this->assertEquals('"Location import failed"', $res->getContent());
+    $this->assertEquals('{"message":"\/fixtures\/no-file.json - File does not exist. Please check the file path"}', $res->getContent());
   }
 
   public function testImportFailsBadJson() {
-    $file = new UploadedFile(__DIR__ .'/fixtures/bad-test-file.json', 'test-file.json', null, null, null, true);
-    $res = $this->action('POST', 'LocationsController@import', array(), array(), array('file' => $file));
+    Config::set('app.import_file_path', __DIR__ .'/../fixtures/bad-test-file.json');
+    $res = $this->action('POST', 'LocationsController@import');
     $this->assertResponseStatus(400);
-    $this->assertEquals('"Syntax error - bad JSON"', $res->getContent());
+    $this->assertEquals('{"message":"Syntax error - bad JSON"}', $res->getContent());
   }
 
   public function postFile() {
-    $file = new UploadedFile(__DIR__ .'/fixtures/test-file.json', 'test-file.json', null, null, null, true);
-    $res = $this->action('POST', 'LocationsController@import', array(), array(), array('file' => $file));
+    $res = $this->action('POST', 'LocationsController@import');
     return $res;
   }
 }

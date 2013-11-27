@@ -5,7 +5,7 @@ app.controller('navController', function($scope, $location, Authenticate, FlashS
     for (argIdx in arguments) {
       allow = allow || Authenticate.permit(arguments[argIdx]);
     }
-    
+
     return allow;
   }
   $scope.authenticated = function() {
@@ -216,7 +216,7 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
   }
 });
 
-app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, Location, $modal, FlashService, $log){
+app.controller('locationAdminController',function($scope, $rootScope, $location, Authenticate, Location, $modal, FlashService, $log, $http){
   if (!Authenticate.isAuthenticated()) {
     $location.path('/login');
     return;
@@ -302,6 +302,12 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
     location.record.$update();
   }
 
+  $http({method: 'GET', url: '/index.php/locations/import_status'}).success(function(data) {
+    if (data == "true") {
+      FlashService.add('warning', 'Locations file has been changed. Please import.');
+    }
+  });
+
   $scope.importLocations = function(){
     var modalInstance = $modal.open({
       templateUrl: 'app/partials/admin/import.html',
@@ -325,27 +331,15 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
   };
 });
 
-app.controller('importLocationController',function ($scope, $modalInstance, $upload, FlashService){
+app.controller('importLocationController',function ($scope, $modalInstance, $upload, FlashService, $http){
   $scope.import = function(){
-    if ($scope.files.length > 0) {
-      file_to_upload = $scope.files[0];
-      $scope.upload = $upload.upload({
-        url: 'index.php/locations/import',
-        method: 'POST',
-        file: file_to_upload
-      }).success(function(data, status, headers, config) {
-        FlashService.add('success', data + " Locations are imported");
-      }).error(function(data, status, headers, config) {
-        FlashService.add('info', data);
-      })
-    }
+    $http({method: 'POST', url: 'index.php/locations/import'}).success(function(data) {
+      FlashService.add('success', data + " locations are imported");
+    }).error(function(data, status, headers, config) {
+        FlashService.add('info', data["message"]);
+    });
     $modalInstance.close();
   };
-
-  $scope.onFileSelect = function($files) {
-    $scope.files = $files;
-    $scope.hasFile = true;
-  }
 
   $scope.cancel = function(){
     $modalInstance.dismiss('cancel');
@@ -389,10 +383,10 @@ app.controller('changeUserPasswordController', function($scope, $modalInstance, 
     } else {
       $scope.error = "";
       $scope.user.password = $sanitize($scope.password.text);
-      $scope.user.$update({}, 
+      $scope.user.$update({},
         function() {
           $modalInstance.dismiss('password changed');
-        }, 
+        },
         function() {
           $scope.error = "Failed to change password";
         }
