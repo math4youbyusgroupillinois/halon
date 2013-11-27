@@ -8,7 +8,7 @@ class LocationsControllerTest extends TestCase {
     $user->role = 'admin';
     $this->be($user);
     Config::set('app.print_server_name', '/testserver/');
-    Config::set('app.import_file_path', __DIR__ .'/fixtures/test-file.json');
+    Config::set('app.import_file_path', __DIR__ .'/../fixtures/test-file.json');
   }
 
   public function testImportSuccessful() {
@@ -52,7 +52,7 @@ class LocationsControllerTest extends TestCase {
   }
 
   public function testImportFailsBadJson() {
-    Config::set('app.import_file_path', __DIR__ .'/fixtures/bad-test-file.json');
+    Config::set('app.import_file_path', __DIR__ .'/../fixtures/bad-test-file.json');
     $res = $this->action('POST', 'LocationsController@import');
     $this->assertResponseStatus(400);
     $this->assertEquals('{"message":"Syntax error - bad JSON"}', $res->getContent());
