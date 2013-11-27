@@ -11,7 +11,7 @@ Deploy
 5. `cd /Volumes/source/PUBLIC/mar`
 6. `git pull`
 7. `git checkout <version>`
-8. `git cleanup -f -d`
+8. `git clean -f -d`
 9. `composer install -d workbench/northwestern/printer`
 10. `composer install`
 11. `php artisan migrate`
