@@ -197,14 +197,6 @@ app.controller('locationController',function($scope, $rootScope, $location, $fil
     });
   };
 
-  $scope.formatMarDateOrErrorMsg = function(date, fileName) {
-    var output = 'Unable to find the MAR ' + fileName;
-    if (date) {
-      output = $filter('date')(date, 'short');
-    }
-    return output;
-  }
-
   $scope.permit = function(roles) {
     var allow = false;
 
@@ -566,14 +558,19 @@ app.controller('alternatePrinterController',function($scope, $rootScope, $locati
     files = []
     $scope.data = data;
     for (i in data) {
-      container = {
-        file_name: data[i].todays_mar_file_name,
+      if (data[i].todays_mar_file_name) {
+        container = {
+          file_name: data[i].todays_mar_file_name,
+        }
+        files.push(container)
       }
-      files.push(container)
-      container = {
-        file_name: data[i].tomorrows_mar_file_name,
+
+      if (data[i].tomorrows_mar_file_name) {
+        container = {
+          file_name: data[i].tomorrows_mar_file_name,
+        }
+        files.push(container)
       }
-      files.push(container)
     }
     $scope.files = files;
   });
@@ -591,10 +588,17 @@ app.controller('alternatePrinterController',function($scope, $rootScope, $locati
 
     if (toPrint.length > 0) {
       PrintJob.create({'items': toPrint}, function(data) {
-        msg = data.items[0].enque_failure_message;
-        if (msg != null) {
-          FlashService.add('danger', msg);
+        $scope.hasStatus = true;
+        printJobs = [];
+        for (i in data.items) {
+          container = {
+            file_name: data.items[i].file_name,
+            status_code: data.items[i].is_enque_successful ? "active" : "danger",
+            status_message : data.items[i].is_enque_successful ? "Successful" : data.items[i].enque_failure_message
+          }
+          printJobs.push(container);
         }
+        $scope.printJobs = printJobs;
       }, function() {
         FlashService.add('danger', 'Unable to contact server');
       });
