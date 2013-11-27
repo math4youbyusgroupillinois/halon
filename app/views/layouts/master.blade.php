@@ -28,14 +28,14 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
-          <li ng-show="permit('admin')" ng-class="{active: location.path() == '/admin/locations'}"><a href="#/admin/locations">Locations</a></li>
-          <li ng-show="permit('admin')" ng-class="{active: location.path() == '/admin/manage'}"><a href="#/admin/manage">User Passwords</a></li>
+          <li ng-show="permit('admin')" ng-class="{active: location.path() == '/admin/locations'}"><a href="#/admin/locations">Administer Locations</a></li>
+          <li ng-show="permit('admin')" ng-class="{active: location.path() == '/admin/manage'}"><a href="#/admin/manage">Administer User Passwords</a></li>
           <li ng-show="permit('admin','printer')" ng-class="{active: location.path() == '/printer/locations'}"><a href="#/printer/locations">Print MARs</a></li>
           <li ng-show="permit('admin','printer')" ng-class="{active: location.path() == '/printer/alternate'}"><a href="#/printer/alternate">Alternate Printer</a></li>
         </ul>
         <div class="navbar-form navbar-right">
-          <button class="btn btn-primary" ng-hide="authenticated()" ng-click="login()">Sign In</button>
-          <button class="btn btn-primary" ng-show="authenticated()" ng-click="logout()">Sign Out</button>
+          <button class="btn btn-primary" ng-hide="authenticated()" ng-click="login()">Login</button>
+          <button class="btn btn-primary" ng-show="authenticated()" ng-click="logout()">Logout</button>
         </div>
       </div>
     </nav>
