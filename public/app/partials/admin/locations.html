@@ -1,10 +1,13 @@
 <h1>Administer Locations</h1>
-<input type="text" placeholder="Printer Location" ng-model="newLocation.description"/>
-<input type="text" placeholder="Contact Number" ng-model="newLocation.phoneNumber"/>
-<input type="text" placeholder="Printer Name" ng-model="newLocation.printerName"/>
-<input type="text" placeholder="Today's MAR File Name" ng-model="newLocation.todaysMarFileName"/>
-<input type="text" placeholder="Tomorrow's MAR File Name" ng-model="newLocation.tomorrowsMarFileName" style="width:180px"/>
-<button ng-click="addLocation()">Add location</button>
+<span ng-show="addMode">
+  <input type="text" placeholder="Printer Location" ng-model="newLocation.description"/>
+  <input type="text" placeholder="Contact Number" ng-model="newLocation.phoneNumber"/>
+  <input type="text" placeholder="Printer Name" ng-model="newLocation.printerName"/>
+  <input type="text" placeholder="Today's MAR File Name" ng-model="newLocation.todaysMarFileName"/>
+  <input type="text" placeholder="Tomorrow's MAR File Name" ng-model="newLocation.tomorrowsMarFileName" style="width:180px"/>
+  <button ng-click="addLocation()">Add location</button>
+</span>
+<button class="btn btn-link" ng-hide="addMode" ng-click="setAddMode()">New Location</button>
 <button class="btn btn-link" ng-click="importLocations()">Import locations</button>
 <br/>
 <table class="table table-striped" style="margin-top:15px">

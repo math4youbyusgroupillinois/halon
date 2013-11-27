@@ -321,6 +321,10 @@ app.controller('locationAdminController',function($scope, $rootScope, $location,
       });
     });
   };
+
+  $scope.setAddMode = function() {
+    $scope.addMode = true;
+  }
 });
 
 app.controller('importLocationController',function ($scope, $modalInstance, $upload, FlashService, $http){
