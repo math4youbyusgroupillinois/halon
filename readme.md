@@ -27,7 +27,7 @@ There is a script that can be used to reset a user's password. The script can be
 
 A location information generated from CERNER can be watched for changes when it is placed in the `app/config/locations.json`.
 
-### Running Tests
+### Running Unit Tests
 
 Use the command `vendor/bin/phpunit` to run the unit tests.
 
